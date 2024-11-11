@@ -1,0 +1,9 @@
+EESchema-DOCLIB  Version 2.0
+#
+$CMP PESD24VF1BLYL
+D PESD24VF1BL - Ultra low capacitance bidirectional ESD protection diode
+K
+F https://assets.nexperia.com/documents/data-sheet/PESD24VF1BL.pdf
+$ENDCMP
+#
+#End Doc Library

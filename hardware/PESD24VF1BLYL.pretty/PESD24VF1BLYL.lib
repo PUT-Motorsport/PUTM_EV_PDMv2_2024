@@ -1,0 +1,27 @@
+EESchema-LIBRARY Version 2.3
+#encoding utf-8
+#SamacSys ECAD Model PESD24VF1BLYL
+#/903088/1334110/2.50/2/2/Diode ESD (Bi-directional)
+DEF PESD24VF1BLYL D 0 30 Y Y 1 F N
+F0 "D" 600 350 50 H V L BNN
+F1 "PESD24VF1BLYL" 600 250 50 H V L BNN
+F2 "PESD5V0S1BL315" 600 150 50 H I L BNN
+F3 "https://assets.nexperia.com/documents/data-sheet/PESD24VF1BL.pdf" 600 50 50 H I L BNN
+F4 "PESD24VF1BL - Ultra low capacitance bidirectional ESD protection diode" 600 -50 50 H I L BNN "Description"
+F5 "0" 600 -150 50 H I L BNN "Height"
+F6 "771-PESD24VF1BLYL" 600 -250 50 H I L BNN "Mouser Part Number"
+F7 "https://www.mouser.co.uk/ProductDetail/Nexperia/PESD24VF1BLYL?qs=M%2FOdCRO8QQ2u4QQQVkgemw%3D%3D" 600 -350 50 H I L BNN "Mouser Price/Stock"
+F8 "Nexperia" 600 -450 50 H I L BNN "Manufacturer_Name"
+F9 "PESD24VF1BLYL" 600 -550 50 H I L BNN "Manufacturer_Part_Number"
+DRAW
+X ~ 1 0 0 200 R 50 50 0 0 P
+X ~ 2 800 0 200 L 50 50 0 0 P
+P 4 0 1 6 400 0 200 -100 200 100 400 0 N
+P 4 0 1 6 400 0 600 -100 600 100 400 0 N
+P 2 0 1 6 400 -180 400 180 N
+P 2 0 1 6 440 200 400 180 N
+P 2 0 1 6 400 -180 360 -200 N
+ENDDRAW
+ENDDEF
+#
+#End Library

@@ -1,0 +1,9 @@
+Manufacturer=Infineon
+PartNumber=BTS722204ESAXUMA1
+PartCategory=Integrated Circuit
+PackageCategory=Small Outline Packages
+PinCount=25
+Version=2.1
+Released=2019-02-19 06:03:18
+Downloaded=2024-11-07 12:52:53
+3D=Y
