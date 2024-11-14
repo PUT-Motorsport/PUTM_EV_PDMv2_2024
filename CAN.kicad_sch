@@ -1617,7 +1617,7 @@
 	)
 	(wire
 		(pts
-			(xy 124.46 56.515) (xy 124.46 57.15)
+			(xy 124.46 55.88) (xy 124.46 57.15)
 		)
 		(stroke
 			(width 0)
@@ -1859,7 +1859,7 @@
 			)
 		)
 		(pin "1"
-			(uuid "099b49b2-cf56-4592-bad6-ae764e26dfa0")
+			(uuid "96631838-18a9-48e5-81bf-325e4a9c3a68")
 		)
 		(instances
 			(project "PUTM_EV_PDMv2_2024"
@@ -1926,10 +1926,10 @@
 			)
 		)
 		(pin "1"
-			(uuid "8f9e315b-e831-401d-a020-aa7c12539cbe")
+			(uuid "c3cf80dd-9f41-45d5-82e5-c588fa07abe4")
 		)
 		(pin "2"
-			(uuid "e91dc13b-b7c2-4327-82ee-6ea265f84c26")
+			(uuid "a6d54641-e133-414c-ab98-6c8d12282e78")
 		)
 		(instances
 			(project "PUTM_EV_PDMv2_2024"
@@ -2005,10 +2005,10 @@
 			)
 		)
 		(pin "2"
-			(uuid "d76a017e-8343-41ea-bc72-7a58e49e0820")
+			(uuid "20209911-954b-4f5b-b4c7-c9412e995788")
 		)
 		(pin "1"
-			(uuid "bf1efe60-4e52-44f5-ab29-5e83c4428a9c")
+			(uuid "3119e922-f561-4428-9d40-86d7cf1f0a5c")
 		)
 		(instances
 			(project "PUTM_EV_PDMv2_2024"
@@ -2075,10 +2075,10 @@
 			)
 		)
 		(pin "2"
-			(uuid "755c9c8e-0637-4c34-b48f-77f6a8adceee")
+			(uuid "419e1199-26d8-4111-9d05-9ffcfcd5d57e")
 		)
 		(pin "1"
-			(uuid "2927a100-13d2-45d4-8d91-be5db2ee84f5")
+			(uuid "51eee960-1c59-4ee1-8193-974e75058a79")
 		)
 		(instances
 			(project "PUTM_EV_PDMv2_2024"
@@ -2144,7 +2144,7 @@
 			)
 		)
 		(pin "1"
-			(uuid "0f6379b4-22b8-438b-89a4-84355455a8ad")
+			(uuid "eede5e5b-152a-4002-a8a6-d573c1509dab")
 		)
 		(instances
 			(project "PUTM_EV_PDMv2_2024"
@@ -2210,7 +2210,7 @@
 			)
 		)
 		(pin "1"
-			(uuid "6f0e3f17-1da0-44d7-99cc-0dbdc475a6e0")
+			(uuid "bdc554ca-f8cb-4574-8f12-1dec765cb950")
 		)
 		(instances
 			(project "PUTM_EV_PDMv2_2024"
@@ -2223,7 +2223,7 @@
 	)
 	(symbol
 		(lib_id "power:+5V")
-		(at 124.46 56.515 0)
+		(at 124.46 55.88 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -2232,7 +2232,7 @@
 		(fields_autoplaced yes)
 		(uuid "8af15779-e99e-442f-af87-9643bd589ff7")
 		(property "Reference" "#PWR033"
-			(at 124.46 60.325 0)
+			(at 124.46 59.69 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2241,7 +2241,7 @@
 			)
 		)
 		(property "Value" "+5V"
-			(at 124.46 52.705 0)
+			(at 124.46 52.07 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2249,7 +2249,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 124.46 56.515 0)
+			(at 124.46 55.88 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2258,7 +2258,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 124.46 56.515 0)
+			(at 124.46 55.88 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2267,7 +2267,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 124.46 56.515 0)
+			(at 124.46 55.88 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2276,7 +2276,7 @@
 			)
 		)
 		(pin "1"
-			(uuid "833e8ec2-dc7d-4f50-a62e-2bef74d0420e")
+			(uuid "4d7ef68b-473a-4974-9e9d-56022f078016")
 		)
 		(instances
 			(project "PUTM_EV_PDMv2_2024"
@@ -2341,7 +2341,7 @@
 			)
 		)
 		(pin "1"
-			(uuid "f6e0ed16-d95b-4106-9fd5-769b0ed34ecb")
+			(uuid "d83f0d29-def7-4780-a944-fa28ba7607b3")
 		)
 		(instances
 			(project "PUTM_EV_PDMv2_2024"
@@ -2406,7 +2406,7 @@
 			)
 		)
 		(pin "1"
-			(uuid "e0369901-106b-4beb-9545-b60aa6550bdf")
+			(uuid "01386574-a5ed-4fcc-916f-6fd61d71bb95")
 		)
 		(instances
 			(project "PUTM_EV_PDMv2_2024"
@@ -2471,7 +2471,7 @@
 			)
 		)
 		(pin "1"
-			(uuid "b94b6b1d-5c57-459b-b8ff-c1000a3a33cb")
+			(uuid "4ecb41eb-3f81-4b28-b8ca-4efdcf4a6f9f")
 		)
 		(instances
 			(project "PUTM_EV_PDMv2_2024"
@@ -2537,13 +2537,13 @@
 			)
 		)
 		(pin "3"
-			(uuid "4aa0db65-93a4-402f-8038-1619ca18d0f6")
+			(uuid "4857acfe-507a-4616-8f01-cebd16d5ed73")
 		)
 		(pin "2"
-			(uuid "1eb4bdd2-b57d-44f2-afd3-60b4d4aa0865")
+			(uuid "3dd96c4c-0402-4f82-9cc4-0ef3fa1c3179")
 		)
 		(pin "1"
-			(uuid "fea822a3-6dab-4453-9af2-ceb99808662b")
+			(uuid "f0d35b05-8026-427d-b6cf-66ed7f7d7b95")
 		)
 		(instances
 			(project "PUTM_EV_PDMv2_2024"
@@ -2610,31 +2610,31 @@
 			)
 		)
 		(pin "1"
-			(uuid "4156fa6b-e96c-4285-a30b-1340ac6a7a5e")
+			(uuid "be596886-175a-4ae7-ade2-34d205547a74")
 		)
 		(pin "2"
-			(uuid "0c895d21-0361-4bb9-a859-3fd8e9c7730f")
+			(uuid "05b43851-34db-44f2-a905-03df9c3c21cd")
 		)
 		(pin "3"
-			(uuid "fa1141ba-9304-4867-bba2-515390b53051")
+			(uuid "bfb370aa-e142-48c9-9352-b5078c021110")
 		)
 		(pin "4"
-			(uuid "45845515-c645-4fd2-95a7-d19e24d48fb0")
+			(uuid "8389cf7f-996e-4779-8026-f499cdcf9fb1")
 		)
 		(pin "5"
-			(uuid "1fa0ab04-3e38-4cd6-9eca-c5c8abd5e37a")
+			(uuid "19ae63cd-4623-4561-9ac2-cc91a98edbb5")
 		)
 		(pin "6"
-			(uuid "04c5f6d9-8c70-4e4c-9f9e-66b9bb7e6cb3")
+			(uuid "cc274786-00a7-4edb-a514-4232f272c068")
 		)
 		(pin "7"
-			(uuid "b538dba2-f72d-437e-be43-9eb4bb0ab795")
+			(uuid "413e807a-b300-44ad-8604-93cab6f2f78d")
 		)
 		(pin "8"
-			(uuid "ecced892-6fcc-4542-8908-91130a841eef")
+			(uuid "fc9c94ab-a582-4df3-b2c7-ff80c8962f22")
 		)
 		(pin "9"
-			(uuid "b2986cfd-e5f0-4242-aee7-b8a5f95e3169")
+			(uuid "6cf5da46-1bb3-4099-8a58-276bd672c5d7")
 		)
 		(instances
 			(project "PUTM_EV_PDMv2_2024"
@@ -2701,10 +2701,10 @@
 			)
 		)
 		(pin "1"
-			(uuid "0fc3e0a5-93dd-47fd-85b4-f2bebc720945")
+			(uuid "6843191c-9900-432a-b895-8ebce6ba7023")
 		)
 		(pin "2"
-			(uuid "c43b21f3-2b73-461a-a519-853728d758d3")
+			(uuid "4f6a9f76-d7ab-46ab-bf28-90026e798ebb")
 		)
 		(instances
 			(project "PUTM_EV_PDMv2_2024"
@@ -2771,10 +2771,10 @@
 			)
 		)
 		(pin "1"
-			(uuid "5a262d56-f353-4800-93e6-f8d7b2e12f42")
+			(uuid "9a7f3296-6203-44c1-b90e-74cf42b8e6b7")
 		)
 		(pin "2"
-			(uuid "dee637f3-40c8-4ccb-bc85-e6f0cf97b587")
+			(uuid "e6246e9a-f7ca-43bd-bf16-103cd24875f4")
 		)
 		(instances
 			(project "PUTM_EV_PDMv2_2024"
@@ -2839,7 +2839,7 @@
 			)
 		)
 		(pin "1"
-			(uuid "9952899d-0e7d-4d76-8431-171cf5327f63")
+			(uuid "ccccb927-6e43-4e61-a8a7-7946f3f86c7f")
 		)
 		(instances
 			(project "PUTM_EV_PDMv2_2024"

@@ -1792,153 +1792,6 @@
 		)
 	)
 	(sheet
-		(at 172.72 83.82)
-		(size 25.4 25.4)
-		(stroke
-			(width 0.1524)
-			(type solid)
-		)
-		(fill
-			(color 0 0 0 0.0000)
-		)
-		(uuid "3bbc18f8-eb6a-4e25-acb4-a29bbf9a8ac8")
-		(property "Sheetname" "IC_3"
-			(at 172.72 83.1084 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left bottom)
-			)
-		)
-		(property "Sheetfile" "IC.kicad_sch"
-			(at 171.45 107.95 90)
-			(effects
-				(font
-					(size 0.5 0.5)
-				)
-				(justify left top)
-			)
-		)
-		(pin "MISO" output
-			(at 198.12 88.9 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify right)
-			)
-			(uuid "488c5214-bf49-48d0-9005-72ae0e12c8ec")
-		)
-		(pin "MOSI" input
-			(at 172.72 88.9 180)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-			(uuid "96cdb8b1-857a-46cf-8894-f8e1e0e02c56")
-		)
-		(pin "SCLK" input
-			(at 182.88 109.22 270)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-			(uuid "629918d1-46c6-462a-916b-7c5e316044d9")
-		)
-		(pin "CSN" input
-			(at 187.96 109.22 270)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-			(uuid "decefa1d-c45b-4800-9d93-755e2fe1f89a")
-		)
-		(pin "VS" input
-			(at 181.61 83.82 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify right)
-			)
-			(uuid "7758033e-9525-4bd5-ad48-4857bcb3e72d")
-		)
-		(pin "OUT2" output
-			(at 198.12 102.87 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify right)
-			)
-			(uuid "d1ab96e3-9ea2-4b68-9a62-67983c077003")
-		)
-		(pin "OUT3" output
-			(at 198.12 106.68 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify right)
-			)
-			(uuid "b4b94779-ba81-44bb-937d-f75fb7b15b6f")
-		)
-		(pin "OUT0" output
-			(at 198.12 95.25 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify right)
-			)
-			(uuid "255aed7d-b0f1-401f-a5c1-2b934c1c6c85")
-		)
-		(pin "OUT1" output
-			(at 198.12 99.06 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify right)
-			)
-			(uuid "b076aaba-18e9-44c9-a28f-5d7d990c07af")
-		)
-		(pin "IS" input
-			(at 186.69 83.82 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify right)
-			)
-			(uuid "88a8bb6f-f8be-440b-8187-3999f094d5b8")
-		)
-		(pin "LHI" input
-			(at 177.8 109.22 270)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-			(uuid "41501958-ba7d-4d04-868c-78e7cdb1a277")
-		)
-		(instances
-			(project "PUTM_EV_PDMv2_2024"
-				(path "/b652b05a-4e3d-4ad1-b032-18886abe7d45/fd7d6fe4-610a-44c2-815e-0a8f21ae1980"
-					(page "9")
-				)
-			)
-		)
-	)
-	(sheet
 		(at 83.82 83.82)
 		(size 25.4 25.4)
 		(stroke
@@ -2086,153 +1939,6 @@
 		)
 	)
 	(sheet
-		(at 128.27 83.82)
-		(size 25.4 25.4)
-		(stroke
-			(width 0.1524)
-			(type solid)
-		)
-		(fill
-			(color 0 0 0 0.0000)
-		)
-		(uuid "a8fe616f-54ca-4af0-bfee-1ab92191c286")
-		(property "Sheetname" "IC_2"
-			(at 128.27 83.1084 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left bottom)
-			)
-		)
-		(property "Sheetfile" "IC.kicad_sch"
-			(at 127 107.95 90)
-			(effects
-				(font
-					(size 0.5 0.5)
-				)
-				(justify left top)
-			)
-		)
-		(pin "MISO" output
-			(at 153.67 88.9 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify right)
-			)
-			(uuid "b9524263-d616-4466-8d38-be251924ca77")
-		)
-		(pin "MOSI" input
-			(at 128.27 88.9 180)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-			(uuid "76318bf4-9b6d-4825-8457-280438f89055")
-		)
-		(pin "SCLK" input
-			(at 138.43 109.22 270)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-			(uuid "5532767c-06f6-410d-92df-aedc2da049c1")
-		)
-		(pin "CSN" input
-			(at 143.51 109.22 270)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-			(uuid "0392729f-61c2-4def-940c-5a0670831dbb")
-		)
-		(pin "VS" input
-			(at 138.43 83.82 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify right)
-			)
-			(uuid "e82e6bb8-b98b-4eb7-a0c9-bed1dbd78857")
-		)
-		(pin "OUT2" output
-			(at 153.67 102.87 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify right)
-			)
-			(uuid "131e1f5e-95d1-4001-90ba-27e72e530513")
-		)
-		(pin "OUT3" output
-			(at 153.67 106.68 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify right)
-			)
-			(uuid "0a7e8a3b-e919-4d30-abcd-477cbfc10652")
-		)
-		(pin "OUT0" output
-			(at 153.67 95.25 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify right)
-			)
-			(uuid "89402bd2-7942-403a-baf5-3a9c4dd9f4bf")
-		)
-		(pin "OUT1" output
-			(at 153.67 99.06 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify right)
-			)
-			(uuid "c7f55d57-5020-400a-8c8f-a9fbef1d1a0b")
-		)
-		(pin "IS" input
-			(at 143.51 83.82 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify right)
-			)
-			(uuid "e3213b5e-7fa3-4f0b-9336-c5c3239e136f")
-		)
-		(pin "LHI" input
-			(at 133.35 109.22 270)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-			(uuid "8a3691c8-34f0-470c-9e1c-f396b1f099ff")
-		)
-		(instances
-			(project "PUTM_EV_PDMv2_2024"
-				(path "/b652b05a-4e3d-4ad1-b032-18886abe7d45/fd7d6fe4-610a-44c2-815e-0a8f21ae1980"
-					(page "8")
-				)
-			)
-		)
-	)
-	(sheet
 		(at 217.17 83.82)
 		(size 25.4 25.4)
 		(stroke
@@ -2242,7 +1948,7 @@
 		(fill
 			(color 0 0 0 0.0000)
 		)
-		(uuid "e9792bfb-7561-4a5b-9219-fd0b0a17592a")
+		(uuid "92c363b3-7436-43ed-9ade-94e88aef3fa4")
 		(property "Sheetname" "IC_4"
 			(at 217.17 83.1084 0)
 			(effects
@@ -2269,7 +1975,7 @@
 				)
 				(justify right)
 			)
-			(uuid "31fedbff-b0aa-4976-914e-a255030c03a1")
+			(uuid "c266ee3a-4ec3-45ac-96da-9edde1bba560")
 		)
 		(pin "MOSI" input
 			(at 217.17 88.9 180)
@@ -2279,7 +1985,7 @@
 				)
 				(justify left)
 			)
-			(uuid "71d0f0a8-74f0-4b0d-8245-5e8b0fe75d24")
+			(uuid "30c8fb6d-d180-4bd6-b268-f97e3d2f66cf")
 		)
 		(pin "SCLK" input
 			(at 227.33 109.22 270)
@@ -2289,7 +1995,7 @@
 				)
 				(justify left)
 			)
-			(uuid "39fb4e22-4974-4bd0-80fe-22847aed3a05")
+			(uuid "15b0e76c-8e4b-4ee9-b7da-904661481e19")
 		)
 		(pin "CSN" input
 			(at 232.41 109.22 270)
@@ -2299,7 +2005,7 @@
 				)
 				(justify left)
 			)
-			(uuid "f898fe48-b0e5-4ba4-ac8c-f35ffcabc509")
+			(uuid "f7fa3f35-68cd-409d-96dd-c1486ee2d784")
 		)
 		(pin "VS" input
 			(at 227.33 83.82 90)
@@ -2309,7 +2015,7 @@
 				)
 				(justify right)
 			)
-			(uuid "519f1f16-a455-47ff-b142-b3ebc1f2de86")
+			(uuid "bfc50996-4ec8-49bd-bb09-0a67de45c2ff")
 		)
 		(pin "OUT2" output
 			(at 242.57 102.87 0)
@@ -2319,7 +2025,7 @@
 				)
 				(justify right)
 			)
-			(uuid "8060bafa-b5f6-4eb9-922e-f8e3fbeddce2")
+			(uuid "b95df8ca-72f8-4027-82f5-2d1338d431ad")
 		)
 		(pin "OUT3" output
 			(at 242.57 106.68 0)
@@ -2329,7 +2035,7 @@
 				)
 				(justify right)
 			)
-			(uuid "5b925dbb-6b7b-48c6-bc07-58baf2d8a566")
+			(uuid "d41e1bf1-a524-4ef0-9947-768cd02c7499")
 		)
 		(pin "OUT0" output
 			(at 242.57 95.25 0)
@@ -2339,7 +2045,7 @@
 				)
 				(justify right)
 			)
-			(uuid "dc19e51d-e20f-4fe3-a4b4-5f1495db05ad")
+			(uuid "5440804e-b8b2-4674-98d7-ba356f4190f5")
 		)
 		(pin "OUT1" output
 			(at 242.57 99.06 0)
@@ -2349,7 +2055,7 @@
 				)
 				(justify right)
 			)
-			(uuid "426060e8-2727-4b6c-8ab2-da8b4720d1fe")
+			(uuid "7d533dad-cb01-404f-905f-a9ff87166f93")
 		)
 		(pin "IS" input
 			(at 232.41 83.82 90)
@@ -2359,7 +2065,7 @@
 				)
 				(justify right)
 			)
-			(uuid "e5521684-580a-470b-be3f-316599199268")
+			(uuid "9405ac03-08f4-4176-a0d9-5956d794dc7f")
 		)
 		(pin "LHI" input
 			(at 222.25 109.22 270)
@@ -2369,12 +2075,306 @@
 				)
 				(justify left)
 			)
-			(uuid "30c8da49-ace9-4a53-8d5b-8e409886dc10")
+			(uuid "fe09f553-7c3e-4397-ba73-5c52e86cfe8a")
 		)
 		(instances
 			(project "PUTM_EV_PDMv2_2024"
 				(path "/b652b05a-4e3d-4ad1-b032-18886abe7d45/fd7d6fe4-610a-44c2-815e-0a8f21ae1980"
 					(page "10")
+				)
+			)
+		)
+	)
+	(sheet
+		(at 128.27 83.82)
+		(size 25.4 25.4)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0.0000)
+		)
+		(uuid "9c9ff1be-4d96-4366-a088-7fe7ef755fb3")
+		(property "Sheetname" "IC_2"
+			(at 128.27 83.1084 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "IC.kicad_sch"
+			(at 127 107.95 90)
+			(effects
+				(font
+					(size 0.5 0.5)
+				)
+				(justify left top)
+			)
+		)
+		(pin "MISO" output
+			(at 153.67 88.9 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+			(uuid "d1062897-d848-45dd-a4cd-fceeb5972436")
+		)
+		(pin "MOSI" input
+			(at 128.27 88.9 180)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+			(uuid "80a26794-e300-4b3f-8629-c6982a02137f")
+		)
+		(pin "SCLK" input
+			(at 138.43 109.22 270)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+			(uuid "feaee55f-057a-4279-abd9-59a2ea92e37e")
+		)
+		(pin "CSN" input
+			(at 143.51 109.22 270)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+			(uuid "6d351152-4983-4fb0-a056-fe611a2c2508")
+		)
+		(pin "VS" input
+			(at 138.43 83.82 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+			(uuid "f348031f-dec5-4bd4-99dc-8ed141c19680")
+		)
+		(pin "OUT2" output
+			(at 153.67 102.87 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+			(uuid "8a274836-699c-48bd-ae0c-01522e996abe")
+		)
+		(pin "OUT3" output
+			(at 153.67 106.68 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+			(uuid "8704881d-a87c-4a8d-89df-0b6889a88e8d")
+		)
+		(pin "OUT0" output
+			(at 153.67 95.25 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+			(uuid "0154c848-dc7a-44a5-a13d-c7b5e4f03216")
+		)
+		(pin "OUT1" output
+			(at 153.67 99.06 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+			(uuid "9c0a10d7-7cd3-40a4-b748-a2757b19b5f6")
+		)
+		(pin "IS" input
+			(at 143.51 83.82 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+			(uuid "c1f2125f-ed76-487a-b785-ae7550948d34")
+		)
+		(pin "LHI" input
+			(at 133.35 109.22 270)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+			(uuid "11f97f85-7ef8-4464-8fb2-fb904a8a8210")
+		)
+		(instances
+			(project "PUTM_EV_PDMv2_2024"
+				(path "/b652b05a-4e3d-4ad1-b032-18886abe7d45/fd7d6fe4-610a-44c2-815e-0a8f21ae1980"
+					(page "8")
+				)
+			)
+		)
+	)
+	(sheet
+		(at 172.72 83.82)
+		(size 25.4 25.4)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0.0000)
+		)
+		(uuid "d1ea8f7f-291f-487b-9cb1-80f6251ddf1c")
+		(property "Sheetname" "IC_3"
+			(at 172.72 83.1084 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "IC.kicad_sch"
+			(at 171.45 107.95 90)
+			(effects
+				(font
+					(size 0.5 0.5)
+				)
+				(justify left top)
+			)
+		)
+		(pin "MISO" output
+			(at 198.12 88.9 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+			(uuid "1bb3d7e3-620f-491f-a2ae-1b1a32bba390")
+		)
+		(pin "MOSI" input
+			(at 172.72 88.9 180)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+			(uuid "6590f895-14fb-4206-9b5b-4b229ac5fc1b")
+		)
+		(pin "SCLK" input
+			(at 182.88 109.22 270)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+			(uuid "1c376a07-5806-4c7d-b264-d8a6cdf0c244")
+		)
+		(pin "CSN" input
+			(at 187.96 109.22 270)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+			(uuid "918d94a8-a4e6-43ec-a9e8-29e99a8a856c")
+		)
+		(pin "VS" input
+			(at 181.61 83.82 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+			(uuid "3b1d28a6-f993-4c54-9a71-207e554c6513")
+		)
+		(pin "OUT2" output
+			(at 198.12 102.87 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+			(uuid "a65d6956-9785-47d2-ab26-ceeb9caef7ef")
+		)
+		(pin "OUT3" output
+			(at 198.12 106.68 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+			(uuid "972ba6f4-765a-400b-97ba-eb382359d828")
+		)
+		(pin "OUT0" output
+			(at 198.12 95.25 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+			(uuid "d9f46ee1-e257-4c45-80e1-bace251296e4")
+		)
+		(pin "OUT1" output
+			(at 198.12 99.06 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+			(uuid "a5cf028b-0906-4271-bfed-20d4a813a5b8")
+		)
+		(pin "IS" input
+			(at 186.69 83.82 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+			(uuid "5103b329-2305-41a3-870e-8c034d02f195")
+		)
+		(pin "LHI" input
+			(at 177.8 109.22 270)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+			(uuid "583c06c1-f7df-454c-a22b-19321c5433ac")
+		)
+		(instances
+			(project "PUTM_EV_PDMv2_2024"
+				(path "/b652b05a-4e3d-4ad1-b032-18886abe7d45/fd7d6fe4-610a-44c2-815e-0a8f21ae1980"
+					(page "9")
 				)
 			)
 		)
