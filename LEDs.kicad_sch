@@ -663,6 +663,83 @@
 		(uuid "bb30357c-cc07-4554-92d3-dbfaee635fe9")
 	)
 	(symbol
+		(lib_id "Device:R")
+		(at 69.85 92.71 90)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "0809a843-1083-49b2-b51f-3fa9375d1416")
+		(property "Reference" "R4"
+			(at 69.85 86.36 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "150"
+			(at 69.85 88.9 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "Resistor_SMD:R_0603_1608Metric_Pad0.98x0.95mm_HandSolder"
+			(at 69.85 94.488 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 69.85 92.71 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "https://www.mouser.pl/ProductDetail/Walsin/WR06X1500FTL?qs=sGAEpiMZZMtlubZbdhIBIO6gLQ25xNI8rKhcK8sQGrs%3D"
+			(at 69.85 92.71 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "m" "WR06X1500FTL "
+			(at 69.85 92.71 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "b476ae26-935c-49a5-89fb-23d6cbf425a4")
+		)
+		(pin "2"
+			(uuid "bb0c4fd8-1221-4944-b245-5af823522134")
+		)
+		(instances
+			(project "PUTM_EV_PDMv2_2024"
+				(path "/b652b05a-4e3d-4ad1-b032-18886abe7d45/c43be22e-619c-4b71-9347-0b26eef6ea35"
+					(reference "R4")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "Device:LED")
 		(at 82.55 68.58 180)
 		(unit 1)
@@ -731,83 +808,6 @@
 		)
 	)
 	(symbol
-		(lib_id "Device:R")
-		(at 69.85 68.58 90)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(fields_autoplaced yes)
-		(uuid "27d33b1c-bebf-4666-9fe4-40da0c61d46c")
-		(property "Reference" "R2"
-			(at 69.85 62.23 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "130"
-			(at 69.85 64.77 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" "Resistor_SMD:R_0603_1608Metric"
-			(at 69.85 70.358 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" "~"
-			(at 69.85 68.58 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" ""
-			(at 69.85 68.58 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "m" "CRCW0603330RFKEBC"
-			(at 69.85 68.58 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "46dff5f5-18f2-4adb-abc9-544e2aa4504d")
-		)
-		(pin "2"
-			(uuid "0b4c663d-6873-42b6-9a25-81b01039924d")
-		)
-		(instances
-			(project "PUTM_EV_PDMv2_2024"
-				(path "/b652b05a-4e3d-4ad1-b032-18886abe7d45/c43be22e-619c-4b71-9347-0b26eef6ea35"
-					(reference "R2")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
 		(lib_id "Device:LED")
 		(at 82.55 57.15 180)
 		(unit 1)
@@ -870,83 +870,6 @@
 			(project "PUTM_EV_PDMv2_2024"
 				(path "/b652b05a-4e3d-4ad1-b032-18886abe7d45/c43be22e-619c-4b71-9347-0b26eef6ea35"
 					(reference "D1")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "Device:R")
-		(at 69.85 81.28 90)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(fields_autoplaced yes)
-		(uuid "3ecd4fb3-883b-48f7-82fa-d9ab6a407a73")
-		(property "Reference" "R3"
-			(at 69.85 74.93 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "130"
-			(at 69.85 77.47 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" "Resistor_SMD:R_0603_1608Metric"
-			(at 69.85 83.058 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" "~"
-			(at 69.85 81.28 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" ""
-			(at 69.85 81.28 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "m" "CRCW0603330RFKEBC"
-			(at 69.85 81.28 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "6c4f870d-f294-493b-a5d2-b11c45e7a452")
-		)
-		(pin "2"
-			(uuid "53cbac7a-d392-4202-865e-2f60e1f372e0")
-		)
-		(instances
-			(project "PUTM_EV_PDMv2_2024"
-				(path "/b652b05a-4e3d-4ad1-b032-18886abe7d45/c43be22e-619c-4b71-9347-0b26eef6ea35"
-					(reference "R3")
 					(unit 1)
 				)
 			)
@@ -1031,32 +954,32 @@
 	)
 	(symbol
 		(lib_id "Device:R")
-		(at 69.85 57.15 90)
+		(at 69.85 68.58 90)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
 		(fields_autoplaced yes)
-		(uuid "a4517a4e-555a-4165-906a-de8c702c65d8")
-		(property "Reference" "R1"
-			(at 69.85 50.8 90)
+		(uuid "b01aadd5-a6fa-4b93-b738-df47fc6e3564")
+		(property "Reference" "R2"
+			(at 69.85 62.23 90)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 			)
 		)
-		(property "Value" "130"
-			(at 69.85 53.34 90)
+		(property "Value" "150"
+			(at 69.85 64.77 90)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 			)
 		)
-		(property "Footprint" "Resistor_SMD:R_0603_1608Metric"
-			(at 69.85 58.928 90)
+		(property "Footprint" "Resistor_SMD:R_0603_1608Metric_Pad0.98x0.95mm_HandSolder"
+			(at 69.85 70.358 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1065,7 +988,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 69.85 57.15 0)
+			(at 69.85 68.58 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1073,8 +996,8 @@
 				(hide yes)
 			)
 		)
-		(property "Description" ""
-			(at 69.85 57.15 0)
+		(property "Description" "https://www.mouser.pl/ProductDetail/Walsin/WR06X1500FTL?qs=sGAEpiMZZMtlubZbdhIBIO6gLQ25xNI8rKhcK8sQGrs%3D"
+			(at 69.85 68.58 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1082,85 +1005,8 @@
 				(hide yes)
 			)
 		)
-		(property "m" "CRCW0603330RFKEBC"
-			(at 69.85 57.15 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "804190f1-f288-476e-8a93-2f966b35c3b8")
-		)
-		(pin "2"
-			(uuid "1da02124-f67c-4024-9448-43df0d9fabfa")
-		)
-		(instances
-			(project "PUTM_EV_PDMv2_2024"
-				(path "/b652b05a-4e3d-4ad1-b032-18886abe7d45/c43be22e-619c-4b71-9347-0b26eef6ea35"
-					(reference "R1")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "Device:R")
-		(at 69.85 92.71 90)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(fields_autoplaced yes)
-		(uuid "aa39ce68-9075-4111-a9eb-f5ebe88f826a")
-		(property "Reference" "R4"
-			(at 69.85 86.36 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "130"
-			(at 69.85 88.9 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" "Resistor_SMD:R_0603_1608Metric"
-			(at 69.85 94.488 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" "~"
-			(at 69.85 92.71 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" ""
-			(at 69.85 92.71 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "m" "CRCW0603330RFKEBC"
-			(at 69.85 92.71 90)
+		(property "m" "WR06X1500FTL "
+			(at 69.85 68.58 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1169,15 +1015,15 @@
 			)
 		)
 		(pin "1"
-			(uuid "f5c47e11-e224-48b5-a882-f6cae27bd13f")
+			(uuid "b8fc71de-3abb-43bf-87f4-5f8b69897797")
 		)
 		(pin "2"
-			(uuid "a9af1c8f-2261-4038-86f9-670be713bcbc")
+			(uuid "2f51f8ca-c403-483e-95a4-34f3e4305850")
 		)
 		(instances
 			(project "PUTM_EV_PDMv2_2024"
 				(path "/b652b05a-4e3d-4ad1-b032-18886abe7d45/c43be22e-619c-4b71-9347-0b26eef6ea35"
-					(reference "R4")
+					(reference "R2")
 					(unit 1)
 				)
 			)
@@ -1321,6 +1167,160 @@
 			(project "PUTM_EV_PDMv2_2024"
 				(path "/b652b05a-4e3d-4ad1-b032-18886abe7d45/c43be22e-619c-4b71-9347-0b26eef6ea35"
 					(reference "D4")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:R")
+		(at 69.85 57.15 90)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "d21e7c7b-4f12-4681-910d-d597f3682083")
+		(property "Reference" "R3"
+			(at 69.85 50.8 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "150"
+			(at 69.85 53.34 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "Resistor_SMD:R_0603_1608Metric_Pad0.98x0.95mm_HandSolder"
+			(at 69.85 58.928 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 69.85 57.15 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "https://www.mouser.pl/ProductDetail/Walsin/WR06X1500FTL?qs=sGAEpiMZZMtlubZbdhIBIO6gLQ25xNI8rKhcK8sQGrs%3D"
+			(at 69.85 57.15 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "m" "WR06X1500FTL "
+			(at 69.85 57.15 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "dcc8799e-405d-4c8c-a53a-dceca961863f")
+		)
+		(pin "2"
+			(uuid "e7fb8e67-5ebd-418e-810f-4d45d2cafa46")
+		)
+		(instances
+			(project "PUTM_EV_PDMv2_2024"
+				(path "/b652b05a-4e3d-4ad1-b032-18886abe7d45/c43be22e-619c-4b71-9347-0b26eef6ea35"
+					(reference "R3")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:R")
+		(at 69.85 81.28 90)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "d54edc93-89f6-42d5-935c-ac9d3dcb0833")
+		(property "Reference" "R1"
+			(at 69.85 74.93 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "150"
+			(at 69.85 77.47 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "Resistor_SMD:R_0603_1608Metric_Pad0.98x0.95mm_HandSolder"
+			(at 69.85 83.058 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 69.85 81.28 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "https://www.mouser.pl/ProductDetail/Walsin/WR06X1500FTL?qs=sGAEpiMZZMtlubZbdhIBIO6gLQ25xNI8rKhcK8sQGrs%3D"
+			(at 69.85 81.28 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "m" "WR06X1500FTL "
+			(at 69.85 81.28 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "6755519d-c75d-4899-832c-1e56191ab3d1")
+		)
+		(pin "2"
+			(uuid "a0a9dbf0-b0c7-4d2d-8530-c0fcbae7e606")
+		)
+		(instances
+			(project "PUTM_EV_PDMv2_2024"
+				(path "/b652b05a-4e3d-4ad1-b032-18886abe7d45/c43be22e-619c-4b71-9347-0b26eef6ea35"
+					(reference "R1")
 					(unit 1)
 				)
 			)

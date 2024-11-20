@@ -5,11 +5,11 @@
 	(uuid "7fad3e1f-053f-4a12-84e3-50b29261bd9c")
 	(paper "A4")
 	(lib_symbols
-		(symbol "BTS722204ESAXUMA1:BTS722204ESAXUMA1"
+		(symbol "BTS722204ESAXUMA1_1"
 			(exclude_from_sim no)
 			(in_bom yes)
 			(on_board yes)
-			(property "Reference" "IC5"
+			(property "Reference" "IC1"
 				(at 17.78 -43.18 0)
 				(effects
 					(font
@@ -104,7 +104,7 @@
 					(hide yes)
 				)
 			)
-			(symbol "BTS722204ESAXUMA1_1_1"
+			(symbol "BTS722204ESAXUMA1_1_1_1"
 				(rectangle
 					(start 5.08 2.54)
 					(end 30.48 -40.64)
@@ -1196,16 +1196,10 @@
 		(uuid "03cd8f60-54aa-424d-a6c3-3bdc43edd9d4")
 	)
 	(junction
-		(at 171.45 100.33)
+		(at 171.45 82.55)
 		(diameter 0)
 		(color 0 0 0 0)
-		(uuid "103fba39-e27f-4997-8d96-e6e2f7f81530")
-	)
-	(junction
-		(at 171.45 87.63)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "10da4daa-7e39-404f-a600-e435314835da")
+		(uuid "0a6b6363-5f8d-483e-a6c2-e05a61c20569")
 	)
 	(junction
 		(at 132.08 66.04)
@@ -1218,6 +1212,18 @@
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "1c60b9bb-e830-4d2f-a384-0b7bcf7413b8")
+	)
+	(junction
+		(at 171.45 77.47)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "1d672aee-9f6a-43be-bb9c-a99470cfa7f8")
+	)
+	(junction
+		(at 171.45 105.41)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "1e264697-85ec-4c37-9243-843a6bdfb1e3")
 	)
 	(junction
 		(at 181.61 113.03)
@@ -1238,16 +1244,16 @@
 		(uuid "395c4a25-d481-460d-8515-40f3ba0cd621")
 	)
 	(junction
+		(at 171.45 102.87)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "4732b589-557f-4930-9a7f-41a9d21e5c5c")
+	)
+	(junction
 		(at 116.84 100.33)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "482b5a19-5e77-4778-a3a9-b88daf6044b3")
-	)
-	(junction
-		(at 171.45 80.01)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "4ea1c047-0866-4f1b-992d-fab9e85339c1")
 	)
 	(junction
 		(at 119.38 66.04)
@@ -1256,10 +1262,16 @@
 		(uuid "52a8da7a-5a17-4bb6-abbb-e26c77893cdb")
 	)
 	(junction
+		(at 171.45 87.63)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "558d9893-c45f-48c8-8705-16a5dcf3699e")
+	)
+	(junction
 		(at 171.45 95.25)
 		(diameter 0)
 		(color 0 0 0 0)
-		(uuid "52fdc41c-f2fc-4964-91aa-55f5827ba494")
+		(uuid "848996c2-2d62-4732-8643-e1c672c63035")
 	)
 	(junction
 		(at 132.08 77.47)
@@ -1280,12 +1292,6 @@
 		(uuid "91075f03-7338-4ddd-a2ab-3d032205fd2d")
 	)
 	(junction
-		(at 171.45 77.47)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "94598722-b0a2-4c3a-8ce1-b514c09d0c2e")
-	)
-	(junction
 		(at 190.5 105.41)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -1296,6 +1302,12 @@
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "9d4c87fb-de88-445b-995e-2534b3b6b718")
+	)
+	(junction
+		(at 171.45 80.01)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "a64d0a0a-32e8-4b2f-9711-06d2203cbb88")
 	)
 	(junction
 		(at 186.69 113.03)
@@ -1310,12 +1322,6 @@
 		(uuid "adb032e7-b267-4f96-aa08-c3b522b27a4e")
 	)
 	(junction
-		(at 171.45 102.87)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "baaec596-6a46-43ec-9c2c-cf4ce30e02e1")
-	)
-	(junction
 		(at 132.08 54.61)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -1328,22 +1334,16 @@
 		(uuid "c6fb7d05-8989-4025-ae44-3b58bb2dece8")
 	)
 	(junction
+		(at 171.45 100.33)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "cad753de-4797-494e-9a8d-c3a5b49b53a3")
+	)
+	(junction
 		(at 116.84 99.06)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "d14f4c8a-0734-4c9c-bcd1-a666b005e51f")
-	)
-	(junction
-		(at 171.45 105.41)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "eedde7d7-f270-428e-9204-865dbf51ae99")
-	)
-	(junction
-		(at 171.45 82.55)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "feb32751-e3a1-48bf-91ef-961b27a37d93")
 	)
 	(wire
 		(pts
@@ -1477,6 +1477,16 @@
 	)
 	(wire
 		(pts
+			(xy 171.45 100.33) (xy 171.45 102.87)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "266a09e5-458f-4ba4-97dd-76491a55af3b")
+	)
+	(wire
+		(pts
 			(xy 132.08 54.61) (xy 154.94 54.61)
 		)
 		(stroke
@@ -1514,16 +1524,6 @@
 			(type default)
 		)
 		(uuid "334d2d17-e82d-471f-9e01-a410ab8f1e69")
-	)
-	(wire
-		(pts
-			(xy 171.45 100.33) (xy 171.45 102.87)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "36a09b74-67e2-4cb0-9fb2-c5e9b5bca81a")
 	)
 	(wire
 		(pts
@@ -1597,16 +1597,6 @@
 	)
 	(wire
 		(pts
-			(xy 171.45 97.79) (xy 171.45 100.33)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "52d06289-e7af-495d-9c9b-43658f0f7479")
-	)
-	(wire
-		(pts
 			(xy 190.5 105.41) (xy 200.66 105.41)
 		)
 		(stroke
@@ -1634,6 +1624,36 @@
 			(type default)
 		)
 		(uuid "607cf88a-0683-48be-b0e8-28d844116e57")
+	)
+	(wire
+		(pts
+			(xy 171.45 82.55) (xy 171.45 85.09)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "60aa407a-a65e-48e3-8471-e962639e46a1")
+	)
+	(wire
+		(pts
+			(xy 171.45 102.87) (xy 171.45 105.41)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "63e851e9-a666-476e-be0e-5cc7b3cdc50f")
+	)
+	(wire
+		(pts
+			(xy 171.45 80.01) (xy 171.45 82.55)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "69ab1f1c-ec83-4c59-b42c-bcfb638a78dd")
 	)
 	(wire
 		(pts
@@ -1807,7 +1827,7 @@
 	)
 	(wire
 		(pts
-			(xy 171.45 102.87) (xy 171.45 105.41)
+			(xy 171.45 97.79) (xy 171.45 100.33)
 		)
 		(stroke
 			(width 0)
@@ -2067,7 +2087,7 @@
 	)
 	(wire
 		(pts
-			(xy 171.45 80.01) (xy 171.45 82.55)
+			(xy 171.45 77.47) (xy 171.45 80.01)
 		)
 		(stroke
 			(width 0)
@@ -2154,26 +2174,6 @@
 			(type default)
 		)
 		(uuid "ef307f00-3206-4e20-9047-2ab07daa4c92")
-	)
-	(wire
-		(pts
-			(xy 171.45 77.47) (xy 171.45 80.01)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "f0771a6e-2716-48fa-8a91-98495a612d7a")
-	)
-	(wire
-		(pts
-			(xy 171.45 82.55) (xy 171.45 85.09)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "f80c19cf-6d1b-4ba0-982f-90df86b699b4")
 	)
 	(wire
 		(pts
@@ -2474,7 +2474,7 @@
 				)
 			)
 		)
-		(property "Footprint" "Resistor_SMD:R_0603_1608Metric"
+		(property "Footprint" "Resistor_SMD:R_0603_1608Metric_Pad0.98x0.95mm_HandSolder"
 			(at 127 90.17 0)
 			(effects
 				(font
@@ -2635,7 +2635,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "0bc855bc-9f7c-440b-904c-1929368bcf78")
-		(property "Reference" "#PWR0105"
+		(property "Reference" "#PWR058"
 			(at 99.06 132.08 0)
 			(effects
 				(font
@@ -2713,7 +2713,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "184d489d-66b4-4e82-aa10-0eace88d8f9e")
-		(property "Reference" "#PWR0106"
+		(property "Reference" "#PWR057"
 			(at 96.52 78.74 0)
 			(effects
 				(font
@@ -2791,7 +2791,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "1a095276-2901-44c7-846a-7e769e7db2f6")
-		(property "Reference" "#PWR0101"
+		(property "Reference" "#PWR060"
 			(at 119.38 73.66 0)
 			(effects
 				(font
@@ -2960,7 +2960,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "243689d2-356e-4d03-a24c-54372ff4617b")
-		(property "Reference" "#PWR0104"
+		(property "Reference" "#PWR056"
 			(at 81.28 132.08 0)
 			(effects
 				(font
@@ -3208,6 +3208,208 @@
 		)
 	)
 	(symbol
+		(lib_name "BTS722204ESAXUMA1_1")
+		(lib_id "BTS722204ESAXUMA1:BTS722204ESAXUMA1")
+		(at 135.89 77.47 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "3b18abe7-2840-4f54-bce8-03b1a04b9132")
+		(property "Reference" "IC1"
+			(at 153.67 120.65 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "BTS722204ESAXUMA1"
+			(at 153.67 123.19 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "SOP65P600X115-25N"
+			(at 167.64 172.39 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "https://www.infineon.com/dgdl/Infineon-BTS72220-4ESA-DS-v01_00-EN.pdf?fileId=5546d462636cc8fb0163feab173708d9"
+			(at 167.64 272.39 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+				(hide yes)
+			)
+		)
+		(property "Description" "Power Switch ICs - Power Distribution SPOC"
+			(at 135.89 77.47 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Height" "1.15"
+			(at 167.64 472.39 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+				(hide yes)
+			)
+		)
+		(property "Mouser Part Number" "726-BTS722204ESAXUMA"
+			(at 167.64 572.39 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+				(hide yes)
+			)
+		)
+		(property "Mouser Price/Stock" "https://www.mouser.co.uk/ProductDetail/Infineon-Technologies/BTS722204ESAXUMA1?qs=%252BEew9%252B0nqrBKRVYWm1E2Qg%3D%3D"
+			(at 167.64 672.39 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer_Name" "Infineon"
+			(at 167.64 772.39 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer_Part_Number" "BTS722204ESAXUMA1"
+			(at 167.64 872.39 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+				(hide yes)
+			)
+		)
+		(pin "2"
+			(uuid "7b88d97e-9af4-4a6e-95c6-96a1cacf86c6")
+		)
+		(pin "14"
+			(uuid "30f13751-31a8-478e-a04c-78b20a4881ab")
+		)
+		(pin "13"
+			(uuid "ac7c087b-dff2-44fa-ae29-ae1f0dde715b")
+		)
+		(pin "1"
+			(uuid "f7a24636-e055-4b69-8e71-9f00780ecb57")
+		)
+		(pin "15"
+			(uuid "02fe5506-95ac-4240-9467-ed9921ace37f")
+		)
+		(pin "21"
+			(uuid "9180c1dc-c84a-4f27-8b8a-92cbb0d1dc4e")
+		)
+		(pin "5"
+			(uuid "579bec0c-d42c-4ce4-910d-c1fc45825b19")
+		)
+		(pin "9"
+			(uuid "0a009021-1f53-4e4f-a594-9773fe627dd7")
+		)
+		(pin "4"
+			(uuid "ca69256d-862f-4d44-af61-63c9a9e9c4b9")
+		)
+		(pin "8"
+			(uuid "bd6956d7-d9a5-4195-ae4d-e024a98880fa")
+		)
+		(pin "20"
+			(uuid "965dedc0-a471-4985-a7d6-380f7ed892e7")
+		)
+		(pin "17"
+			(uuid "94a73ec9-fa6f-4458-a390-d6b46df2494f")
+		)
+		(pin "18"
+			(uuid "ff9173a8-4d06-4b60-b606-db0ea96f48ce")
+		)
+		(pin "19"
+			(uuid "f6f522cb-4494-440b-91ef-6c90d4d742fa")
+		)
+		(pin "6"
+			(uuid "b5f250c3-5333-44b2-a18e-804e6e4be6b4")
+		)
+		(pin "24"
+			(uuid "b3989c52-cd94-443b-9127-f268aba2dd2d")
+		)
+		(pin "11"
+			(uuid "cb2ca05c-51b9-4656-a4a8-8e355f2128d4")
+		)
+		(pin "22"
+			(uuid "48bcf0db-dbd4-4d2c-ac86-a8ead2e9fcce")
+		)
+		(pin "16"
+			(uuid "eb60412e-27da-4763-9d1b-177f930390c0")
+		)
+		(pin "7"
+			(uuid "d1da04d9-994e-4ce1-bbb7-5ec387c56772")
+		)
+		(pin "23"
+			(uuid "2b58cad9-db50-4f49-8474-bc4d1fb3effb")
+		)
+		(pin "25"
+			(uuid "7ac4753e-21b6-4732-879a-3634890ae3e2")
+		)
+		(pin "3"
+			(uuid "e065701e-29ae-472f-8a05-5f5950a48e22")
+		)
+		(pin "12"
+			(uuid "f6e19f38-f6a2-4a31-ac46-cf28edb2aa00")
+		)
+		(pin "10"
+			(uuid "f3c90356-c921-458f-9b7d-89978e5cf9cd")
+		)
+		(instances
+			(project ""
+				(path "/b652b05a-4e3d-4ad1-b032-18886abe7d45/fd7d6fe4-610a-44c2-815e-0a8f21ae1980/69056856-febd-417e-9880-84d5995904f1"
+					(reference "IC1")
+					(unit 1)
+				)
+				(path "/b652b05a-4e3d-4ad1-b032-18886abe7d45/fd7d6fe4-610a-44c2-815e-0a8f21ae1980/92c363b3-7436-43ed-9ade-94e88aef3fa4"
+					(reference "IC4")
+					(unit 1)
+				)
+				(path "/b652b05a-4e3d-4ad1-b032-18886abe7d45/fd7d6fe4-610a-44c2-815e-0a8f21ae1980/9c9ff1be-4d96-4366-a088-7fe7ef755fb3"
+					(reference "IC2")
+					(unit 1)
+				)
+				(path "/b652b05a-4e3d-4ad1-b032-18886abe7d45/fd7d6fe4-610a-44c2-815e-0a8f21ae1980/d1ea8f7f-291f-487b-9cb1-80f6251ddf1c"
+					(reference "IC3")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "power:GND")
 		(at 114.3 99.06 0)
 		(unit 1)
@@ -3217,7 +3419,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "5172b820-67d4-46e6-80e7-ffb65849989d")
-		(property "Reference" "#PWR0107"
+		(property "Reference" "#PWR059"
 			(at 114.3 105.41 0)
 			(effects
 				(font
@@ -3401,7 +3603,7 @@
 				)
 			)
 		)
-		(property "Footprint" "Resistor_SMD:R_0603_1608Metric"
+		(property "Footprint" "Resistor_SMD:R_0603_1608Metric_Pad0.98x0.95mm_HandSolder"
 			(at 127 82.55 0)
 			(effects
 				(font
@@ -3734,207 +3936,6 @@
 		)
 	)
 	(symbol
-		(lib_id "BTS722204ESAXUMA1:BTS722204ESAXUMA1")
-		(at 135.89 77.47 0)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(fields_autoplaced yes)
-		(uuid "7bfcd49f-b39b-4385-8b89-af1440a28d45")
-		(property "Reference" "IC5"
-			(at 153.67 120.65 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "BTS722204ESAXUMA1"
-			(at 153.67 123.19 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" "SOP65P600X115-25N"
-			(at 167.64 172.39 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left top)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" "https://www.infineon.com/dgdl/Infineon-BTS72220-4ESA-DS-v01_00-EN.pdf?fileId=5546d462636cc8fb0163feab173708d9"
-			(at 167.64 272.39 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left top)
-				(hide yes)
-			)
-		)
-		(property "Description" "Power Switch ICs - Power Distribution SPOC"
-			(at 135.89 77.47 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Height" "1.15"
-			(at 167.64 472.39 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left top)
-				(hide yes)
-			)
-		)
-		(property "Mouser Part Number" "726-BTS722204ESAXUMA"
-			(at 167.64 572.39 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left top)
-				(hide yes)
-			)
-		)
-		(property "Mouser Price/Stock" "https://www.mouser.co.uk/ProductDetail/Infineon-Technologies/BTS722204ESAXUMA1?qs=%252BEew9%252B0nqrBKRVYWm1E2Qg%3D%3D"
-			(at 167.64 672.39 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left top)
-				(hide yes)
-			)
-		)
-		(property "Manufacturer_Name" "Infineon"
-			(at 167.64 772.39 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left top)
-				(hide yes)
-			)
-		)
-		(property "Manufacturer_Part_Number" "BTS722204ESAXUMA1"
-			(at 167.64 872.39 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left top)
-				(hide yes)
-			)
-		)
-		(pin "18"
-			(uuid "ae43d69d-0226-488c-87a2-6509f5877a3a")
-		)
-		(pin "12"
-			(uuid "f086e589-fc2b-4e1f-846e-fd24707e6022")
-		)
-		(pin "10"
-			(uuid "283e1aed-87b7-457a-8718-157aed50eee1")
-		)
-		(pin "14"
-			(uuid "5a8e543d-e1d7-4372-852d-ca1ff1f8c1ee")
-		)
-		(pin "23"
-			(uuid "a6128bcf-360c-4ed0-86c5-61b22bf26354")
-		)
-		(pin "22"
-			(uuid "0c718312-baaa-4c26-9e88-517b7c102b8b")
-		)
-		(pin "20"
-			(uuid "8934f408-6610-43b5-8b3e-5c23a1a6d689")
-		)
-		(pin "15"
-			(uuid "61d40f8d-d000-422b-97e1-5ffa0b6b5f7a")
-		)
-		(pin "4"
-			(uuid "00743cb6-2922-4d79-85d6-4cf6e8bfb5c3")
-		)
-		(pin "7"
-			(uuid "d8c2bad4-d9a0-42e9-a5aa-2ad29c6d55ee")
-		)
-		(pin "6"
-			(uuid "22c3fa4c-8bd3-415d-b2f7-de8fce3c211f")
-		)
-		(pin "16"
-			(uuid "c2dd4317-02a2-404e-b0e7-f16bf39ecf3c")
-		)
-		(pin "8"
-			(uuid "c06157c0-2e50-4e13-b35e-6c3e9cc699ea")
-		)
-		(pin "24"
-			(uuid "c217356d-df59-4544-a696-ea421f1df7aa")
-		)
-		(pin "1"
-			(uuid "587f0b9a-2a1e-411a-97c4-1b470e7dd73a")
-		)
-		(pin "13"
-			(uuid "3206c943-6e9a-45dc-98a1-2186078d4061")
-		)
-		(pin "19"
-			(uuid "592207e5-8c4e-4d0c-853e-ed99cd67a997")
-		)
-		(pin "17"
-			(uuid "6f2a0b3b-cf22-44a7-9052-7b350926434e")
-		)
-		(pin "25"
-			(uuid "61a95b8f-0da8-41f5-afe0-84a877cb604c")
-		)
-		(pin "3"
-			(uuid "998bcede-19fe-4d50-9e68-ab9b1e9fe13a")
-		)
-		(pin "21"
-			(uuid "6c1d1f9d-effc-419a-ac40-9a45d140dd22")
-		)
-		(pin "2"
-			(uuid "28c70c83-65d6-402a-b6ca-c6ff1d458b22")
-		)
-		(pin "11"
-			(uuid "1a02a940-31f2-40ab-8c75-7ee959e56244")
-		)
-		(pin "5"
-			(uuid "3524f314-528d-4c62-b6fe-356364196d72")
-		)
-		(pin "9"
-			(uuid "a5976350-6b08-4540-829b-dcc32f48584c")
-		)
-		(instances
-			(project ""
-				(path "/b652b05a-4e3d-4ad1-b032-18886abe7d45/fd7d6fe4-610a-44c2-815e-0a8f21ae1980/69056856-febd-417e-9880-84d5995904f1"
-					(reference "IC5")
-					(unit 1)
-				)
-				(path "/b652b05a-4e3d-4ad1-b032-18886abe7d45/fd7d6fe4-610a-44c2-815e-0a8f21ae1980/92c363b3-7436-43ed-9ade-94e88aef3fa4"
-					(reference "IC8")
-					(unit 1)
-				)
-				(path "/b652b05a-4e3d-4ad1-b032-18886abe7d45/fd7d6fe4-610a-44c2-815e-0a8f21ae1980/9c9ff1be-4d96-4366-a088-7fe7ef755fb3"
-					(reference "IC6")
-					(unit 1)
-				)
-				(path "/b652b05a-4e3d-4ad1-b032-18886abe7d45/fd7d6fe4-610a-44c2-815e-0a8f21ae1980/d1ea8f7f-291f-487b-9cb1-80f6251ddf1c"
-					(reference "IC7")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
 		(lib_id "Device:C_Small")
 		(at 119.38 59.69 0)
 		(unit 1)
@@ -4140,7 +4141,7 @@
 				)
 			)
 		)
-		(property "Footprint" "Resistor_SMD:R_0603_1608Metric"
+		(property "Footprint" "Resistor_SMD:R_0603_1608Metric_Pad0.98x0.95mm_HandSolder"
 			(at 127 85.09 0)
 			(effects
 				(font
@@ -4302,7 +4303,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "96ed8f3c-7d78-4e00-ac08-7e62dff0b158")
-		(property "Reference" "#PWR0102"
+		(property "Reference" "#PWR062"
 			(at 184.15 123.19 0)
 			(effects
 				(font
@@ -4376,7 +4377,7 @@
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
-		(on_board yes)
+		(on_board no)
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "984055b5-476f-4597-9d06-fce0f817b98e")
@@ -4555,7 +4556,7 @@
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
-		(on_board yes)
+		(on_board no)
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "ad81d6b1-21cb-45db-87f3-5f9ee1177a00")
@@ -4650,7 +4651,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "b79542fe-deb3-4610-b951-d45df772ca4a")
-		(property "Reference" "#PWR0103"
+		(property "Reference" "#PWR061"
 			(at 123.19 132.08 0)
 			(effects
 				(font
@@ -4724,7 +4725,7 @@
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
-		(on_board yes)
+		(on_board no)
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "d873a789-428f-4d1f-9342-52c18618765f")
@@ -4834,7 +4835,7 @@
 				)
 			)
 		)
-		(property "Footprint" "Resistor_SMD:R_0603_1608Metric"
+		(property "Footprint" "Resistor_SMD:R_0603_1608Metric_Pad0.98x0.95mm_HandSolder"
 			(at 106.68 92.71 0)
 			(effects
 				(font
@@ -5099,7 +5100,7 @@
 				)
 			)
 		)
-		(property "Footprint" "Resistor_SMD:R_0603_1608Metric"
+		(property "Footprint" "Resistor_SMD:R_0603_1608Metric_Pad0.98x0.95mm_HandSolder"
 			(at 127 87.63 0)
 			(effects
 				(font
@@ -5168,7 +5169,7 @@
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
-		(on_board yes)
+		(on_board no)
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "fa8932a9-e145-4f4c-8f2b-e28ba271581b")
