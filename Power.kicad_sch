@@ -3742,21 +3742,21 @@
 		(fields_autoplaced yes)
 		(uuid "0b111a51-bfb6-40e0-adcd-7004144044c2")
 		(property "Reference" "C28"
-			(at 237.49 97.7962 0)
+			(at 242.57 97.7962 0)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(justify left)
+				(justify right)
 			)
 		)
-		(property "Value" "1uF"
-			(at 237.49 100.3362 0)
+		(property "Value" "1u"
+			(at 242.57 100.3362 0)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(justify left)
+				(justify right)
 			)
 		)
 		(property "Footprint" "Capacitor_SMD:C_0603_1608Metric_Pad1.08x0.95mm_HandSolder"
@@ -4151,7 +4151,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "22uF"
+		(property "Value" "22u"
 			(at 252.73 99.7838 0)
 			(effects
 				(font

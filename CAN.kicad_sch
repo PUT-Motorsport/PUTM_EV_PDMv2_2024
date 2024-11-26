@@ -2664,7 +2664,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "100nF"
+		(property "Value" "100n"
 			(at 107.95 70.4913 0)
 			(effects
 				(font
@@ -2726,7 +2726,7 @@
 		(fields_autoplaced yes)
 		(uuid "fd8f7dcd-3b93-4341-b188-511381ec8dd8")
 		(property "Reference" "C26"
-			(at 140.97 67.9513 0)
+			(at 140.97 67.3162 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2734,8 +2734,8 @@
 				(justify left)
 			)
 		)
-		(property "Value" "100nF"
-			(at 140.97 70.4913 0)
+		(property "Value" "100n"
+			(at 140.97 69.8562 0)
 			(effects
 				(font
 					(size 1.27 1.27)
