@@ -8,4 +8,8 @@
   (lib (name "7447786147")(type "KiCad")(uri "${KIPRJMOD}/hardware/inductor6_3/7447786147.kicad_sym")(options "")(descr ""))
   (lib (name "usb_c_receptacle_usb2.0_14p")(type "KiCad")(uri "${KIPRJMOD}/hardware/usbc/usb_c_receptacle_usb2.0_14p.kicad_sym")(options "")(descr ""))
   (lib (name "BMS_LV_2022-rescue")(type "KiCad")(uri "${KIPRJMOD}/hardware/can/BMS_LV_2022-rescue.kicad_sym")(options "")(descr ""))
+  (lib (name "Redcube")(type "KiCad")(uri "${KIPRJMOD}/hardware/RedCube/7464100.kicad_sym")(options "")(descr ""))
+  (lib (name "UMPT-08-01-L-RA-WT-P-TR")(type "KiCad")(uri "${KIPRJMOD}/hardware/UMPT-08-01-L-RA-WT-P-TR/UMPT-08-01-L-RA-WT-P-TR.kicad_sym")(options "")(descr ""))
+  (lib (name "Redcube_conn")(type "KiCad")(uri "${KIPRJMOD}/hardware/Redcube conn/74650073R.kicad_sym")(options "")(descr ""))
+  (lib (name "SKL34")(type "KiCad")(uri "${KIPRJMOD}/hardware/SKL34/SKL34.kicad_sym")(options "")(descr ""))
 )

@@ -2473,12 +2473,6 @@
 		(uuid "278084ba-ddc9-4f1b-925b-abfab1cb3eac")
 	)
 	(junction
-		(at 250.19 93.98)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "2d033625-34a7-4bbf-8dbc-508453feac77")
-	)
-	(junction
 		(at 162.56 120.65)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -2513,6 +2507,12 @@
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "72ad8097-00c5-4d04-9fcb-a09d0e9c0218")
+	)
+	(junction
+		(at 250.19 93.98)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "7341a973-e1f1-4c6f-ab28-4aeb93fb9a6d")
 	)
 	(junction
 		(at 153.67 120.65)
@@ -3652,85 +3652,6 @@
 		)
 	)
 	(symbol
-		(lib_id "Device:D_Schottky_Small")
-		(at 250.19 91.44 270)
-		(mirror x)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "050ee1f2-7530-4124-afab-4ba6ba8afa97")
-		(property "Reference" "D10"
-			(at 247.65 90.4239 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify right)
-			)
-		)
-		(property "Value" "0.1/1A"
-			(at 247.65 92.9639 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify right)
-			)
-		)
-		(property "Footprint" "Diode_SMD:D_SMA"
-			(at 250.19 91.44 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" "https://services.taiwansemi.com/storage/resources/datasheet/SS12%20SERIES_R2305.pdf"
-			(at 250.19 91.44 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "SS12 "
-			(at 250.19 91.44 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Mouser" "https://www.mouser.pl/ProductDetail/Taiwan-Semiconductor/SS12?qs=JV7lzlMm3yJmZoP3vIhYAg%3D%3D"
-			(at 250.19 91.44 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "ef89a844-5684-411f-959f-8e7a7ee23a08")
-		)
-		(pin "2"
-			(uuid "4edcd510-5f94-4a17-af65-e7ba948cf6ac")
-		)
-		(instances
-			(project ""
-				(path "/b652b05a-4e3d-4ad1-b032-18886abe7d45/5554ce6e-235b-4b58-a8ae-0c0f8daf2a24"
-					(reference "D10")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
 		(lib_id "Device:C_Small")
 		(at 240.03 99.06 0)
 		(mirror y)
@@ -4206,6 +4127,85 @@
 			(project ""
 				(path "/b652b05a-4e3d-4ad1-b032-18886abe7d45/5554ce6e-235b-4b58-a8ae-0c0f8daf2a24"
 					(reference "C27")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:D_Schottky_Small")
+		(at 250.19 91.44 270)
+		(mirror x)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "409ff142-7ffd-4636-8043-57d03c0825a1")
+		(property "Reference" "D10"
+			(at 247.65 90.4239 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(property "Value" "0.1/1A"
+			(at 247.65 92.9639 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(property "Footprint" "Diode_SMD:D_SMA"
+			(at 250.19 91.44 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "https://services.taiwansemi.com/storage/resources/datasheet/SS12%20SERIES_R2305.pdf"
+			(at 250.19 91.44 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "SS12 "
+			(at 250.19 91.44 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Mouser" "https://www.mouser.pl/ProductDetail/Taiwan-Semiconductor/SS12?qs=JV7lzlMm3yJmZoP3vIhYAg%3D%3D"
+			(at 250.19 91.44 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "a97d5b07-a0c9-4596-aed4-0a4297ed95e4")
+		)
+		(pin "2"
+			(uuid "26515e11-b234-4dbd-9c62-510ab0e66d4d")
+		)
+		(instances
+			(project "PUTM_EV_PDMv2_2024"
+				(path "/b652b05a-4e3d-4ad1-b032-18886abe7d45/5554ce6e-235b-4b58-a8ae-0c0f8daf2a24"
+					(reference "D10")
 					(unit 1)
 				)
 			)
@@ -4816,8 +4816,8 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "89d52359-33c8-43f7-9b6b-164c5e731795")
-		(property "Reference" "Dr1"
-			(at 60.96 60.0075 90)
+		(property "Reference" "D8"
+			(at 60.96 60.0074 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4826,7 +4826,7 @@
 			)
 		)
 		(property "Value" "SS34ALH"
-			(at 60.96 62.5475 90)
+			(at 60.96 62.5474 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4870,7 +4870,7 @@
 		(instances
 			(project "PUTM_EV_PDMv2_2024"
 				(path "/b652b05a-4e3d-4ad1-b032-18886abe7d45/5554ce6e-235b-4b58-a8ae-0c0f8daf2a24"
-					(reference "Dr1")
+					(reference "D8")
 					(unit 1)
 				)
 			)

@@ -7,4 +7,8 @@
   (lib (name "FTSH-107-01-L-DV-K-A")(type "KiCad")(uri "${KIPRJMOD}/hardware/FTSH-107-01-L-DV-K-A")(options "")(descr ""))
   (lib (name "usbc")(type "KiCad")(uri "${KIPRJMOD}/hardware/usbc")(options "")(descr ""))
   (lib (name "can")(type "KiCad")(uri "${KIPRJMOD}/hardware/can")(options "")(descr ""))
+  (lib (name "Redcube")(type "KiCad")(uri "${KIPRJMOD}/hardware/RedCube")(options "")(descr ""))
+  (lib (name "UMPT-08-01-L-RA-WT-P-TR")(type "KiCad")(uri "${KIPRJMOD}/hardware/UMPT-08-01-L-RA-WT-P-TR")(options "")(descr ""))
+  (lib (name "Redcube conn")(type "KiCad")(uri "${KIPRJMOD}/hardware/Redcube conn")(options "")(descr ""))
+  (lib (name "SKL34")(type "KiCad")(uri "${KIPRJMOD}/hardware/SKL34")(options "")(descr ""))
 )

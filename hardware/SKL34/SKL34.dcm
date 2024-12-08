@@ -1,0 +1,9 @@
+EESchema-DOCLIB  Version 2.0
+#
+$CMP SKL34
+D SMD Schottky Barrier Rectifier Diodes
+K
+F http://diotec.com/tl_files/diotec/files/pdf/datasheets/skl32
+$ENDCMP
+#
+#End Doc Library
