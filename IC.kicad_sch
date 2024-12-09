@@ -2501,7 +2501,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "034813ae-4c8a-4558-9d1e-0f82110ab92a")
-		(property "Reference" "D17"
+		(property "Reference" "D16"
 			(at 102.87 120.6499 90)
 			(effects
 				(font
@@ -4462,7 +4462,7 @@
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
-		(on_board no)
+		(on_board yes)
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "984055b5-476f-4597-9d06-fce0f817b98e")
@@ -4641,7 +4641,7 @@
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
-		(on_board no)
+		(on_board yes)
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "ad81d6b1-21cb-45db-87f3-5f9ee1177a00")
@@ -4810,7 +4810,7 @@
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
-		(on_board no)
+		(on_board yes)
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "d873a789-428f-4d1f-9342-52c18618765f")
@@ -5254,7 +5254,7 @@
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
-		(on_board no)
+		(on_board yes)
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "fa8932a9-e145-4f4c-8f2b-e28ba271581b")
