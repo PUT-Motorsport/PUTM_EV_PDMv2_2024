@@ -1,0 +1,4 @@
+*.zip
+*.lck
+*/PDM_1-backups/*
+*autosave**
