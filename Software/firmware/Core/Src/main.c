@@ -15,6 +15,14 @@
   *
   ******************************************************************************
   */
+
+
+//*
+//fuse4
+//fuse3
+//fuse2
+//fuse1
+
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
@@ -73,7 +81,7 @@
 #define ADC_BUF_SIZE 4
 #define __VREFANALOG_VOLTAGE__ 3300
 #define OUT_READY 0x8F // 1000 1111		switching to ready mode
-#define OUT_READY1 0x9F // 1000 1111
+#define OUT_READY1 0x9F // 1001 1111
 #define OUT_CLOSE 0x80 // 1000 0000
 #define DCR_ACTIVE 0xF5 // 1111 0101	switching to active mode
 #define DCR_SLEEP 0xFF // 1111 1111
@@ -96,18 +104,22 @@
 #define HWCR_READ 0x05 // 0000 0110
 #define ICS_READ 0x0B // 0000 1110
 #define DCR_READ 0x07 // 0000 0111
-
+//Led initialization
 #define LED1_GPIO_Port GPIOA
 #define LED1_Pin GPIO_PIN_10
-
 #define LED2_GPIO_Port GPIOA
 #define LED2_Pin GPIO_PIN_9
-
 #define LED3_GPIO_Port GPIOA
 #define LED3_Pin GPIO_PIN_8
-
 #define LED4_GPIO_Port GPIOB
 #define LED4_Pin GPIO_PIN_15
+
+#define MAX_RETRIES 2
+
+#define CLOSE_CHANNEL_0 0x8E//1000 1110
+#define CLOSE_CHANNEL_1 0x8D//1000 1101
+#define CLOSE_CHANNEL_2 0x8B//1000 1011
+#define CLOSE_CHANNEL_3 0x87//1000 0111
 
 /* USER CODE END PD */
 
@@ -150,6 +162,8 @@ uint32_t fuse2_is_channel3;
 uint32_t fuse3_is_channel3;
 uint32_t fuse4_is_channel3;
 
+
+
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -160,57 +174,26 @@ void SystemClock_Config(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-/*void closeSpecificChannel(uint8_t ic_index, uint8_t channel)
+
+/*
+void activate_channel(uint8_t ic_index, uint8_t channel_cmd)
 {
+    for (int i = 0; i < 5; i++) tx_buffer_local[i] = DCR_ACTIVE;
+    if (ic_index < 5) tx_buffer_local[ic_index] = channel_cmd;
 
-	tx_buffer[ic_index|channel] = OUT_CLOSE;
-    uint8_t command = OUT_CLOSE | channel; // Close only the specific channel on one IC
-
-    tx_buffer[ic_index] = command; // Only modify the targeted IC
     HAL_GPIO_WritePin(SPI1_SS_GPIO_Port, SPI1_SS_Pin, GPIO_PIN_RESET);
-    HAL_SPI_TransmitReceive(&hspi1, tx_buffer, rx_buffer, 5, 100);
+    HAL_SPI_TransmitReceive(&hspi1, tx_buffer_local, rx_buffer, 5, 100);
     HAL_GPIO_WritePin(SPI1_SS_GPIO_Port, SPI1_SS_Pin, GPIO_PIN_SET);
 
-    HAL_Delay(1000);
-}
-
-bool isOvercurrent(uint32_t fuse_value, float max_current)
-{
-    uint32_t threshold = (uint32_t)(217.4 * max_current + 93);
-    return fuse_value > threshold;
-}
-
-void checkAndHandleOvercurrent()
-{
-    if (!after_first_loop) return;  // Skip on first loop
-
-    // **Checking each IC separately and shutting down only the overloaded channel on that IC**
-
-    // IC 1
-    if (isOvercurrent(fuse1_is_channel0, 0.5)) closeSpecificChannel(0, DCR_CHANNEL0);
-    if (isOvercurrent(fuse1_is_channel1, 0.5)) closeSpecificChannel(0, DCR_CHANNEL1);
-    if (isOvercurrent(fuse1_is_channel2, 0.5)) closeSpecificChannel(0, DCR_CHANNEL2);
-    if (isOvercurrent(fuse1_is_channel3, 0.5)) closeSpecificChannel(0, DCR_CHANNEL3);
-
-    // IC 2
-    if (isOvercurrent(fuse2_is_channel0, 0.5)) closeSpecificChannel(1, DCR_CHANNEL0);
-    if (isOvercurrent(fuse2_is_channel1, 0.5)) closeSpecificChannel(1, DCR_CHANNEL1);
-    if (isOvercurrent(fuse2_is_channel2, 0.5)) closeSpecificChannel(1, DCR_CHANNEL2);
-    if (isOvercurrent(fuse2_is_channel3, 0.5)) closeSpecificChannel(1, DCR_CHANNEL3);
-
-    // IC 3
-    if (isOvercurrent(fuse3_is_channel0, 0.5)) closeSpecificChannel(2, DCR_CHANNEL0);
-    if (isOvercurrent(fuse3_is_channel1, 0.5)) closeSpecificChannel(2, DCR_CHANNEL1);
-    if (isOvercurrent(fuse3_is_channel2, 0.5)) closeSpecificChannel(2, DCR_CHANNEL2);
-    if (isOvercurrent(fuse3_is_channel3, 0.5)) closeSpecificChannel(2, DCR_CHANNEL3);
-
-    // IC 4
-    if (isOvercurrent(fuse4_is_channel0, 0.5)) closeSpecificChannel(3, DCR_CHANNEL0);
-    if (isOvercurrent(fuse4_is_channel1, 0.5)) closeSpecificChannel(3, DCR_CHANNEL1);
-    if (isOvercurrent(fuse4_is_channel2, 0.5)) closeSpecificChannel(3, DCR_CHANNEL2);
-    if (isOvercurrent(fuse4_is_channel3, 0.5)) closeSpecificChannel(3, DCR_CHANNEL3);
+    // Activate outputs
+    for (int i = 0; i < 5; i++) tx_buffer_local[i] = DCR_ACTIVE;
+    HAL_GPIO_WritePin(SPI1_SS_GPIO_Port, SPI1_SS_Pin, GPIO_PIN_RESET);
+    HAL_SPI_TransmitReceive(&hspi1, tx_buffer_local, rx_buffer, 5, 100);
+    HAL_GPIO_WritePin(SPI1_SS_GPIO_Port, SPI1_SS_Pin, GPIO_PIN_SET);
 }
 */
+
+
 
 /* USER CODE END 0 */
 
@@ -262,10 +245,10 @@ int main(void)
   HAL_GPIO_WritePin(SPI1_SS_GPIO_Port, SPI1_SS_Pin, GPIO_PIN_SET);
   //ready -> active
   tx_buffer[0] = DCR_ACTIVE;
-  tx_buffer[1] = DCR_ACTIVE;
-  tx_buffer[2] = DCR_ACTIVE;
-  tx_buffer[3] = DCR_ACTIVE;
-  tx_buffer[4] = DCR_ACTIVE;
+  tx_buffer[1] = DCR_ACTIVE; 	//fuse 4
+  tx_buffer[2] = DCR_ACTIVE;		//fuse 3
+  tx_buffer[3] = DCR_ACTIVE;		//fuse 2
+  tx_buffer[4] = DCR_ACTIVE;		//fuse 1
   HAL_GPIO_WritePin(SPI1_SS_GPIO_Port, SPI1_SS_Pin, GPIO_PIN_RESET);
   HAL_SPI_TransmitReceive(&hspi1, tx_buffer, rx_buffer, 5, 100);
   HAL_GPIO_WritePin(SPI1_SS_GPIO_Port, SPI1_SS_Pin, GPIO_PIN_SET);
@@ -317,11 +300,10 @@ int main(void)
 
 
 
-
-	//  HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_9);
+//current sense mode activation
 	  // set channel 0 - 7A // value fuse = 217,4*current + 93
 	  tx_buffer[0] = DCR_CHANNEL0;
-	  tx_buffer[1] = DCR_CHANNEL0;
+	  tx_buffer[1] = DCR_CHANNEL0; //closes fuse4
 	  tx_buffer[2] = DCR_CHANNEL0;
 	  tx_buffer[3] = DCR_CHANNEL0;
 	  tx_buffer[4] = DCR_CHANNEL0;
@@ -396,28 +378,31 @@ int main(void)
 	  fuse3_is_channel3 = __HAL_ADC_CALC_DATA_TO_VOLTAGE(__VREFANALOG_VOLTAGE__,adc_buffer[2], ADC_RESOLUTION12b);
 	  fuse4_is_channel3 = __HAL_ADC_CALC_DATA_TO_VOLTAGE(__VREFANALOG_VOLTAGE__,adc_buffer[3], ADC_RESOLUTION12b);
 
+	  //activating each channel individually by calling a function
+
+
+
 	  HAL_Delay(100);
 
 	  tx_buffer[0] = OUT_READ;
-	    	      tx_buffer[1] = OUT_READ;
-	    	      tx_buffer[2] = OUT_READ;
-	    	      tx_buffer[3] = OUT_READ;
-	    	      tx_buffer[4] = OUT_READ;
-	    	      HAL_GPIO_WritePin(SPI1_SS_GPIO_Port, SPI1_SS_Pin, GPIO_PIN_RESET);
-	    	      HAL_SPI_TransmitReceive(&hspi1, tx_buffer, rx_buffer, 5, 100);
-	    	      HAL_GPIO_WritePin(SPI1_SS_GPIO_Port, SPI1_SS_Pin, GPIO_PIN_SET);
-	    	      HAL_GPIO_WritePin(SPI1_SS_GPIO_Port, SPI1_SS_Pin, GPIO_PIN_RESET);
-	    	      HAL_SPI_TransmitReceive(&hspi1, tx_buffer, rx_buffer, 5, 100);
-	    	      HAL_GPIO_WritePin(SPI1_SS_GPIO_Port, SPI1_SS_Pin, GPIO_PIN_SET);
+	  tx_buffer[1] = OUT_READ;
+	  tx_buffer[2] = OUT_READ;
+	  tx_buffer[3] = OUT_READ;
+	  tx_buffer[4] = OUT_READ;
+	  HAL_GPIO_WritePin(SPI1_SS_GPIO_Port, SPI1_SS_Pin, GPIO_PIN_RESET);
+	  HAL_SPI_TransmitReceive(&hspi1, tx_buffer, rx_buffer, 5, 100);
+	  HAL_GPIO_WritePin(SPI1_SS_GPIO_Port, SPI1_SS_Pin, GPIO_PIN_SET);
+	  HAL_GPIO_WritePin(SPI1_SS_GPIO_Port, SPI1_SS_Pin, GPIO_PIN_RESET);
+	  HAL_SPI_TransmitReceive(&hspi1, tx_buffer, rx_buffer, 5, 100);
+	  HAL_GPIO_WritePin(SPI1_SS_GPIO_Port, SPI1_SS_Pin, GPIO_PIN_SET);
 
 
-/*
-	//  checkAndHandleOvercurrent();
-*/
+
+
 
 	  // value fuse = 217,4*current + 93
 	  //5A
-	  if (fuse1_is_channel0 > 200 || fuse2_is_channel0 > 200 || fuse3_is_channel0 > 200|| fuse4_is_channel0 > 700 ||
+	  if (fuse1_is_channel0 > 200 || fuse2_is_channel0 > 200 || fuse3_is_channel0 > 200|| fuse2_is_channel2 > 700 ||
 		  fuse1_is_channel3 > 200 || fuse2_is_channel3 > 200 || fuse3_is_channel3 > 200|| fuse4_is_channel3 > 200  && after_first_loop)
 	  {
 
@@ -429,7 +414,8 @@ int main(void)
 		  HAL_GPIO_WritePin(SPI1_SS_GPIO_Port, SPI1_SS_Pin, GPIO_PIN_RESET);
 		  HAL_SPI_TransmitReceive(&hspi1, tx_buffer, rx_buffer, 5, 100);
 		  HAL_GPIO_WritePin(SPI1_SS_GPIO_Port, SPI1_SS_Pin, GPIO_PIN_SET);
-		  HAL_Delay(1000);
+		  HAL_Delay(5000);
+
 
 	  }
 	  // value fuse = 217,4*current + 93
@@ -446,22 +432,50 @@ int main(void)
 		  HAL_GPIO_WritePin(SPI1_SS_GPIO_Port, SPI1_SS_Pin, GPIO_PIN_RESET);
 		  HAL_SPI_TransmitReceive(&hspi1, tx_buffer, rx_buffer, 5, 100);
 		  HAL_GPIO_WritePin(SPI1_SS_GPIO_Port, SPI1_SS_Pin, GPIO_PIN_SET);
-		  HAL_Delay(1000);
+		  HAL_Delay(5000);
+
 
 	  }
 	  // value fuse = 217,4*current + 93
 	  //3A
-	  if(fuse2_is_channel2 > 200 && after_first_loop)
+	  if(fuse4_is_channel0 > 200 && after_first_loop)
 	  {
-		  tx_buffer[0] = OUT_CLOSE;
-		  tx_buffer[1] = OUT_CLOSE;
-		  tx_buffer[2] = OUT_CLOSE;
-		  tx_buffer[3] = OUT_CLOSE;
-		  tx_buffer[4] = OUT_CLOSE;
+		  tx_buffer[0] = DCR_ACTIVE;
+		  tx_buffer[1] = CLOSE_CHANNEL_0;
+		  tx_buffer[2] = DCR_ACTIVE;
+		  tx_buffer[3] = DCR_ACTIVE;
+		  tx_buffer[4] = DCR_ACTIVE;
 		  HAL_GPIO_WritePin(SPI1_SS_GPIO_Port, SPI1_SS_Pin, GPIO_PIN_RESET);
 		  HAL_SPI_TransmitReceive(&hspi1, tx_buffer, rx_buffer, 5, 100);
 		  HAL_GPIO_WritePin(SPI1_SS_GPIO_Port, SPI1_SS_Pin, GPIO_PIN_SET);
-		  HAL_Delay(1000);
+		  HAL_Delay(5000);
+		  fuse4_is_channel0 = __HAL_ADC_CALC_DATA_TO_VOLTAGE(__VREFANALOG_VOLTAGE__, adc_buffer[3], ADC_RESOLUTION12b);
+
+		  // Jeśli przeciążenie już nie występuje — restart kanału
+		  if (fuse4_is_channel0 <= 200)
+		  {
+		      // READY
+		      tx_buffer[0] = OUT_READY;
+		      tx_buffer[1] = OUT_READY;
+		      tx_buffer[2] = OUT_READY;
+		      tx_buffer[3] = OUT_READY;
+		      tx_buffer[4] = OUT_READY;
+		      HAL_GPIO_WritePin(SPI1_SS_GPIO_Port, SPI1_SS_Pin, GPIO_PIN_RESET);
+		      HAL_SPI_TransmitReceive(&hspi1, tx_buffer, rx_buffer, 5, 100);
+		      HAL_GPIO_WritePin(SPI1_SS_GPIO_Port, SPI1_SS_Pin, GPIO_PIN_SET);
+		      HAL_Delay(100);
+
+		      // ACTIVE
+		      tx_buffer[0] = DCR_ACTIVE;
+		      tx_buffer[1] = DCR_ACTIVE;
+		      tx_buffer[2] = DCR_ACTIVE;
+		      tx_buffer[3] = DCR_ACTIVE;
+		      tx_buffer[4] = DCR_ACTIVE;
+		      HAL_GPIO_WritePin(SPI1_SS_GPIO_Port, SPI1_SS_Pin, GPIO_PIN_RESET);
+		      HAL_SPI_TransmitReceive(&hspi1, tx_buffer, rx_buffer, 5, 100);
+		      HAL_GPIO_WritePin(SPI1_SS_GPIO_Port, SPI1_SS_Pin, GPIO_PIN_SET);
+		  }
+
 	  }
 
 	 	  after_first_loop = 1;
