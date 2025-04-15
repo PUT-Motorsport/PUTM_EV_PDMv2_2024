@@ -171,7 +171,15 @@ uint32_t fuse4_is_channel3;
 uint32_t fuse_currents[IC_COUNT][CHANNEL_COUNT]; // fuse_currents[ic][channel]
 
 uint8_t channel_states[IC_COUNT] = {0x0F, 0x0F, 0x0F, 0x0F}; // All channels ON
+bool any_channel_closed = false;
+uint32_t last_shutdown_time = 0;
 
+uint32_t thresholds[IC_COUNT][CHANNEL_COUNT] = {
+    {200, 200, 300, 500},  // IC0 thresholds
+    {200, 200, 300, 500},  // IC1
+    {200, 200, 300, 500},  // IC2
+    {200, 200, 300, 500}   // IC3
+};
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -213,7 +221,9 @@ void handle_overcurrent(uint8_t ic_index, uint8_t channel_number, uint32_t thres
 
     	        //Mark channel OFF in state
     	        channel_states[ic_index] &= ~(1 << channel_number);
-
+    	        //track the time since the first channel is closed
+    	        any_channel_closed = true;
+    	        last_shutdown_time = HAL_GetTick();
     	        //Build OUT register byte from updated state
     	        for (int i = 0; i < 5; i++) tx_buffer[i] = DCR_ACTIVE;
     	        tx_buffer[tx_index] = 0x80 | (channel_states[ic_index] & 0x0F); // OUT command
@@ -447,7 +457,7 @@ int main(void)
 
 
 
-	  // CH0 (3A), CH1 (3A), CH2 (4A), CH3 (7A)
+	/*  // CH0 (3A), CH1 (3A), CH2 (4A), CH3 (7A)
 	  handle_overcurrent(0, 0, 200); // IC0
 	  handle_overcurrent(0, 1, 200);
 	  handle_overcurrent(0, 2, 300);
@@ -467,7 +477,41 @@ int main(void)
 	  handle_overcurrent(3, 1, 200);
 	  handle_overcurrent(3, 2, 300);
 	  handle_overcurrent(3, 3, 500);
+*/
+	  for (uint8_t ic = 0; ic < IC_COUNT; ic++) {
+	      for (uint8_t ch = 0; ch < CHANNEL_COUNT; ch++) {
+	          handle_overcurrent(ic, ch, thresholds[ic][ch]);
+	      }
+	  }
 
+	  if (any_channel_closed && (HAL_GetTick() - last_shutdown_time >= 5000))
+	  {
+	      any_channel_closed = false; // reset the flag
+
+	      for (uint8_t ic = 0; ic < IC_COUNT; ic++)
+	      {
+	          uint8_t adc_index = 3 - ic;
+	          for (uint8_t ch = 0; ch < CHANNEL_COUNT; ch++)
+	          {
+	              fuse_currents[ic][ch] = __HAL_ADC_CALC_DATA_TO_VOLTAGE(
+	                  __VREFANALOG_VOLTAGE__, adc_buffer[adc_index], ADC_RESOLUTION12b);
+
+	              if (fuse_currents[ic][ch] <= thresholds[ic][ch])
+	              {
+	                  channel_states[ic] |= (1 << ch); // enable channel
+	              }
+	          }
+
+	          // Send updated state
+	          uint8_t tx_index = get_tx_index(ic);
+	          for (int i = 0; i < 5; i++) tx_buffer[i] = DCR_ACTIVE;
+	          tx_buffer[tx_index] = 0x80 | (channel_states[ic] & 0x0F);
+
+	          HAL_GPIO_WritePin(SPI1_SS_GPIO_Port, SPI1_SS_Pin, GPIO_PIN_RESET);
+	          HAL_SPI_TransmitReceive(&hspi1, tx_buffer, rx_buffer, 5, 100);
+	          HAL_GPIO_WritePin(SPI1_SS_GPIO_Port, SPI1_SS_Pin, GPIO_PIN_SET);
+	      }
+	  }
 
 /*
 
