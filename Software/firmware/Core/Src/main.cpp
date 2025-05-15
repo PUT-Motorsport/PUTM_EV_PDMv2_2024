@@ -160,6 +160,17 @@ uint32_t thresholds[IC_COUNT][CHANNEL_COUNT] = {
     {200, 200, 300, 500},  // IC2
     {200, 200, 300, 500}   // IC3
 };
+
+
+bool RTD_status;
+uint8_t rearRightInverterTemperature;  // Range 20-100
+uint8_t rearLeftInverterTemperature;   // Range 20-100
+uint8_t rearRightMotorTemperature;     // Range 20-130
+uint8_t rearLeftMotorTemperature;      // Range 20-130
+uint8_t frontRightInverterTemperature; // Range 20-100
+uint8_t frontLeftInverterTemperature;  // Range 20-100
+uint8_t frontRightMotorTemperature;    // Range 20-130
+uint8_t frontLeftMotorTemperature;     // Range 20-130
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -199,25 +210,25 @@ void handle_overcurrent(uint8_t ic_index, uint8_t channel_number, uint32_t thres
     }
 }
 
-void send_test_message() {
-    FDCAN_TxHeaderTypeDef txHeader;
-    uint8_t txData[8] = {0xDE, 0xAD, 0xBE, 0xEF, 0xCA, 0xFE, 0xBA, 0xBE};
-
-    txHeader.Identifier = 0x123;
-    txHeader.IdType = FDCAN_STANDARD_ID;
-    txHeader.TxFrameType = FDCAN_DATA_FRAME;
-    txHeader.DataLength = FDCAN_DLC_BYTES_8;
-    txHeader.ErrorStateIndicator = FDCAN_ESI_ACTIVE;
-    txHeader.BitRateSwitch = FDCAN_BRS_OFF;
-    txHeader.FDFormat = FDCAN_CLASSIC_CAN;
-    txHeader.TxEventFifoControl = FDCAN_NO_TX_EVENTS;
-    txHeader.MessageMarker = 0;
-
-    for (int i = 0; i < 10; i++) {
-        HAL_FDCAN_AddMessageToTxFifoQ(&hfdcan1, &txHeader, txData);
-        HAL_Delay(10); // short delay to separate bursts
-    }
-}
+//void send_test_message() {
+//    FDCAN_TxHeaderTypeDef txHeader;
+//    uint8_t txData[8] = {0xDE, 0xAD, 0xBE, 0xEF, 0xCA, 0xFE, 0xBA, 0xBE};
+//
+//    txHeader.Identifier = 0x123;
+//    txHeader.IdType = FDCAN_STANDARD_ID;
+//    txHeader.TxFrameType = FDCAN_DATA_FRAME;
+//    txHeader.DataLength = FDCAN_DLC_BYTES_8;
+//    txHeader.ErrorStateIndicator = FDCAN_ESI_ACTIVE;
+//    txHeader.BitRateSwitch = FDCAN_BRS_OFF;
+//    txHeader.FDFormat = FDCAN_CLASSIC_CAN;
+//    txHeader.TxEventFifoControl = FDCAN_NO_TX_EVENTS;
+//    txHeader.MessageMarker = 0;
+//
+//    for (int i = 0; i < 10; i++) {
+//        HAL_FDCAN_AddMessageToTxFifoQ(&hfdcan1, &txHeader, txData);
+//        HAL_Delay(10); // short delay to separate bursts
+//    }
+//}
 
 
 /* USER CODE END 0 */
@@ -298,9 +309,27 @@ int main(void)
   {
 
 	  //CAN
+	  if(PUTM_CAN::can.get_pc_new_data()){
+		  auto pc_data=PUTM_CAN::can.get_pc_main_data();
+		  RTD_status = pc_data.rtd;
+	  }
+	  if(PUTM_CAN::can.get_pc_temperature_data_new_data()){
+	 		  auto pc_temp=PUTM_CAN::can.get_pc_temperature_data();
+	 		 rearRightInverterTemperature = pc_temp.rearRightInverterTemperature; // Range 20-100
+	 		 rearLeftInverterTemperature = pc_temp.rearLeftInverterTemperature;  // Range 20-100
+	 		 rearRightMotorTemperature = pc_temp.rearRightMotorTemperature;     // Range 20-130
+	 		 rearLeftMotorTemperature= pc_temp.rearLeftMotorTemperature;      // Range 20-130
+	 		 frontRightInverterTemperature = pc_temp.frontRightInverterTemperature; // Range 20-100
+	 		 frontLeftInverterTemperature = pc_temp.frontLeftInverterTemperature;  // Range 20-100
+	 		 frontRightMotorTemperature = pc_temp.frontRightMotorTemperature;    // Range 20-130
+	 		 frontLeftMotorTemperature = pc_temp.frontLeftMotorTemperature;     // Range
+	 	  }
 
-	  send_test_message();
-	  HAL_Delay(1000);
+	  PUTM_CAN::PduChannel pdu_channel{
+		  //.pc_status{};
+	  };
+
+	  auto message = PUTM_CAN::Can_tx_message<Apps_main>(pdu_channel,can_tx_header_PduChannel);
 
 	  // OPTIONAL: Read diagnostic registers to check for critical errors
 	  uint8_t tx_buffer_diag[4] = {ERRDIAG, 0, 0, 0};
