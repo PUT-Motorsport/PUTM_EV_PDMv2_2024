@@ -133,7 +133,9 @@ extern "C" {
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
-
+uint32_t can_pdu_channel_tick = 0;
+uint32_t can_pdu_data_tick = 0;
+bool CanErrorCommunication = false;
 
 
 uint16_t adc_buffer[ADC_BUF_SIZE];
@@ -296,6 +298,9 @@ int main(void)
 
   HAL_ADC_Start_DMA(&hadc1, (uint32_t*)adc_buffer, ADC_BUF_SIZE);
 
+  can_pdu_channel_tick = HAL_GetTick();
+  can_pdu_data_tick    = HAL_GetTick();
+
 
 
   HAL_Delay(100);
@@ -308,13 +313,16 @@ int main(void)
   while (1)
   {
 
+	  uint32_t now = HAL_GetTick();
+
 	  //CAN
 	  if(PUTM_CAN::can.get_pc_new_data()){
 		  auto pc_data=PUTM_CAN::can.get_pc_main_data();
 		  RTD_status = pc_data.rtd;
 	  }
 	  if(PUTM_CAN::can.get_pc_temperature_data_new_data()){
-	 		  auto pc_temp=PUTM_CAN::can.get_pc_temperature_data();
+	 		 auto pc_temp=PUTM_CAN::can.get_pc_temperature_data();
+
 	 		 rearRightInverterTemperature = pc_temp.rearRightInverterTemperature; // Range 20-100
 	 		 rearLeftInverterTemperature = pc_temp.rearLeftInverterTemperature;  // Range 20-100
 	 		 rearRightMotorTemperature = pc_temp.rearRightMotorTemperature;     // Range 20-130
@@ -325,11 +333,55 @@ int main(void)
 	 		 frontLeftMotorTemperature = pc_temp.frontLeftMotorTemperature;     // Range
 	 	  }
 
+
 	  PUTM_CAN::PduChannel pdu_channel{
-		  //.pc_status{};
+		  // W {} trzeba tylko wpisać zmienne do wysłania
+
+//	      .pc_status{},
+//		  .fan_status{},
+//		  .pump_status{},
+//		  .inverter_status{},
+//		  .fbox_status{},
+//		  .sdc_status{},
+//		  .dash_status{},
+//		  .tsal_hv_status{},
+//		  .rbox_diagport_brake_l_status{},
+//		  .brake_ir_air_status{}
 	  };
 
-	  auto message = PUTM_CAN::Can_tx_message<Apps_main>(pdu_channel,can_tx_header_PduChannel);
+
+	  PUTM_CAN::PduData pdu_data{
+//		  .pc_current{},
+//		  .pump_current{},
+//		  .fan_current{},
+//		  .inverter_current{},
+//		  .fbox_current{},
+//		  .sdc_current{},
+//		  .total_current{}
+	  };
+
+	  auto pdu_data_msg = PUTM_CAN::Can_tx_message<PUTM_CAN::PduData>(pdu_data, PUTM_CAN::can_tx_header_PDU_DATA);
+	  auto pdu_channel_msg = PUTM_CAN::Can_tx_message<PUTM_CAN::PduChannel>(pdu_channel, PUTM_CAN::can_tx_header_PDU_CHANNEL);
+
+
+	  //co 40ms wysyłamy
+      if (now >= can_pdu_channel_tick)
+      {
+          auto status_channel = pdu_channel_msg.send(hfdcan1);
+          can_pdu_channel_tick = now + 40; // 40 ms
+          CanErrorCommunication = (status_channel == HAL_OK) ? 0 : 1;
+      }
+
+      //co 200ms wysyłamy
+      if (now >= can_pdu_data_tick)
+      {
+          auto status_data = pdu_data_msg.send(hfdcan1);
+          can_pdu_data_tick = now + 200; // 200 ms
+          CanErrorCommunication = (status_data == HAL_OK) ? 0 : 1;
+      }
+
+
+
 
 	  // OPTIONAL: Read diagnostic registers to check for critical errors
 	  uint8_t tx_buffer_diag[4] = {ERRDIAG, 0, 0, 0};
