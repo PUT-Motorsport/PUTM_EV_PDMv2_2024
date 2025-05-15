@@ -25,16 +25,19 @@
 
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
+extern "C" {
 #include "main.h"
 #include "adc.h"
 #include "dma.h"
 #include "fdcan.h"
 #include "spi.h"
 #include "gpio.h"
+}
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include <stdbool.h>
+#include "PUTM_EV_CAN_LIBRARY_2024/lib/can_interface.hpp"
 
 /*
  * LED DEBUGGING SYSTEM FOR 4 BTS72220 CONTROLLERS (16 CHANNELS)
@@ -280,7 +283,7 @@ int main(void)
   HAL_GPIO_WritePin(SPI1_SS_GPIO_Port, SPI1_SS_Pin, GPIO_PIN_SET);
 
 
-  HAL_ADC_Start_DMA(&hadc1, adc_buffer, ADC_BUF_SIZE);
+  HAL_ADC_Start_DMA(&hadc1, (uint32_t*)adc_buffer, ADC_BUF_SIZE);
 
 
 
