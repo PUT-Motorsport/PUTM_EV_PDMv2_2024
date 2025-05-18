@@ -349,37 +349,34 @@ int main(void)
 //		  .brake_ir_air_status{}
 	  };
 
-
 	  PUTM_CAN::PduData pdu_data{
-//		  .pc_current{},
-//		  .pump_current{},
-//		  .fan_current{},
-//		  .inverter_current{},
-//		  .fbox_current{},
-//		  .sdc_current{},
-//		  .total_current{}
+	    //  .pc_current{},
+	    //  .pump_current{},
+	    //  .fan_current{},
+	    //  .inverter_current{},
+	    //  .fbox_current{},
+	    //  .sdc_current{},
+	    //  .total_current{}
 	  };
 
 	  auto pdu_data_msg = PUTM_CAN::Can_tx_message<PUTM_CAN::PduData>(pdu_data, PUTM_CAN::can_tx_header_PDU_DATA);
 	  auto pdu_channel_msg = PUTM_CAN::Can_tx_message<PUTM_CAN::PduChannel>(pdu_channel, PUTM_CAN::can_tx_header_PDU_CHANNEL);
 
+	  // co 40ms wysyłamy
+	  if (now >= can_pdu_channel_tick)
+	  {
+	      auto status_channel = pdu_channel_msg.send(hfdcan1);
+	      can_pdu_channel_tick = now + 40; // 40 ms
+	      CanErrorCommunication = (status_channel == HAL_OK) ? 0 : 1;
+	  }
 
-	  //co 40ms wysyłamy
-      if (now >= can_pdu_channel_tick)
-      {
-          auto status_channel = pdu_channel_msg.send(hfdcan1);
-          can_pdu_channel_tick = now + 40; // 40 ms
-          CanErrorCommunication = (status_channel == HAL_OK) ? 0 : 1;
-      }
-
-      //co 200ms wysyłamy
-      if (now >= can_pdu_data_tick)
-      {
-          auto status_data = pdu_data_msg.send(hfdcan1);
-          can_pdu_data_tick = now + 200; // 200 ms
-          CanErrorCommunication = (status_data == HAL_OK) ? 0 : 1;
-      }
-
+	  // co 200ms wysyłamy
+	  if (now >= can_pdu_data_tick)
+	  {
+	      auto status_data = pdu_data_msg.send(hfdcan1);
+	      can_pdu_data_tick = now + 200; // 200 ms
+	      CanErrorCommunication = (status_data == HAL_OK) ? 0 : 1;
+	  }
 
 
 
