@@ -39,6 +39,56 @@ extern "C" {
 #include <stdbool.h>
 #include "PUTM_EV_CAN_LIBRARY_2024/lib/can_interface.hpp"
 
+//---------------------------------------------------------------
+//  SYSTEM OVERVIEW
+//---------------------------------------------------------------
+//
+//
+//  HARDWARE STRUCTURE:
+//
+//  - 4 × BTS72220 smart high-side switches (called fuse1–fuse4, top to bottom)
+//  - Each IC controls 4 output channels → total of 16 channels
+//  - Current is measured via 4 ADC channels (1 per IC)
+//
+//  CHANNEL INDEX MAPPING:
+//
+//  - IC index 0 = fuse1 (bottom), IC 1 = fuse2, IC 2 = fuse3, IC 3 = fuse4 (top)
+//  - In `fuse_currents[IC][CH]`, the IC index reflects this order
+//  - In `tx_buffer` and `rx_buffer` (5 bytes):
+//      tx_buffer[0] = common command
+//      tx_buffer[1] = fuse4 (IC3)
+//      tx_buffer[2] = fuse3 (IC2)
+//      tx_buffer[3] = fuse2 (IC1)
+//      tx_buffer[4] = fuse1 (IC0)
+//    ⚠️ This means buffer index = 4 - IC index
+//
+//  ADC CHANNEL MAPPING:
+//
+//  - ADC buffer layout is reversed:
+//      adc_buffer[3] = IC0 (fuse1)
+//      adc_buffer[2] = IC1 (fuse2)
+//      adc_buffer[1] = IC2 (fuse3)
+//      adc_buffer[0] = IC3 (fuse4)
+//
+//  CHANNEL CONTROL:
+//
+//  - System enters READY mode on startup, then ACTIVE
+//  - If current exceeds threshold, the corresponding channel is disabled via SPI
+//  - After 5s, disabled channels are retried if current drops below threshold
+//
+//  LOGICAL OUTPUTS:
+//
+//  - Physical channels grouped into 10 logical outputs (e.g. pc, pump, fan, inverter)
+//  - Each logical group has a 2-bit status: ON = 0, OFF = 1, ERROR = 2
+//  - Status is aggregated → if any subchannel fails, the whole group = ERROR
+//
+//  CAN COMMUNICATION:
+//
+//  - Logical statuses sent via `PUTM_CAN::PduChannel` every 40 ms
+//  - Currents (summed per group) sent via `PUTM_CAN::PduData` every 200 ms
+
+
+
 /*
  * LED DEBUGGING SYSTEM FOR 4 BTS72220 CONTROLLERS (16 CHANNELS)
  *
@@ -170,7 +220,8 @@ uint8_t after_first_loop = 0;
 #define IC_COUNT 4
 #define CHANNEL_COUNT 4
 
-uint32_t fuse_currents[IC_COUNT][CHANNEL_COUNT]; // fuse_currents[ic][channel]
+uint32_t fuse_currents[IC_COUNT][CHANNEL_COUNT]; // IC index 0 = fuse1 (bottom), 3 = fuse4 (top)
+
 
 uint8_t channel_states[IC_COUNT] = {0x0F, 0x0F, 0x0F, 0x0F}; // All channels ON
 bool any_channel_closed = false;
@@ -217,7 +268,7 @@ void handle_overcurrent(uint8_t ic_index, uint8_t channel_number, uint32_t thres
     	 int tx_index = get_tx_index(ic_index);
 
     	        //Mark channel OFF in state
-    	        channel_states[ic_index] &= ~(1 << channel_number);
+    	        channel_states[ic_index] &= ~(1 << channel_number); // IC index 0 = fuse1 (bottom), 3 = fuse4 (top)
     	        //track the time since the first channel is closed
     	        any_channel_closed = true;
     	        last_shutdown_time = HAL_GetTick();
@@ -287,6 +338,14 @@ SystemStatus get_system_status_from_channels() {
     return status;
 }
 
+// summing of the current for CAN
+uint32_t current_sum(std::initializer_list<std::pair<uint8_t, uint8_t>> list) {
+    uint32_t sum = 0;
+    for (auto [ic, ch] : list) {
+        sum += fuse_currents[ic][ch];
+    }
+    return sum;
+}
 
 //void send_test_message() {
 //    FDCAN_TxHeaderTypeDef txHeader;
@@ -348,6 +407,8 @@ int main(void)
         Error_Handler();  // Only once here
     }
 
+  // tx_buffer[1] = fuse4 (IC3), ..., tx_buffer[4] = fuse1 (IC0)
+
   HAL_GPIO_WritePin(GPIOD, GPIO_PIN_2, GPIO_PIN_RESET);
   HAL_GPIO_WritePin(GPIOD, GPIO_PIN_3, GPIO_PIN_RESET);
   HAL_GPIO_WritePin(GPIOB, GPIO_PIN_0, GPIO_PIN_RESET);
@@ -363,7 +424,7 @@ int main(void)
   HAL_GPIO_WritePin(SPI1_SS_GPIO_Port, SPI1_SS_Pin, GPIO_PIN_SET);
   //ready -> active
   tx_buffer[0] = DCR_ACTIVE;
-  tx_buffer[1] = DCR_ACTIVE; 	//fuse 4
+  tx_buffer[1] = DCR_ACTIVE; 		//fuse 4
   tx_buffer[2] = DCR_ACTIVE;		//fuse 3
   tx_buffer[3] = DCR_ACTIVE;		//fuse 2
   tx_buffer[4] = DCR_ACTIVE;		//fuse 1
@@ -426,15 +487,21 @@ int main(void)
 	  };
 
 
-	  PUTM_CAN::PduData pdu_data{
-	    //  .pc_current{},
-	    //  .pump_current{},
-	    //  .fan_current{},
-	    //  .inverter_current{},
-	    //  .fbox_current{},
-	    //  .sdc_current{},
-	    //  .total_current{}
+	  PUTM_CAN::PduData pdu_data {
+	      .pc_current = current_sum({{0, 0}, {0, 1}, {0, 2}, {0, 3}}),               // IC0 ch0–3
+	      .pump_current = current_sum({{1, 1}, {1, 3}}),                             // IC1 ch1, ch3
+	      .fan_current = current_sum({{1, 0}, {1, 2}}),                              // IC1 ch0, ch2
+	      .inverter_current = current_sum({{2, 0}, {2, 1}}),                         // IC2 ch0, ch1
+	      .fbox_current = fuse_currents[2][2],                                      // IC2 ch2
+	      .sdc_current = fuse_currents[2][3],                                       // IC2 ch3
+	      .total_current = current_sum({                                           // All 16 channels
+	          {0, 0}, {0, 1}, {0, 2}, {0, 3},
+	          {1, 0}, {1, 1}, {1, 2}, {1, 3},
+	          {2, 0}, {2, 1}, {2, 2}, {2, 3},
+	          {3, 0}, {3, 1}, {3, 2}, {3, 3}
+	      })
 	  };
+
 
 	  auto pdu_data_msg = PUTM_CAN::Can_tx_message<PUTM_CAN::PduData>(pdu_data, PUTM_CAN::can_tx_header_PDU_DATA);
 	  auto pdu_channel_msg = PUTM_CAN::Can_tx_message<PUTM_CAN::PduChannel>(pdu_channel, PUTM_CAN::can_tx_header_PDU_CHANNEL);
@@ -456,7 +523,7 @@ int main(void)
 	  }
 
 
-
+	  // tx_buffer[1] = fuse4 (IC3), ..., tx_buffer[4] = fuse1 (IC0)
 	  // OPTIONAL: Read diagnostic registers to check for critical errors
 	  uint8_t tx_buffer_diag[4] = {ERRDIAG, 0, 0, 0};
 	  uint8_t rx_buffer_diag[4];
@@ -487,7 +554,15 @@ int main(void)
 
 
 
-//current sense mode activation
+//current sense mode activation ----------
+
+	  // tx_buffer[1] = fuse4 (IC3), ..., tx_buffer[4] = fuse1 (IC0)
+	  // ADC channels (reverse mapped):
+	  // adc_buffer[3] = IC0 (fuse1)
+	  // adc_buffer[2] = IC1 (fuse2)
+	  // adc_buffer[1] = IC2 (fuse3)
+	  // adc_buffer[0] = IC3 (fuse4)
+
 	  // set channel 0 - 7A // value fuse = 217,4*current + 93
 	  tx_buffer[0] = DCR_CHANNEL0;
 	  tx_buffer[1] = DCR_CHANNEL0; //closes fuse4
@@ -505,7 +580,6 @@ int main(void)
 	  fuse_currents[1][0] = __HAL_ADC_CALC_DATA_TO_VOLTAGE(__VREFANALOG_VOLTAGE__, adc_buffer[2], ADC_RESOLUTION12b); // IC1 - CH0
 	  fuse_currents[2][0] = __HAL_ADC_CALC_DATA_TO_VOLTAGE(__VREFANALOG_VOLTAGE__, adc_buffer[1], ADC_RESOLUTION12b); // IC2 - CH0
 	  fuse_currents[3][0] = __HAL_ADC_CALC_DATA_TO_VOLTAGE(__VREFANALOG_VOLTAGE__, adc_buffer[0], ADC_RESOLUTION12b); // IC3 - CH0
-	  // ...repeat for CH1-CH3
 
 	  // set channel 1 - 4A // value fuse = 217,4*current + 93
 	  tx_buffer[0] = DCR_CHANNEL1;
