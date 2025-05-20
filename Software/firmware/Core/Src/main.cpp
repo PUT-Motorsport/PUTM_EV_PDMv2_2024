@@ -106,7 +106,7 @@ extern "C" {
 #define HWCR_READ 0x05 // 0000 0110
 #define ICS_READ 0x0B // 0000 1110
 #define DCR_READ 0x07 // 0000 0111
-//Led initialization
+//Led initialisation
 #define LED1_GPIO_Port GPIOA
 #define LED1_Pin GPIO_PIN_10
 #define LED2_GPIO_Port GPIOA
@@ -122,6 +122,26 @@ extern "C" {
 #define CLOSE_CHANNEL_1 0x8D//1000 1101
 #define CLOSE_CHANNEL_2 0x8B//1000 1011
 #define CLOSE_CHANNEL_3 0x87//1000 0111
+
+typedef enum {
+    STATUS_ON  = 0,  // Channel ON
+    STATUS_OFF = 1,  // Channel OFF
+    STATUS_ERR = 2   // Overcurrent / failure
+} ChannelStatus;
+
+typedef struct {
+    ChannelStatus pc_status;
+    ChannelStatus fan_status;
+    ChannelStatus pump_status;
+    ChannelStatus inverter_status;
+    ChannelStatus fbox_status;
+    ChannelStatus sdc_status;
+    ChannelStatus dash_status;
+    ChannelStatus tsal_hv_status;
+    ChannelStatus rbox_diagport_brake_l_status;
+    ChannelStatus brake_ir_air_status;
+} SystemStatus;
+
 
 /* USER CODE END PD */
 
@@ -211,6 +231,62 @@ void handle_overcurrent(uint8_t ic_index, uint8_t channel_number, uint32_t thres
 
     }
 }
+
+ChannelStatus reduce_status(ChannelStatus a, ChannelStatus b) {
+    if (a == STATUS_ERR || b == STATUS_ERR) return STATUS_ERR;
+    if (a == STATUS_OFF || b == STATUS_OFF) return STATUS_OFF;
+    return STATUS_ON;
+}
+
+SystemStatus get_system_status_from_channels() {
+    SystemStatus status;
+
+    // IC0 = fuse1, IC1 = fuse2, IC2 = fuse3, IC3 = fuse4
+
+    // Get individual channel states
+    auto ch = [](uint8_t ic, uint8_t ch) -> ChannelStatus {
+        return (channel_states[ic] & (1 << ch)) ? STATUS_ON :
+               (fuse_currents[ic][ch] > thresholds[ic][ch]) ? STATUS_ERR : STATUS_OFF;
+    };
+
+
+    // PC: IC0 ch0-3
+    ChannelStatus pc = ch(0,0);
+    pc = reduce_status(pc, ch(0,1));
+    pc = reduce_status(pc, ch(0,2));
+    pc = reduce_status(pc, ch(0,3));
+    status.pc_status = pc;
+
+    // FAN: IC1 ch0, ch2
+    status.fan_status = reduce_status(ch(1,0), ch(1,2));
+
+    // PUMP: IC1 ch1, ch3
+    status.pump_status = reduce_status(ch(1,1), ch(1,3));
+
+    // INVERTER: IC2 ch0, ch1
+    status.inverter_status = reduce_status(ch(2,0), ch(2,1));
+
+    // FBOX: IC2 ch2
+    status.fbox_status = ch(2,2);
+
+    // SDC: IC2 ch3
+    status.sdc_status = ch(2,3);
+
+    // DASH: IC3 ch0
+    status.dash_status = ch(3,0);
+
+    // TSAL_HV: IC3 ch1
+    status.tsal_hv_status = ch(3,1);
+
+    // RBOX_DIAGPORT_BRAKE_L: IC3 ch2
+    status.rbox_diagport_brake_l_status = ch(3,2);
+
+    // BRAKE_IR_AIR: IC3 ch3
+    status.brake_ir_air_status = ch(3,3);
+
+    return status;
+}
+
 
 //void send_test_message() {
 //    FDCAN_TxHeaderTypeDef txHeader;
@@ -334,20 +410,21 @@ int main(void)
 	 	  }
 
 
-	  PUTM_CAN::PduChannel pdu_channel{
-		  // W {} trzeba tylko wpisać zmienne do wysłania
+	  SystemStatus currentStatus = get_system_status_from_channels();
 
-//	      .pc_status{},
-//		  .fan_status{},
-//		  .pump_status{},
-//		  .inverter_status{},
-//		  .fbox_status{},
-//		  .sdc_status{},
-//		  .dash_status{},
-//		  .tsal_hv_status{},
-//		  .rbox_diagport_brake_l_status{},
-//		  .brake_ir_air_status{}
+	  PUTM_CAN::PduChannel pdu_channel{
+	      .pc_status = currentStatus.pc_status,
+	      .fan_status = currentStatus.fan_status,
+	      .pump_status = currentStatus.pump_status,
+	      .inverter_status = currentStatus.inverter_status,
+	      .fbox_status = currentStatus.fbox_status,
+	      .sdc_status = currentStatus.sdc_status,
+	      .dash_status = currentStatus.dash_status,
+	      .tsal_hv_status = currentStatus.tsal_hv_status,
+	      .rbox_diagport_brake_l_status = currentStatus.rbox_diagport_brake_l_status,
+	      .brake_ir_air_status = currentStatus.brake_ir_air_status
 	  };
+
 
 	  PUTM_CAN::PduData pdu_data{
 	    //  .pc_current{},
