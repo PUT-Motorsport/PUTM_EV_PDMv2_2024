@@ -188,7 +188,7 @@ Can_interface can;
 
 void HAL_FDCAN_RxFifo0Callback(FDCAN_HandleTypeDef* hfdcan, uint32_t RxFifo0ITs)
 {
-    PUTM_CAN::Can_rx_message rx {*hfdcan, RxFifo0ITs};
+    PUTM_CAN::Can_rx_message rx {*hfdcan, 0};
     if(rx.status == HAL_StatusTypeDef::HAL_OK)
     {
         if(not PUTM_CAN::can.parse_message(rx))
