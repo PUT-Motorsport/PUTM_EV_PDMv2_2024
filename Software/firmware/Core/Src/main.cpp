@@ -171,6 +171,9 @@
 #define CLOSE_CHANNEL_2 0x8B//1000 1011
 #define CLOSE_CHANNEL_3 0x87//1000 0111
 
+#define IC_COUNT 4
+#define CHANNEL_COUNT 4
+
 typedef enum {
     STATUS_ON  = 0,  // Channel ON
     STATUS_OFF = 1,  // Channel OFF
@@ -201,11 +204,13 @@ typedef struct {
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
+
+//CAN
 uint32_t can_pdu_channel_tick = 0;
 uint32_t can_pdu_data_tick = 0;
 bool CanErrorCommunication = false;
 
-
+//ADC
 uint16_t adc_buffer[ADC_BUF_SIZE];
 uint8_t adc_ready = 0;
 
@@ -215,21 +220,17 @@ uint8_t rx_buffer[5];
 uint8_t after_first_loop = 0;
 
 
-#define IC_COUNT 4
-#define CHANNEL_COUNT 4
 
-uint32_t fuse_currents[IC_COUNT][CHANNEL_COUNT]; // IC index 0 = fuse1 (bottom), 3 = fuse4 (top)
-
-
+uint8_t fuse_currents[IC_COUNT][CHANNEL_COUNT]; // Stored in 0.1A units (hMA) | IC index 0 = fuse1 (bottom), 3 = fuse4 (top)
 uint8_t channel_states[IC_COUNT] = {0x0F, 0x0F, 0x0F, 0x0F}; // All channels ON
 bool any_channel_closed = false;
 uint32_t last_shutdown_time = 0;
 
-uint32_t thresholds[IC_COUNT][CHANNEL_COUNT] = {
-    {200, 200, 300, 500},  // IC0 thresholds
-    {200, 200, 300, 500},  // IC1
-    {200, 200, 300, 500},  // IC2
-    {200, 200, 300, 500}   // IC3
+uint8_t thresholds[IC_COUNT][CHANNEL_COUNT] = {
+    {20, 20, 30, 50},	// IC0  2.0A, 2.0A, 3.0A, 5.0A
+    {20, 20, 30, 50},	// IC1
+    {20, 20, 30, 50},	// IC2
+    {20, 20, 30, 50} 	// IC3
 };
 
 
@@ -259,7 +260,15 @@ int get_tx_index(uint8_t ic_index)
     return 1 + ic_index;
 }
 
-void handle_overcurrent(uint8_t ic_index, uint8_t channel_number, uint32_t threshold)
+
+// For individual channels (returns 0.1A units as uint8_t)
+uint8_t mv_to_hma(uint32_t mv) {
+    if (mv < 93) return 0;
+    return (uint8_t)(((mv - 93) / 217.0f) * 10.0f);
+}
+
+
+void handle_overcurrent(uint8_t ic_index, uint8_t channel_number, uint8_t threshold)
 {
     if (fuse_currents[ic_index][channel_number] > threshold && after_first_loop)
     {
@@ -574,10 +583,10 @@ int main(void)
 	  HAL_SPI_TransmitReceive(&hspi1, tx_buffer, rx_buffer, 5, 100);
 	  HAL_GPIO_WritePin(SPI1_SS_GPIO_Port, SPI1_SS_Pin, GPIO_PIN_SET);
 	  // check current on channel 0 - 7A
-	  fuse_currents[0][0] = __HAL_ADC_CALC_DATA_TO_VOLTAGE(__VREFANALOG_VOLTAGE__, adc_buffer[3], ADC_RESOLUTION12b); // IC0 - CH0
-	  fuse_currents[1][0] = __HAL_ADC_CALC_DATA_TO_VOLTAGE(__VREFANALOG_VOLTAGE__, adc_buffer[2], ADC_RESOLUTION12b); // IC1 - CH0
-	  fuse_currents[2][0] = __HAL_ADC_CALC_DATA_TO_VOLTAGE(__VREFANALOG_VOLTAGE__, adc_buffer[1], ADC_RESOLUTION12b); // IC2 - CH0
-	  fuse_currents[3][0] = __HAL_ADC_CALC_DATA_TO_VOLTAGE(__VREFANALOG_VOLTAGE__, adc_buffer[0], ADC_RESOLUTION12b); // IC3 - CH0
+	  fuse_currents[0][0] = mv_to_hma(__HAL_ADC_CALC_DATA_TO_VOLTAGE(__VREFANALOG_VOLTAGE__, adc_buffer[3], ADC_RESOLUTION12b)); // IC0 - CH0
+	  fuse_currents[1][0] = mv_to_hma(__HAL_ADC_CALC_DATA_TO_VOLTAGE(__VREFANALOG_VOLTAGE__, adc_buffer[2], ADC_RESOLUTION12b)); // IC1 - CH0
+	  fuse_currents[2][0] = mv_to_hma(__HAL_ADC_CALC_DATA_TO_VOLTAGE(__VREFANALOG_VOLTAGE__, adc_buffer[1], ADC_RESOLUTION12b)); // IC2 - CH0
+	  fuse_currents[3][0] = mv_to_hma(__HAL_ADC_CALC_DATA_TO_VOLTAGE(__VREFANALOG_VOLTAGE__, adc_buffer[0], ADC_RESOLUTION12b)); // IC3 - CH0
 
 	  // set channel 1 - 4A // value fuse = 217,4*current + 93
 	  tx_buffer[0] = DCR_CHANNEL1;
@@ -592,10 +601,10 @@ int main(void)
 	  HAL_SPI_TransmitReceive(&hspi1, tx_buffer, rx_buffer, 5, 100);
 	  HAL_GPIO_WritePin(SPI1_SS_GPIO_Port, SPI1_SS_Pin, GPIO_PIN_SET);
 	  // check current on channel 1 - 4A
-	  fuse_currents[0][1] = __HAL_ADC_CALC_DATA_TO_VOLTAGE(__VREFANALOG_VOLTAGE__, adc_buffer[3], ADC_RESOLUTION12b); // IC0
-	  fuse_currents[1][1] = __HAL_ADC_CALC_DATA_TO_VOLTAGE(__VREFANALOG_VOLTAGE__, adc_buffer[2], ADC_RESOLUTION12b); // IC1
-	  fuse_currents[2][1] = __HAL_ADC_CALC_DATA_TO_VOLTAGE(__VREFANALOG_VOLTAGE__, adc_buffer[1], ADC_RESOLUTION12b); // IC2
-	  fuse_currents[3][1] = __HAL_ADC_CALC_DATA_TO_VOLTAGE(__VREFANALOG_VOLTAGE__, adc_buffer[0], ADC_RESOLUTION12b); // IC3
+	  fuse_currents[0][1] = mv_to_hma(__HAL_ADC_CALC_DATA_TO_VOLTAGE(__VREFANALOG_VOLTAGE__, adc_buffer[3], ADC_RESOLUTION12b)); // IC0
+	  fuse_currents[1][1] = mv_to_hma(__HAL_ADC_CALC_DATA_TO_VOLTAGE(__VREFANALOG_VOLTAGE__, adc_buffer[2], ADC_RESOLUTION12b)); // IC1
+	  fuse_currents[2][1] = mv_to_hma(__HAL_ADC_CALC_DATA_TO_VOLTAGE(__VREFANALOG_VOLTAGE__, adc_buffer[1], ADC_RESOLUTION12b)); // IC2
+	  fuse_currents[3][1] = mv_to_hma(__HAL_ADC_CALC_DATA_TO_VOLTAGE(__VREFANALOG_VOLTAGE__, adc_buffer[0], ADC_RESOLUTION12b)); // IC3
 
 	  // set channel 2 - 4A // value fuse = 217,4*current + 93
 	  tx_buffer[0] = DCR_CHANNEL2;
@@ -610,10 +619,10 @@ int main(void)
 	  HAL_SPI_TransmitReceive(&hspi1, tx_buffer, rx_buffer, 5, 100);
 	  HAL_GPIO_WritePin(SPI1_SS_GPIO_Port, SPI1_SS_Pin, GPIO_PIN_SET);
 	  // check current on channel 2 - 4A
-	  fuse_currents[0][2] = __HAL_ADC_CALC_DATA_TO_VOLTAGE(__VREFANALOG_VOLTAGE__, adc_buffer[3], ADC_RESOLUTION12b); // IC0
-	  fuse_currents[1][2] = __HAL_ADC_CALC_DATA_TO_VOLTAGE(__VREFANALOG_VOLTAGE__, adc_buffer[2], ADC_RESOLUTION12b); // IC1
-	  fuse_currents[2][2] = __HAL_ADC_CALC_DATA_TO_VOLTAGE(__VREFANALOG_VOLTAGE__, adc_buffer[1], ADC_RESOLUTION12b); // IC2
-	  fuse_currents[3][2] = __HAL_ADC_CALC_DATA_TO_VOLTAGE(__VREFANALOG_VOLTAGE__, adc_buffer[0], ADC_RESOLUTION12b); // IC3
+	  fuse_currents[0][2] = mv_to_hma(__HAL_ADC_CALC_DATA_TO_VOLTAGE(__VREFANALOG_VOLTAGE__, adc_buffer[3], ADC_RESOLUTION12b)); // IC0
+	  fuse_currents[1][2] = mv_to_hma(__HAL_ADC_CALC_DATA_TO_VOLTAGE(__VREFANALOG_VOLTAGE__, adc_buffer[2], ADC_RESOLUTION12b)); // IC1
+	  fuse_currents[2][2] = mv_to_hma(__HAL_ADC_CALC_DATA_TO_VOLTAGE(__VREFANALOG_VOLTAGE__, adc_buffer[1], ADC_RESOLUTION12b)); // IC2
+	  fuse_currents[3][2] = mv_to_hma(__HAL_ADC_CALC_DATA_TO_VOLTAGE(__VREFANALOG_VOLTAGE__, adc_buffer[0], ADC_RESOLUTION12b)); // IC3
 
 
 	  // set channel 3 - 7A // value fuse = 217,4*current + 93
@@ -629,10 +638,10 @@ int main(void)
 	  HAL_SPI_TransmitReceive(&hspi1, tx_buffer, rx_buffer, 5, 100);
 	  HAL_GPIO_WritePin(SPI1_SS_GPIO_Port, SPI1_SS_Pin, GPIO_PIN_SET);
 	  // check current on channel 3 - 7A // value fuse = 217,4*current + 93
-	  fuse_currents[0][3] = __HAL_ADC_CALC_DATA_TO_VOLTAGE(__VREFANALOG_VOLTAGE__, adc_buffer[3], ADC_RESOLUTION12b); // IC0
-	  fuse_currents[1][3] = __HAL_ADC_CALC_DATA_TO_VOLTAGE(__VREFANALOG_VOLTAGE__, adc_buffer[2], ADC_RESOLUTION12b); // IC1
-	  fuse_currents[2][3] = __HAL_ADC_CALC_DATA_TO_VOLTAGE(__VREFANALOG_VOLTAGE__, adc_buffer[1], ADC_RESOLUTION12b); // IC2
-	  fuse_currents[3][3] = __HAL_ADC_CALC_DATA_TO_VOLTAGE(__VREFANALOG_VOLTAGE__, adc_buffer[0], ADC_RESOLUTION12b); // IC3
+	  fuse_currents[0][3] = mv_to_hma(__HAL_ADC_CALC_DATA_TO_VOLTAGE(__VREFANALOG_VOLTAGE__, adc_buffer[3], ADC_RESOLUTION12b)); // IC0
+	  fuse_currents[1][3] = mv_to_hma(__HAL_ADC_CALC_DATA_TO_VOLTAGE(__VREFANALOG_VOLTAGE__, adc_buffer[2], ADC_RESOLUTION12b)); // IC1
+	  fuse_currents[2][3] = mv_to_hma(__HAL_ADC_CALC_DATA_TO_VOLTAGE(__VREFANALOG_VOLTAGE__, adc_buffer[1], ADC_RESOLUTION12b)); // IC2
+	  fuse_currents[3][3] = mv_to_hma(__HAL_ADC_CALC_DATA_TO_VOLTAGE(__VREFANALOG_VOLTAGE__, adc_buffer[0], ADC_RESOLUTION12b)); // IC3
 	  //activating each channel individually by calling a function
 
 
@@ -668,8 +677,8 @@ int main(void)
 	          uint8_t adc_index = 3 - ic;
 	          for (uint8_t ch = 0; ch < CHANNEL_COUNT; ch++)
 	          {
-	              fuse_currents[ic][ch] = __HAL_ADC_CALC_DATA_TO_VOLTAGE(
-	                  __VREFANALOG_VOLTAGE__, adc_buffer[adc_index], ADC_RESOLUTION12b);
+	              fuse_currents[ic][ch] = mv_to_hma(__HAL_ADC_CALC_DATA_TO_VOLTAGE(
+	                  __VREFANALOG_VOLTAGE__, adc_buffer[adc_index], ADC_RESOLUTION12b));
 
 	              if (fuse_currents[ic][ch] <= thresholds[ic][ch])
 	              {
