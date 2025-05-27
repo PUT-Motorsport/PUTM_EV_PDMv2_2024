@@ -410,6 +410,22 @@ int main(void)
   MX_FDCAN1_Init();
   MX_SPI1_Init();
   /* USER CODE BEGIN 2 */
+  auto st1 = HAL_FDCAN_ActivateNotification(&hfdcan1, FDCAN_IT_RX_FIFO0_NEW_MESSAGE, 0);
+//  st1 = HAL_FDCAN_ActivateNotification(&hfdcan1, FDCAN_IT_RX_FIFO0_MESSAGE_LOST, 0);
+//  st1 = HAL_FDCAN_ActivateNotification(&hfdcan1, FDCAN_IT_RX_FIFO0_FULL, 0);
+
+  static FDCAN_FilterTypeDef sFilterConfig =
+  {
+  	.IdType = FDCAN_STANDARD_ID,
+  	.FilterIndex = 0,
+  	.FilterType = FDCAN_FILTER_MASK,
+  	.FilterConfig = FDCAN_FILTER_TO_RXFIFO0,
+  	.FilterID1 = 0,
+  	.FilterID2 = 0
+  };
+
+  auto st2 = HAL_FDCAN_ConfigFilter(&hfdcan1, &sFilterConfig);
+
   if (HAL_FDCAN_Start(&hfdcan1) != HAL_OK) {
         Error_Handler();  // Only once here
     }
