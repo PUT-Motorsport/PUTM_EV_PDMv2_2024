@@ -164,7 +164,7 @@
 #define LED4_GPIO_Port GPIOB
 #define LED4_Pin GPIO_PIN_15
 
-#define MAX_RETRIES 2
+#define MAX_RETRIES 5
 
 #define CLOSE_CHANNEL_0 0x8E//1000 1110
 #define CLOSE_CHANNEL_1 0x8D//1000 1101
@@ -173,6 +173,13 @@
 
 #define IC_COUNT 4
 #define CHANNEL_COUNT 4
+
+
+#define LED_IC0 LED1_GPIO_Port, LED1_Pin
+#define LED_IC1 LED2_GPIO_Port, LED2_Pin
+#define LED_IC2 LED3_GPIO_Port, LED3_Pin
+#define LED_IC3 LED4_GPIO_Port, LED4_Pin
+
 
 typedef enum {
     STATUS_ON  = 0,  // Channel ON
@@ -205,10 +212,21 @@ typedef struct {
 
 /* USER CODE BEGIN PV */
 
+//Led debugging
+uint8_t led_blink_counter[IC_COUNT] = {0};
+uint8_t led_blink_phase[IC_COUNT] = {0}; // 0 = pause, 1 = blinking
+uint32_t led_last_toggle[IC_COUNT] = {0};
+uint32_t led_pause_time[IC_COUNT] = {0};
+
+
+
 //CAN
 uint32_t can_pdu_channel_tick = 0;
 uint32_t can_pdu_data_tick = 0;
 bool CanErrorCommunication = false;
+uint32_t total_current;
+bool fan_temp_triggered = false;
+bool fan_forced_on_by_rtd = false;
 
 //ADC
 uint16_t adc_buffer[ADC_BUF_SIZE];
@@ -233,13 +251,16 @@ uint8_t channel_disabled[IC_COUNT][CHANNEL_COUNT] = {0};
 uint8_t channel_retry_count[IC_COUNT][CHANNEL_COUNT] = {0};
 uint32_t channel_last_attempt[IC_COUNT][CHANNEL_COUNT] = {0};
 
+uint8_t channel_permanently_disabled[IC_COUNT][CHANNEL_COUNT] = {0};
+
 
 uint8_t thresholds[IC_COUNT][CHANNEL_COUNT] = {
-    {20, 20, 30, 50},	// IC0  2.0A, 2.0A, 3.0A, 5.0A
+    {20, 20, 40, 20},	// IC0  2.0A, 2.0A, 3.0A, 5.0A
     {20, 20, 30, 50},	// IC1
     {20, 20, 30, 50},	// IC2
     {20, 20, 30, 50} 	// IC3
 };
+uint32_t Ch2current;
 
 
 bool RTD_status;
@@ -261,29 +282,125 @@ void SystemClock_Config(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
+void update_led_status(uint32_t now) {
+    bool all_failed = true;
 
+    for (uint8_t ic = 0; ic < IC_COUNT; ic++) {
+        uint8_t failed_channels = 0;
+        for (uint8_t ch = 0; ch < CHANNEL_COUNT; ch++) {
+            if (channel_permanently_disabled[ic][ch]) {
+                failed_channels++;
+            }
+        }
+
+        GPIO_TypeDef* port;
+        uint16_t pin;
+        switch(ic) {
+            case 0: port = LED1_GPIO_Port; pin = LED1_Pin; break;
+            case 1: port = LED2_GPIO_Port; pin = LED2_Pin; break;
+            case 2: port = LED3_GPIO_Port; pin = LED3_Pin; break;
+            case 3: port = LED4_GPIO_Port; pin = LED4_Pin; break;
+        }
+
+        if (failed_channels == 0) {
+            all_failed = false;
+            // Normal blinking at 1 Hz
+            if (now - led_last_toggle[ic] >= 2000) {
+                HAL_GPIO_TogglePin(port, pin);
+                led_last_toggle[ic] = now;
+            }
+
+        } else if (failed_channels > 1) {
+            all_failed = false;
+            // Fast blinking (5 Hz)
+            if (now - led_last_toggle[ic] >= 100) {
+                HAL_GPIO_TogglePin(port, pin);
+                led_last_toggle[ic] = now;
+            }
+
+        } else if (failed_channels == 1) {
+            all_failed = false;
+            // Blink 1–4 times depending on which channel failed
+            if (led_blink_phase[ic] == 0) {
+                // Pause phase
+                if (now - led_last_toggle[ic] >= 1000) {
+                    led_blink_counter[ic] = 0;
+                    led_blink_phase[ic] = 1;
+                    led_last_toggle[ic] = now;
+                }
+                HAL_GPIO_WritePin(port, pin, GPIO_PIN_RESET);
+            } else {
+                // Blinking phase
+                if (now - led_last_toggle[ic] >= 300) {
+                    HAL_GPIO_TogglePin(port, pin);
+                    led_last_toggle[ic] = now;
+                    led_blink_counter[ic]++;
+                    uint8_t failed_ch = 0;
+                    for (uint8_t ch = 0; ch < CHANNEL_COUNT; ch++) {
+                        if (channel_permanently_disabled[ic][ch]) {
+                            failed_ch = ch + 1; // 1 blink = ch0
+                            break;
+                        }
+                    }
+                    if (led_blink_counter[ic] >= (2 * failed_ch)) {
+                        led_blink_phase[ic] = 0; // go to pause
+                        led_last_toggle[ic] = now;
+                    }
+                }
+            }
+        }
+    }
+
+    if (all_failed) {
+        HAL_GPIO_WritePin(LED1_GPIO_Port, LED1_Pin, GPIO_PIN_SET);
+        HAL_GPIO_WritePin(LED2_GPIO_Port, LED2_Pin, GPIO_PIN_SET);
+        HAL_GPIO_WritePin(LED3_GPIO_Port, LED3_Pin, GPIO_PIN_SET);
+        HAL_GPIO_WritePin(LED4_GPIO_Port, LED4_Pin, GPIO_PIN_SET);
+    }
+}
 
 int get_tx_index(uint8_t ic_index)
 {
     return 1 + ic_index;
 }
 
+uint32_t total_current_calc(uint8_t fuse_currents[IC_COUNT][CHANNEL_COUNT])
+{
+    uint32_t sum = 0;
 
-// For individual channels (returns 0.1A units as uint8_t)
+    for (uint8_t ic = 0; ic < IC_COUNT; ic++) {
+        for (uint8_t ch = 0; ch < CHANNEL_COUNT; ch++) {
+            sum += fuse_currents[ic][ch]; // If channel is off, current is 0 → no effect
+        }
+    }
+    return sum;
+}
+
+// For individual channels 0 and 3 (returns 0.1A units as uint8_t)
 uint8_t mv_to_hma(uint32_t mv) {
-    if (mv < 93) return 0;
-    return (uint8_t)(((mv - 93) / 217.0f) * 10.0f);
+    if (mv < 123) return 0;
+    return (uint8_t)(((mv - 123) / 217.0f) * 10.0f);
+}
+
+// for channels 1 and 2
+uint8_t mv_to_hma2(uint32_t mv) {
+    if (mv < 123) return 0;
+    return (uint8_t)(((mv - 123) / 482.0f) * 10.0f);
 }
 
 void handle_overcurrent(uint8_t ic_index, uint8_t channel_number, uint8_t threshold)
 {
-    if (fuse_currents[ic_index][channel_number] > threshold && after_first_loop && RTD_status)
+	if (fuse_currents[ic_index][channel_number] > threshold &&
+	    after_first_loop &&
+	    !channel_permanently_disabled[ic_index][channel_number])
     {
         int tx_index = get_tx_index(ic_index);
 
         channel_states[ic_index] &= ~(1 << channel_number);
         channel_disabled[ic_index][channel_number] = 1;
-        channel_retry_count[ic_index][channel_number] = 0;
+        channel_last_attempt[ic_index][channel_number] = HAL_GetTick();
+
+
         channel_last_attempt[ic_index][channel_number] = HAL_GetTick();
 
         for (int i = 0; i < 5; i++) tx_buffer[i] = DCR_ACTIVE;
@@ -381,6 +498,44 @@ uint32_t current_sum(std::initializer_list<std::pair<uint8_t, uint8_t>> list) {
     }
     return sum;
 }
+
+bool is_temp_high() {
+    return rearRightInverterTemperature >= 40 ||
+           rearLeftInverterTemperature >= 40 ||
+           rearRightMotorTemperature >= 40 ||
+           rearLeftMotorTemperature >= 40 ||
+           frontRightInverterTemperature >= 40 ||
+           frontLeftInverterTemperature >= 40 ||
+           frontRightMotorTemperature >= 40 ||
+           frontLeftMotorTemperature >= 40;
+}
+
+bool is_temp_low() {
+    return rearRightInverterTemperature < 30 &&
+           rearLeftInverterTemperature < 30 &&
+           rearRightMotorTemperature < 30 &&
+           rearLeftMotorTemperature < 30 &&
+           frontRightInverterTemperature < 30 &&
+           frontLeftInverterTemperature < 30 &&
+           frontRightMotorTemperature < 30 &&
+           frontLeftMotorTemperature < 30;
+}
+
+void update_fan_channel_logic() {
+    // Update state based on RTD
+    if (RTD_status) {
+        fan_forced_on_by_rtd = true;
+    } else {
+        fan_forced_on_by_rtd = false;
+
+        if (!fan_temp_triggered && is_temp_high()) {
+            fan_temp_triggered = true;
+        } else if (fan_temp_triggered && is_temp_low()) {
+            fan_temp_triggered = false;
+        }
+    }
+}
+
 
 //void send_test_message() {
 //    FDCAN_TxHeaderTypeDef txHeader;
@@ -545,15 +700,10 @@ int main(void)
 	      .inverter_current = current_sum({{2, 0}, {2, 1}}),                         // IC2 ch0, ch1
 	      .fbox_current = fuse_currents[2][2],                                      // IC2 ch2
 	      .sdc_current = fuse_currents[2][3],                                       // IC2 ch3
-	      .total_current = current_sum({                                           // All 16 channels
-	          {0, 0}, {0, 1}, {0, 2}, {0, 3},
-	          {1, 0}, {1, 1}, {1, 2}, {1, 3},
-	          {2, 0}, {2, 1}, {2, 2}, {2, 3},
-	          {3, 0}, {3, 1}, {3, 2}, {3, 3}
-	      })
+	      .total_current = total_current_calc(fuse_currents)
 	  };
 
-
+total_current = total_current_calc(fuse_currents);
 	  auto pdu_data_msg = PUTM_CAN::Can_tx_message<PUTM_CAN::PduData>(pdu_data, PUTM_CAN::can_tx_header_PDU_DATA);
 	  auto pdu_channel_msg = PUTM_CAN::Can_tx_message<PUTM_CAN::PduChannel>(pdu_channel, PUTM_CAN::can_tx_header_PDU_CHANNEL);
 
@@ -573,6 +723,7 @@ int main(void)
 	      CanErrorCommunication = (status_data == HAL_OK) ? 0 : 1;
 	  }
 
+	  update_fan_channel_logic();
 
 	  // tx_buffer[1] = fuse4 (IC3), ..., tx_buffer[4] = fuse1 (IC0)
 	  // OPTIONAL: Read diagnostic registers to check for critical errors
@@ -584,24 +735,24 @@ int main(void)
 	  HAL_GPIO_WritePin(SPI1_SS_GPIO_Port, SPI1_SS_Pin, GPIO_PIN_SET);
 
 	  // If all controllers report a major failure, turn all LEDs ON permanently
-	  if ((rx_buffer_diag[1] & 0xFF) == 0xFF &&
-	      (rx_buffer_diag[2] & 0xFF) == 0xFF &&
-	      (rx_buffer_diag[3] & 0xFF) == 0xFF &&
-	      (rx_buffer_diag[4] & 0xFF) == 0xFF)
-	  {
-	      HAL_GPIO_WritePin(LED1_GPIO_Port, LED1_Pin, GPIO_PIN_SET);
-	      HAL_GPIO_WritePin(LED2_GPIO_Port, LED2_Pin, GPIO_PIN_SET);
-	      HAL_GPIO_WritePin(LED3_GPIO_Port, LED3_Pin, GPIO_PIN_SET);
-	      HAL_GPIO_WritePin(LED4_GPIO_Port, LED4_Pin, GPIO_PIN_SET);
-
-	      while (1);  // Stop execution if all controllers fail
-	  }
-
-	  // If no failure, continue blinking
-	  HAL_GPIO_TogglePin(LED1_GPIO_Port, LED1_Pin);
-	  HAL_GPIO_TogglePin(LED2_GPIO_Port, LED2_Pin);
-	  HAL_GPIO_TogglePin(LED3_GPIO_Port, LED3_Pin);
-	  HAL_GPIO_TogglePin(LED4_GPIO_Port, LED4_Pin);
+//	  if ((rx_buffer_diag[1] & 0xFF) == 0xFF &&
+//	      (rx_buffer_diag[2] & 0xFF) == 0xFF &&
+//	      (rx_buffer_diag[3] & 0xFF) == 0xFF &&
+//	      (rx_buffer_diag[4] & 0xFF) == 0xFF)
+//	  {
+//	      HAL_GPIO_WritePin(LED1_GPIO_Port, LED1_Pin, GPIO_PIN_SET);
+//	      HAL_GPIO_WritePin(LED2_GPIO_Port, LED2_Pin, GPIO_PIN_SET);
+//	      HAL_GPIO_WritePin(LED3_GPIO_Port, LED3_Pin, GPIO_PIN_SET);
+//	      HAL_GPIO_WritePin(LED4_GPIO_Port, LED4_Pin, GPIO_PIN_SET);
+//
+//	      while (1);  // Stop execution if all controllers fail
+//	  }
+//
+//	  // If no failure, continue blinking
+//	  HAL_GPIO_TogglePin(LED1_GPIO_Port, LED1_Pin);
+//	  HAL_GPIO_TogglePin(LED2_GPIO_Port, LED2_Pin);
+//	  HAL_GPIO_TogglePin(LED3_GPIO_Port, LED3_Pin);
+//	  HAL_GPIO_TogglePin(LED4_GPIO_Port, LED4_Pin);
 
 
 
@@ -645,10 +796,10 @@ int main(void)
 	  HAL_SPI_TransmitReceive(&hspi1, tx_buffer, rx_buffer, 5, 100);
 	  HAL_GPIO_WritePin(SPI1_SS_GPIO_Port, SPI1_SS_Pin, GPIO_PIN_SET);
 	  // check current on channel 1 - 4A
-	  fuse_currents[0][1] = mv_to_hma(__HAL_ADC_CALC_DATA_TO_VOLTAGE(__VREFANALOG_VOLTAGE__, adc_buffer[3], ADC_RESOLUTION12b)); // IC0
-	  fuse_currents[1][1] = mv_to_hma(__HAL_ADC_CALC_DATA_TO_VOLTAGE(__VREFANALOG_VOLTAGE__, adc_buffer[2], ADC_RESOLUTION12b)); // IC1
-	  fuse_currents[2][1] = mv_to_hma(__HAL_ADC_CALC_DATA_TO_VOLTAGE(__VREFANALOG_VOLTAGE__, adc_buffer[1], ADC_RESOLUTION12b)); // IC2
-	  fuse_currents[3][1] = mv_to_hma(__HAL_ADC_CALC_DATA_TO_VOLTAGE(__VREFANALOG_VOLTAGE__, adc_buffer[0], ADC_RESOLUTION12b)); // IC3
+	  fuse_currents[0][1] = mv_to_hma2(__HAL_ADC_CALC_DATA_TO_VOLTAGE(__VREFANALOG_VOLTAGE__, adc_buffer[3], ADC_RESOLUTION12b)); // IC0
+	  fuse_currents[1][1] = mv_to_hma2(__HAL_ADC_CALC_DATA_TO_VOLTAGE(__VREFANALOG_VOLTAGE__, adc_buffer[2], ADC_RESOLUTION12b)); // IC1
+	  fuse_currents[2][1] = mv_to_hma2(__HAL_ADC_CALC_DATA_TO_VOLTAGE(__VREFANALOG_VOLTAGE__, adc_buffer[1], ADC_RESOLUTION12b)); // IC2
+	  fuse_currents[3][1] = mv_to_hma2(__HAL_ADC_CALC_DATA_TO_VOLTAGE(__VREFANALOG_VOLTAGE__, adc_buffer[0], ADC_RESOLUTION12b)); // IC3
 
 	  // set channel 2 - 4A // value fuse = 217,4*current + 93
 	  tx_buffer[0] = DCR_CHANNEL2;
@@ -663,10 +814,11 @@ int main(void)
 	  HAL_SPI_TransmitReceive(&hspi1, tx_buffer, rx_buffer, 5, 100);
 	  HAL_GPIO_WritePin(SPI1_SS_GPIO_Port, SPI1_SS_Pin, GPIO_PIN_SET);
 	  // check current on channel 2 - 4A
-	  fuse_currents[0][2] = mv_to_hma(__HAL_ADC_CALC_DATA_TO_VOLTAGE(__VREFANALOG_VOLTAGE__, adc_buffer[3], ADC_RESOLUTION12b)); // IC0
-	  fuse_currents[1][2] = mv_to_hma(__HAL_ADC_CALC_DATA_TO_VOLTAGE(__VREFANALOG_VOLTAGE__, adc_buffer[2], ADC_RESOLUTION12b)); // IC1
-	  fuse_currents[2][2] = mv_to_hma(__HAL_ADC_CALC_DATA_TO_VOLTAGE(__VREFANALOG_VOLTAGE__, adc_buffer[1], ADC_RESOLUTION12b)); // IC2
-	  fuse_currents[3][2] = mv_to_hma(__HAL_ADC_CALC_DATA_TO_VOLTAGE(__VREFANALOG_VOLTAGE__, adc_buffer[0], ADC_RESOLUTION12b)); // IC3
+	  fuse_currents[0][2] = mv_to_hma2(__HAL_ADC_CALC_DATA_TO_VOLTAGE(__VREFANALOG_VOLTAGE__, adc_buffer[3], ADC_RESOLUTION12b)); // IC0
+	  fuse_currents[1][2] = mv_to_hma2(__HAL_ADC_CALC_DATA_TO_VOLTAGE(__VREFANALOG_VOLTAGE__, adc_buffer[2], ADC_RESOLUTION12b)); // IC1
+	  fuse_currents[2][2] = mv_to_hma2(__HAL_ADC_CALC_DATA_TO_VOLTAGE(__VREFANALOG_VOLTAGE__, adc_buffer[1], ADC_RESOLUTION12b)); // IC2
+	  fuse_currents[3][2] = mv_to_hma2(__HAL_ADC_CALC_DATA_TO_VOLTAGE(__VREFANALOG_VOLTAGE__, adc_buffer[0], ADC_RESOLUTION12b)); // IC3
+	  Ch2current = (__HAL_ADC_CALC_DATA_TO_VOLTAGE(__VREFANALOG_VOLTAGE__, adc_buffer[3], ADC_RESOLUTION12b));
 
 
 	  // set channel 3 - 7A // value fuse = 217,4*current + 93
@@ -704,72 +856,79 @@ int main(void)
 	  HAL_SPI_TransmitReceive(&hspi1, tx_buffer, rx_buffer, 5, 100);
 	  HAL_GPIO_WritePin(SPI1_SS_GPIO_Port, SPI1_SS_Pin, GPIO_PIN_SET);
 
-	  if (!RTD_status) {
-	      uint8_t ic = 1; // IC1 only
-	      uint8_t new_state = 0x00;
+//	  if (!RTD_status) {
+//	      uint8_t ic = 1; // IC1 only
+//	      uint8_t new_state = 0x00;
+//
+//	      bool fan_on = rearLeftInverterTemperature >= 40 ||
+//	                    rearRightInverterTemperature >= 40 ||
+//	                    frontLeftInverterTemperature >= 40 ||
+//	                    frontRightInverterTemperature >= 40;
+//
+//	      bool fan_off = rearLeftInverterTemperature <= 30 &&
+//	                     rearRightInverterTemperature <= 30 &&
+//	                     frontLeftInverterTemperature <= 30 &&
+//	                     frontRightInverterTemperature <= 30;
+//
+//	      bool pump_on = rearLeftMotorTemperature >= 40 ||
+//	                     rearRightMotorTemperature >= 40;
+//
+//	      bool pump_off = rearLeftMotorTemperature <= 30 &&
+//	                      rearRightMotorTemperature <= 30;
+//
+//	      if (fan_on) new_state |= (1 << 0) | (1 << 2);
+//	      if (pump_on) new_state |= (1 << 1) | (1 << 3);
+//
+//	      for (uint8_t ch = 0; ch < 4; ch++) {
+//	          if (new_state & (1 << ch)) {
+//	              if (!channel_disabled[ic][ch]) {
+//	                  channel_states[ic] |= (1 << ch);
+//	              }
+//	          } else {
+//	              channel_states[ic] &= ~(1 << ch);
+//	          }
+//	      }
+//
+//	      uint8_t tx_index = get_tx_index(ic);
+//	      for (int i = 0; i < 5; i++) tx_buffer[i] = DCR_ACTIVE;
+//	      tx_buffer[tx_index] = 0x80 | (channel_states[ic] & 0x0F);
+//
+//	      HAL_GPIO_WritePin(SPI1_SS_GPIO_Port, SPI1_SS_Pin, GPIO_PIN_RESET);
+//	      HAL_SPI_TransmitReceive(&hspi1, tx_buffer, rx_buffer, 5, 100);
+//	      HAL_GPIO_WritePin(SPI1_SS_GPIO_Port, SPI1_SS_Pin, GPIO_PIN_SET);
+//	  }
 
-	      bool fan_on = rearLeftInverterTemperature >= 40 ||
-	                    rearRightInverterTemperature >= 40 ||
-	                    frontLeftInverterTemperature >= 40 ||
-	                    frontRightInverterTemperature >= 40;
 
-	      bool fan_off = rearLeftInverterTemperature <= 30 &&
-	                     rearRightInverterTemperature <= 30 &&
-	                     frontLeftInverterTemperature <= 30 &&
-	                     frontRightInverterTemperature <= 30;
-
-	      bool pump_on = rearLeftMotorTemperature >= 40 ||
-	                     rearRightMotorTemperature >= 40;
-
-	      bool pump_off = rearLeftMotorTemperature <= 30 &&
-	                      rearRightMotorTemperature <= 30;
-
-	      if (fan_on) new_state |= (1 << 0) | (1 << 2);
-	      if (pump_on) new_state |= (1 << 1) | (1 << 3);
-
-	      for (uint8_t ch = 0; ch < 4; ch++) {
-	          if (new_state & (1 << ch)) {
-	              if (!channel_disabled[ic][ch]) {
-	                  channel_states[ic] |= (1 << ch);
-	              }
-	          } else {
-	              channel_states[ic] &= ~(1 << ch);
-	          }
-	      }
-
-	      uint8_t tx_index = get_tx_index(ic);
-	      for (int i = 0; i < 5; i++) tx_buffer[i] = DCR_ACTIVE;
-	      tx_buffer[tx_index] = 0x80 | (channel_states[ic] & 0x0F);
-
-	      HAL_GPIO_WritePin(SPI1_SS_GPIO_Port, SPI1_SS_Pin, GPIO_PIN_RESET);
-	      HAL_SPI_TransmitReceive(&hspi1, tx_buffer, rx_buffer, 5, 100);
-	      HAL_GPIO_WritePin(SPI1_SS_GPIO_Port, SPI1_SS_Pin, GPIO_PIN_SET);
-	  }
-
-
-	  //retry logic
+	  //closing logic
+	  // Step 1: Overcurrent handling (disables channels if needed)
 	  for (uint8_t ic = 0; ic < IC_COUNT; ic++) {
 	      for (uint8_t ch = 0; ch < CHANNEL_COUNT; ch++) {
 	          handle_overcurrent(ic, ch, thresholds[ic][ch]);
 	      }
 	  }
-	  //retry logic
+
+	  // Step 2: Retry logic
 	  for (uint8_t ic = 0; ic < IC_COUNT; ic++) {
 	      for (uint8_t ch = 0; ch < CHANNEL_COUNT; ch++) {
-	          if (channel_disabled[ic][ch] && RTD_status) {
+	          if (channel_disabled[ic][ch] && !channel_permanently_disabled[ic][ch]) {
 	              uint32_t now = HAL_GetTick();
 	              uint32_t time_since = now - channel_last_attempt[ic][ch];
 
 	              if ((channel_retry_count[ic][ch] == 0 && time_since >= 5000) ||
-	                  (channel_retry_count[ic][ch] == 1 && time_since >= 10000))
-	              {
+	                  (channel_retry_count[ic][ch] == 1 && time_since >= 10000)
+					  (channel_retry_count[ic][ch] == 2 && time_since >= 15000)
+					  (channel_retry_count[ic][ch] == 3 && time_since >= 20000)
+					  (channel_retry_count[ic][ch] == 4 && time_since >= 25000)) {
+
 	                  uint8_t adc_index = 3 - ic;
 	                  fuse_currents[ic][ch] = mv_to_hma(__HAL_ADC_CALC_DATA_TO_VOLTAGE(
 	                      __VREFANALOG_VOLTAGE__, adc_buffer[adc_index], ADC_RESOLUTION12b));
 
 	                  if (fuse_currents[ic][ch] <= thresholds[ic][ch]) {
-	                      channel_states[ic] |= (1 << ch);
-	                      channel_disabled[ic][ch] = 0;
+	                      if (channel_retry_count[ic][ch] + 1 < MAX_RETRIES) {
+	                          channel_states[ic] |= (1 << ch);
+	                          channel_disabled[ic][ch] = 0;
+	                      }
 	                  }
 
 	                  channel_retry_count[ic][ch]++;
@@ -784,12 +943,41 @@ int main(void)
 	                  HAL_GPIO_WritePin(SPI1_SS_GPIO_Port, SPI1_SS_Pin, GPIO_PIN_SET);
 	              }
 
-	              if (channel_retry_count[ic][ch] >= 2) {
-	                  channel_disabled[ic][ch] = 0;
+	              // Final retry -> permanently disable and force off
+	              if (channel_retry_count[ic][ch] >= MAX_RETRIES) {
+	                  channel_disabled[ic][ch] = 1;
+	                  channel_permanently_disabled[ic][ch] = 1;
+	                  channel_states[ic] &= ~(1 << ch); // 🔒 Force OFF
 	              }
 	          }
 	      }
 	  }
+	  // Apply fan logic to IC1 (index 1)
+	  if (fan_forced_on_by_rtd || fan_temp_triggered) {
+	      for (uint8_t ch = 0; ch < 4; ch++) {
+	          if (!channel_disabled[1][ch] && !channel_permanently_disabled[1][ch]) {
+	              channel_states[1] |= (1 << ch); // turn ON if allowed
+	          }
+	      }
+	  } else {
+	      for (uint8_t ch = 0; ch < 4; ch++) {
+	          channel_states[1] &= ~(1 << ch); // turn OFF unconditionally
+	      }
+	  }
+
+	  // Step 3: Send updated channel states to all ICs (only once)
+	  for (uint8_t ic = 0; ic < IC_COUNT; ic++) {
+	      uint8_t tx_index = get_tx_index(ic);
+	      for (int i = 0; i < 5; i++) tx_buffer[i] = DCR_ACTIVE;
+	      tx_buffer[tx_index] = 0x80 | (channel_states[ic] & 0x0F);
+
+	      HAL_GPIO_WritePin(SPI1_SS_GPIO_Port, SPI1_SS_Pin, GPIO_PIN_RESET);
+	      HAL_SPI_TransmitReceive(&hspi1, tx_buffer, rx_buffer, 5, 100);
+	      HAL_GPIO_WritePin(SPI1_SS_GPIO_Port, SPI1_SS_Pin, GPIO_PIN_SET);
+	  }
+
+
+
 
 //previous retry logic
 //	  if (any_channel_closed && (HAL_GetTick() - last_shutdown_time >= 5000))
@@ -821,6 +1009,7 @@ int main(void)
 //	      }
 //	  }
 
+	  update_led_status(HAL_GetTick());
 
 	 	  after_first_loop = 1;
 
