@@ -182,9 +182,10 @@
 
 
 typedef enum {
-    STATUS_ON  = 0,  // Channel ON
-    STATUS_OFF = 1,  // Channel OFF
-    STATUS_ERR = 2   // Overcurrent / failure
+    STATUS_OFF = 0,  // Channel OFF
+    STATUS_ON  = 1,  // Channel ON
+    STATUS_ERR = 2,   // Overcurrent / failure
+	STATUS_LOCK= 3
 } ChannelStatus;
 
 typedef struct {
@@ -255,10 +256,10 @@ uint8_t channel_permanently_disabled[IC_COUNT][CHANNEL_COUNT] = {0};
 
 
 uint8_t thresholds[IC_COUNT][CHANNEL_COUNT] = {
-    {20, 20, 40, 20},	// IC0  2.0A, 2.0A, 3.0A, 5.0A
-    {20, 20, 30, 50},	// IC1
-    {20, 20, 30, 50},	// IC2
-    {20, 20, 30, 50} 	// IC3
+    {40, 50, 50, 40},	// IC0  2.0A, 2.0A, 3.0A, 5.0A
+    {50, 50, 50, 50},	// IC1
+    {30, 50, 50, 10},	// IC2
+    {30, 20, 50, 50} 	// IC3
 };
 uint32_t Ch2current;
 
@@ -436,9 +437,29 @@ void handle_overcurrent(uint8_t ic_index, uint8_t channel_number, uint8_t thresh
 //}
 
 ChannelStatus reduce_status(ChannelStatus a, ChannelStatus b) {
+	if (a == STATUS_LOCK || b == STATUS_LOCK) return STATUS_LOCK;
     if (a == STATUS_ERR || b == STATUS_ERR) return STATUS_ERR;
     if (a == STATUS_OFF || b == STATUS_OFF) return STATUS_OFF;
     return STATUS_ON;
+}
+ChannelStatus get_channel_status(uint8_t ic, uint8_t ch) {
+    if (channel_permanently_disabled[ic][ch]==1)
+    {
+        return STATUS_LOCK;
+    }
+    else if (fuse_currents[ic][ch] > thresholds[ic][ch])
+
+    {
+        return STATUS_ERR;
+    }
+    else  if(channel_states[ic] & (1 << ch))
+    {
+        return STATUS_ON;
+    }
+    else
+    {
+    	return STATUS_OFF;
+    }
 }
 
 SystemStatus get_system_status_from_channels() {
@@ -446,50 +467,53 @@ SystemStatus get_system_status_from_channels() {
 
     // IC0 = fuse1, IC1 = fuse2, IC2 = fuse3, IC3 = fuse4
 
-    // Get individual channel states
-    auto ch = [](uint8_t ic, uint8_t ch) -> ChannelStatus {
-        return (channel_states[ic] & (1 << ch)) ? STATUS_ON :
-               (fuse_currents[ic][ch] > thresholds[ic][ch]) ? STATUS_ERR : STATUS_OFF;
-    };
 
-
-    // PC: IC0 ch0-3
-    ChannelStatus pc = ch(0,0);
-    pc = reduce_status(pc, ch(0,1));
-    pc = reduce_status(pc, ch(0,2));
-    pc = reduce_status(pc, ch(0,3));
-    status.pc_status = pc;
 
     // FAN: IC1 ch0, ch2
-    status.fan_status = reduce_status(ch(1,0), ch(1,2));
+    status.fan_status = reduce_status(
+        get_channel_status(0, 0),
+        get_channel_status(0, 3)
+    );
 
     // PUMP: IC1 ch1, ch3
-    status.pump_status = reduce_status(ch(1,1), ch(1,3));
-
-    // INVERTER: IC2 ch0, ch1
-    status.inverter_status = reduce_status(ch(2,0), ch(2,1));
-
-    // FBOX: IC2 ch2
-    status.fbox_status = ch(2,2);
-
-    // SDC: IC2 ch3
-    status.sdc_status = ch(2,3);
+    status.pump_status = reduce_status(
+        get_channel_status(0, 1),
+        get_channel_status(0, 2)
+    );
+    // PC: IC0 ch0-3
+    ChannelStatus pc = get_channel_status(1, 0);
+    pc = reduce_status(pc, get_channel_status(1, 1));
+    pc = reduce_status(pc, get_channel_status(1, 2));
+    pc = reduce_status(pc, get_channel_status(1, 3));
+    status.pc_status = pc;
 
     // DASH: IC3 ch0
-    status.dash_status = ch(3,0);
+    status.dash_status = get_channel_status(2, 0);
 
-    // TSAL_HV: IC3 ch1
-    status.tsal_hv_status = ch(3,1);
-
-    // RBOX_DIAGPORT_BRAKE_L: IC3 ch2
-    status.rbox_diagport_brake_l_status = ch(3,2);
+    // SDC: IC2 ch3
+    status.sdc_status = get_channel_status(2, 1);
 
     // BRAKE_IR_AIR: IC3 ch3
-    status.brake_ir_air_status = ch(3,3);
+    status.brake_ir_air_status = get_channel_status(2, 2);
+
+    // FBOX: IC2 ch2
+    status.fbox_status = get_channel_status(2, 3);
+
+    // INVERTER: IC2 ch0, ch1
+    status.inverter_status = reduce_status(
+        get_channel_status(3, 0),
+        get_channel_status(3, 1)
+    );
+
+    // RBOX_DIAGPORT_BRAKE_L: IC3 ch2
+    status.rbox_diagport_brake_l_status = get_channel_status(3, 2);
+
+    // TSAL_HV: IC3 ch1
+    status.tsal_hv_status = get_channel_status(3, 3);
+
 
     return status;
 }
-
 // summing of the current for CAN
 uint32_t current_sum(std::initializer_list<std::pair<uint8_t, uint8_t>> list) {
     uint32_t sum = 0;
@@ -523,7 +547,8 @@ bool is_temp_low() {
 
 void update_fan_channel_logic() {
     // Update state based on RTD
-    if (RTD_status) {
+//    if (RTD_status) {
+	if (RTD_status) {
         fan_forced_on_by_rtd = true;
     } else {
         fan_forced_on_by_rtd = false;
@@ -663,8 +688,10 @@ int main(void)
 		  auto pc_data=PUTM_CAN::can.get_pc_main_data();
 		  RTD_status = pc_data.rtd;
 	  }
+
+
 	  if(PUTM_CAN::can.get_pc_temperature_data_new_data()){
-	 		 auto pc_temp=PUTM_CAN::can.get_pc_temperature_data();
+	 		 auto pc_temp = PUTM_CAN::can.get_pc_temperature_data();
 
 	 		 rearRightInverterTemperature = pc_temp.rearRightInverterTemperature; // Range 20-100
 	 		 rearLeftInverterTemperature = pc_temp.rearLeftInverterTemperature;  // Range 20-100
@@ -694,12 +721,12 @@ int main(void)
 
 
 	  PUTM_CAN::PduData pdu_data {
-	      .pc_current = current_sum({{0, 0}, {0, 1}, {0, 2}, {0, 3}}),               // IC0 ch0–3
-	      .pump_current = current_sum({{1, 1}, {1, 3}}),                             // IC1 ch1, ch3
-	      .fan_current = current_sum({{1, 0}, {1, 2}}),                              // IC1 ch0, ch2
-	      .inverter_current = current_sum({{2, 0}, {2, 1}}),                         // IC2 ch0, ch1
-	      .fbox_current = fuse_currents[2][2],                                      // IC2 ch2
-	      .sdc_current = fuse_currents[2][3],                                       // IC2 ch3
+	      .pc_current = current_sum({{1, 0}, {1, 1}, {1, 2}, {1, 3}}),               // IC0 ch0–3
+	      .pump_current = current_sum({{0, 1}, {0, 2}}),                             // IC1 ch1, ch3
+	      .fan_current = current_sum({{0, 0}, {0, 3}}),                              // IC1 ch0, ch2
+	      .inverter_current = current_sum({{3, 0}, {3, 1}}),                         // IC2 ch0, ch1
+	      .fbox_current = fuse_currents[2][3],                                      // IC2 ch2
+	      .sdc_current = fuse_currents[2][1],                                       // IC2 ch3
 	      .total_current = total_current_calc(fuse_currents)
 	  };
 
@@ -834,10 +861,10 @@ total_current = total_current_calc(fuse_currents);
 	  HAL_SPI_TransmitReceive(&hspi1, tx_buffer, rx_buffer, 5, 100);
 	  HAL_GPIO_WritePin(SPI1_SS_GPIO_Port, SPI1_SS_Pin, GPIO_PIN_SET);
 	  // check current on channel 3 - 7A // value fuse = 217,4*current + 93
-	  fuse_currents[0][3] = mv_to_hma(__HAL_ADC_CALC_DATA_TO_VOLTAGE(__VREFANALOG_VOLTAGE__, adc_buffer[3], ADC_RESOLUTION12b)); // IC0
-	  fuse_currents[1][3] = mv_to_hma(__HAL_ADC_CALC_DATA_TO_VOLTAGE(__VREFANALOG_VOLTAGE__, adc_buffer[2], ADC_RESOLUTION12b)); // IC1
-	  fuse_currents[2][3] = mv_to_hma(__HAL_ADC_CALC_DATA_TO_VOLTAGE(__VREFANALOG_VOLTAGE__, adc_buffer[1], ADC_RESOLUTION12b)); // IC2
-	  fuse_currents[3][3] = mv_to_hma(__HAL_ADC_CALC_DATA_TO_VOLTAGE(__VREFANALOG_VOLTAGE__, adc_buffer[0], ADC_RESOLUTION12b)); // IC3
+	  fuse_currents[0][3] = mv_to_hma2(__HAL_ADC_CALC_DATA_TO_VOLTAGE(__VREFANALOG_VOLTAGE__, adc_buffer[3], ADC_RESOLUTION12b)); // IC0
+	  fuse_currents[1][3] = mv_to_hma2(__HAL_ADC_CALC_DATA_TO_VOLTAGE(__VREFANALOG_VOLTAGE__, adc_buffer[2], ADC_RESOLUTION12b)); // IC1
+	  fuse_currents[2][3] = mv_to_hma2(__HAL_ADC_CALC_DATA_TO_VOLTAGE(__VREFANALOG_VOLTAGE__, adc_buffer[1], ADC_RESOLUTION12b)); // IC2
+	  fuse_currents[3][3] = mv_to_hma2(__HAL_ADC_CALC_DATA_TO_VOLTAGE(__VREFANALOG_VOLTAGE__, adc_buffer[0], ADC_RESOLUTION12b)); // IC3
 	  //activating each channel individually by calling a function
 
 
@@ -915,9 +942,9 @@ total_current = total_current_calc(fuse_currents);
 	              uint32_t time_since = now - channel_last_attempt[ic][ch];
 
 	              if ((channel_retry_count[ic][ch] == 0 && time_since >= 5000) ||
-	                  (channel_retry_count[ic][ch] == 1 && time_since >= 10000)
-					  (channel_retry_count[ic][ch] == 2 && time_since >= 15000)
-					  (channel_retry_count[ic][ch] == 3 && time_since >= 20000)
+	                  (channel_retry_count[ic][ch] == 1 && time_since >= 10000) ||
+					  (channel_retry_count[ic][ch] == 2 && time_since >= 15000) ||
+					  (channel_retry_count[ic][ch] == 3 && time_since >= 20000) ||
 					  (channel_retry_count[ic][ch] == 4 && time_since >= 25000)) {
 
 	                  uint8_t adc_index = 3 - ic;
@@ -955,13 +982,13 @@ total_current = total_current_calc(fuse_currents);
 	  // Apply fan logic to IC1 (index 1)
 	  if (fan_forced_on_by_rtd || fan_temp_triggered) {
 	      for (uint8_t ch = 0; ch < 4; ch++) {
-	          if (!channel_disabled[1][ch] && !channel_permanently_disabled[1][ch]) {
-	              channel_states[1] |= (1 << ch); // turn ON if allowed
+	          if (!channel_disabled[0][ch] && !channel_permanently_disabled[0][ch]) {
+	              channel_states[0] |= (1 << ch); // turn ON if allowed
 	          }
 	      }
 	  } else {
 	      for (uint8_t ch = 0; ch < 4; ch++) {
-	          channel_states[1] &= ~(1 << ch); // turn OFF unconditionally
+	          channel_states[0] &= ~(1 << ch); // turn OFF unconditionally
 	      }
 	  }
 
