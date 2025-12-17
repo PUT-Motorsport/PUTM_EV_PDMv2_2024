@@ -1,4 +1,4 @@
-15865217759288
+26780038455037793
 Audio_Module
 Reverb_BTDR-1H
 Digital Reverberation Unit, http://www.belton.co.kr/inc/downfile.php?seq=17&file=pdf (footprint from http://www.uk-electronic.de/PDF/BTDR-1.pdf)
@@ -13,13 +13,6 @@ audio belton reverb
 0
 7
 7
-BTS722204ESAXUMA1
-SOP65P600X115-25N
-BTS722204ESAXUMA1
-Integrated Circuit
-0
-25
-25
 Battery
 BatteryClip_Keystone_54_D16-19mm
 Battery clip for batteries with a diameter between 16-19 mm: https://www.keyelco.com/product.cfm/product_id/826
@@ -61382,13 +61375,6 @@ One digit LED 7 segment SA39-11 SC39-11 SA39-12 SC39-12
 0
 10
 10
-FTSH-107-01-L-DV-K-A
-FTSH-107-XX-YYY-DV-K-A
-FTSH-107-XX-YYY-DV-K-A
-Connector
-0
-14
-14
 Ferrite_THT
 LairdTech_28C0236-0JW-10
 Ferrite, vertical, LairdTech 28C0236-0JW-10, https://assets.lairdtech.com/home/brandworld/files/28C0236-0JW-10.pdf, JW Miller core https://www.bourns.com/products/magnetic-products/j.w.-miller-through-hole-ferrite-beads-emi-filters
@@ -62684,13 +62670,6 @@ heatsink
 0
 0
 0
-IPBS-110-01-T-D-GP
-SAMTEC_IPBS-110-01-XX-D-GP
-
-
-0
-20
-20
 Inductor_SMD
 L_6.3x6.3_H3
 Choke, SMD, 6.3x6.3mm 3mm height
@@ -74738,6 +74717,41 @@ DIL DIP PDIP 2.54mm 7.62mm 300mil
 0
 4
 4
+PDM
+74650073R
+74650073R-1
+Connector
+0
+4
+4
+PDM
+FTSH-107-XX-YYY-D-K
+FTSH-107-XX-YYY-D-K
+Connector
+0
+14
+14
+PDM
+IPBS11001TDGP
+IPBS-110-01-T-D-GP-2
+Connector
+0
+20
+20
+PDM
+SOP65P600X115-25N
+BTS722204ESAXUMA1
+Integrated Circuit
+0
+25
+25
+PUTM_logo
+PUTM_logo
+
+
+0
+0
+0
 Package_BGA
 Alliance_TFBGA-36_6x8mm_Layout6x8_P0.75mm
 Alliance TFBGA-36, NSMD, 6.0x8.0mm, 36 Ball, 6x8 Layout, 0.75mm Pitch, generated with kicad-footprint-generator ipc_bga_generator.py, https://www.alliancememory.com/wp-content/uploads/pdf/AS6C1008_Mar_2023V1.2.pdf#page=13
@@ -94975,20 +94989,6 @@ WiFi IEEE802.11 b/g/n
 0
 44
 44
-Redcube
-7464100
-7464100-3
-Connector
-0
-12
-12
-Redcube conn
-74650073R
-74650073R-1
-Connector
-0
-4
-4
 Relay_SMD
 Relay_2P2T_10x6mm_TE_IMxxG
 Signal Relay, 10x6mm, 2 Form C, Gull Wings, https://www.te.com/commerce/DocumentDelivery/DDEController?Action=showdoc&DocId=Data+Sheet%7F108-98001%7FZ.1%7Fpdf%7FEnglish%7FENG_DS_108-98001_Z.1.pdf
@@ -97313,13 +97313,6 @@ rotary encoder illuminated switch vertical
 0
 9
 8
-SKL34
-SODFL3718X140N
-SKL34
-Diode
-0
-2
-2
 Sensor
 ASAIR_AM2302_P2.54mm_Lead2.75mm_TabDown
 Temperature and humidity module, http://akizukidenshi.com/download/ds/aosong/AM2302.pdf
@@ -105622,20 +105615,6 @@ igbt diode module
 0
 25
 25
-UPT-02-01-01-L-RA
-SAMTEC_UPT-02-01-01-X-RA
-
-
-0
-12
-12
-UPT-08-01.0-01-L-RA
-UPT080101LRA
-UPT-08-01-01-L-RA-2
-Connector
-0
-48
-48
 Valve
 Valve_ECC-83-1
 Valve ECC-83-1 round pins
@@ -106417,13 +106396,6 @@ Varistor
 Varistor_Panasonic_VF
 Panasonic VF series varistor, 6x8mm body, 3.2mm height, https://mediap.industry.panasonic.eu/assets/imported/industrial.panasonic.com/cdbs/www-data/pdf/AWA0000/AWA0000C4.pdf
 Varistor VF
-0
-2
-2
-inductor6_3
-7447714220
-WE-PD_1030/105054
-Inductor
 0
 2
 2
