@@ -67,16 +67,6 @@
 	)
 	(bus
 		(pts
-			(xy 106.68 120.65) (xy 106.68 82.55)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "2d5649db-7629-4109-bb03-164fe984abcd")
-	)
-	(bus
-		(pts
 			(xy 101.6 72.39) (xy 127 72.39)
 		)
 		(stroke
@@ -177,16 +167,6 @@
 	)
 	(bus
 		(pts
-			(xy 101.6 120.65) (xy 106.68 120.65)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "a1e154fa-e568-4265-b541-92122ae1d929")
-	)
-	(bus
-		(pts
 			(xy 101.6 77.47) (xy 127 77.47)
 		)
 		(stroke
@@ -244,16 +224,6 @@
 			(type default)
 		)
 		(uuid "c33faeec-46cc-4244-9f44-5f2571d28327")
-	)
-	(bus
-		(pts
-			(xy 106.68 82.55) (xy 127 82.55)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "c577b857-fe0a-4cfe-b350-4517ebc5d6d5")
 	)
 	(bus
 		(pts
@@ -362,16 +332,6 @@
 		(pin "USART{TX RX}" bidirectional
 			(at 127 87.63 180)
 			(uuid "6662b35a-b62e-4ece-a27f-f348ad655b83")
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(pin "USB{- +}" bidirectional
-			(at 127 82.55 180)
-			(uuid "ce651e91-c0f2-4c7e-87bb-81e1d25b81f7")
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -525,16 +485,6 @@
 		(pin "USART{TX RX}" bidirectional
 			(at 101.6 127 0)
 			(uuid "60a58cb4-6369-4762-9355-ef019080f476")
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify right)
-			)
-		)
-		(pin "USB{- +}" bidirectional
-			(at 101.6 120.65 0)
-			(uuid "889d218b-027d-45c0-accd-8a1b543ebb6c")
 			(effects
 				(font
 					(size 1.27 1.27)
