@@ -2,7 +2,7 @@
 	(version 20250114)
 	(generator "eeschema")
 	(generator_version "9.0")
-	(uuid "4c0b7f13-4f0f-4f96-acd3-efec701181e9")
+	(uuid "9c50d003-7aa6-4f40-b665-aa9da40a6533")
 	(paper "A4")
 	(title_block
 		(title "PDUv3")
@@ -1230,7 +1230,7 @@
 		(fill
 			(type none)
 		)
-		(uuid 015e9b3c-9834-4017-994d-e6afa1f72356)
+		(uuid 34efbdce-e5d7-4f33-84df-f9e430babd40)
 	)
 	(rectangle
 		(start 110.49 106.68)
@@ -1242,7 +1242,7 @@
 		(fill
 			(type none)
 		)
-		(uuid 724d61c5-e073-4425-a667-55eff5245af6)
+		(uuid 7d46fcf2-3f8f-4134-a9b5-6622c87a0def)
 	)
 	(rectangle
 		(start 190.5 124.46)
@@ -1254,30 +1254,9 @@
 		(fill
 			(type none)
 		)
-		(uuid 819a84af-5e2f-4717-89c4-f18fe233a0fd)
+		(uuid 879a3f55-4ef2-4a55-b560-dddd844d22a7)
 	)
-	(text "1* 1k2 to 330R - daisy chain"
-		(exclude_from_sim no)
-		(at 205.74 127 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-		)
-		(uuid "1611fdd2-291e-4ab1-9f0b-d4be957feb0f")
-	)
-	(text "4A max"
-		(exclude_from_sim no)
-		(at 186.69 83.82 0)
-		(effects
-			(font
-				(size 0.6 0.6)
-			)
-			(justify left bottom)
-		)
-		(uuid "17d4bc16-f04d-4593-9b03-1db8158950ce")
-	)
-	(text "POWER CONTROLLER 1"
+	(text "POWER CONTROLLER 3"
 		(exclude_from_sim no)
 		(at 76.2 41.91 0)
 		(effects
@@ -1289,7 +1268,17 @@
 			)
 			(justify left)
 		)
-		(uuid "ad125223-6e1c-47af-ad17-848ad48658d6")
+		(uuid "51712389-e74c-4c2c-be5f-8ca7f2e3a001")
+	)
+	(text "Optional"
+		(exclude_from_sim no)
+		(at 121.92 130.81 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		(uuid "6c296bff-c6c8-49dd-94de-c7b3279e3bdc")
 	)
 	(text "7A max"
 		(exclude_from_sim no)
@@ -1300,17 +1289,7 @@
 			)
 			(justify left bottom)
 		)
-		(uuid "ba32887c-54e7-4efd-93aa-0d87a73ac531")
-	)
-	(text "Optional"
-		(exclude_from_sim no)
-		(at 121.92 130.81 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-		)
-		(uuid "bfb487fe-5c53-44e0-ad79-8f195b55a0f4")
+		(uuid "7cd4b625-6119-4d6e-8fee-8c23a76db04a")
 	)
 	(text "7A max"
 		(exclude_from_sim no)
@@ -1321,7 +1300,7 @@
 			)
 			(justify left bottom)
 		)
-		(uuid "c3f08428-56cc-44cc-bf25-1a63c1797b96")
+		(uuid "92e1643a-10e4-4c04-83f9-69341435fdbe")
 	)
 	(text "4A max"
 		(exclude_from_sim no)
@@ -1332,7 +1311,18 @@
 			)
 			(justify left bottom)
 		)
-		(uuid "d551d20c-fd1d-4031-8775-63c41ab1e6b2")
+		(uuid "d052efaa-151b-4bcf-98fa-beb95b1819f5")
+	)
+	(text "4A max"
+		(exclude_from_sim no)
+		(at 186.69 83.82 0)
+		(effects
+			(font
+				(size 0.6 0.6)
+			)
+			(justify left bottom)
+		)
+		(uuid "d0976410-680d-4bba-a887-d548834ee3e0")
 	)
 	(text "1*"
 		(exclude_from_sim no)
@@ -1342,623 +1332,173 @@
 				(size 1.27 1.27)
 			)
 		)
-		(uuid "f959d4f9-6c03-4412-a06f-fcc29a6d34e5")
+		(uuid "d9cb1b9a-d83c-46db-abb7-616fe7804782")
 	)
-	(junction
-		(at 185.42 91.44)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "04766afc-39f1-4537-b3ea-dc9fc4428d1c")
-	)
-	(junction
-		(at 130.81 99.06)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "0828c40e-c503-4f7c-9c98-625d342982e9")
-	)
-	(junction
-		(at 147.32 53.34)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "0b4016f1-f450-4fa4-9f24-e24c9e45a284")
-	)
-	(junction
-		(at 185.42 73.66)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "13906022-6ae7-4260-8566-65fdaf4c55b0")
-	)
-	(junction
-		(at 195.58 83.82)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "1517487a-959f-427b-93cf-c250b7a14848")
-	)
-	(junction
-		(at 199.39 111.76)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "195b7881-5ace-4bd5-8a75-8936637ce464")
-	)
-	(junction
-		(at 185.42 76.2)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "3202e57c-3442-4adc-8279-c315b6d63a88")
-	)
-	(junction
-		(at 130.81 93.98)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "514d5c16-13b0-4629-b270-f2c1f98771a2")
-	)
-	(junction
-		(at 185.42 78.74)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "52ece262-c723-4e15-ba8a-54d4206cee1f")
-	)
-	(junction
-		(at 191.77 73.66)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "53b3bc2e-7d2f-4d59-8fef-d1d2540793a0")
-	)
-	(junction
-		(at 185.42 99.06)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "5e7ac649-f022-487e-9775-dfc85f1eb9fe")
-	)
-	(junction
-		(at 195.58 111.76)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "682d4cf8-0380-432e-8a46-1fdc935b2fe7")
-	)
-	(junction
-		(at 199.39 91.44)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "6c9b282e-7be0-46c1-9366-0e355ed5eb69")
-	)
-	(junction
-		(at 185.42 96.52)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "8568c664-ff6d-440c-9c78-e3a73932c4f9")
-	)
-	(junction
-		(at 137.16 114.3)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "8be1e5a9-db82-4a96-b13f-f40a9ea7ca5e")
-	)
-	(junction
-		(at 185.42 83.82)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "8ea468a0-d745-42bb-beb5-56ad7615bf37")
-	)
-	(junction
-		(at 130.81 96.52)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "9673c30a-cd06-476e-a3dc-6e10b201a3cb")
-	)
-	(junction
-		(at 99.06 114.3)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "a72d2a93-b364-4dc3-9d25-6f9410a1b19c")
+	(text "1* 1k2 to 330R - daisy chain"
+		(exclude_from_sim no)
+		(at 205.74 127 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		(uuid "e3374f69-c2a2-4e9b-8fb9-d56971b48dd5")
 	)
 	(junction
 		(at 147.32 76.2)
 		(diameter 0)
 		(color 0 0 0 0)
-		(uuid "aa10292e-c1cd-4bbf-bf95-a66763d1a296")
-	)
-	(junction
-		(at 147.32 63.5)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "ad12fdb0-0866-4c49-b2f8-0ac97c0c4a59")
-	)
-	(junction
-		(at 185.42 101.6)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "b0d534e3-2b36-4c90-a6bf-ceef692a601c")
+		(uuid "06a32434-9518-4a80-ade2-48be77bc1236")
 	)
 	(junction
 		(at 191.77 111.76)
 		(diameter 0)
 		(color 0 0 0 0)
-		(uuid "b3d5e7e7-4ef1-4bb8-bc91-cbed751af4f6")
+		(uuid "0b7d2633-bfa7-48ca-b94b-8c5461febc1d")
 	)
 	(junction
-		(at 203.2 101.6)
+		(at 137.16 114.3)
 		(diameter 0)
 		(color 0 0 0 0)
-		(uuid "be3ceeeb-23e7-43f1-89b9-16488d267fe0")
+		(uuid "0d4f32b0-e380-4aca-972f-a80dbd91421f")
+	)
+	(junction
+		(at 185.42 83.82)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "1b217d02-138b-4f1a-b1a9-884d095c1651")
+	)
+	(junction
+		(at 185.42 99.06)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "1b3614ce-63df-451c-8822-7ddb43d3a825")
+	)
+	(junction
+		(at 185.42 96.52)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "2ad31f34-7838-4cc1-8759-0b71bc6750f1")
+	)
+	(junction
+		(at 147.32 53.34)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "3479709b-4943-40e6-960c-6c2423127b0b")
 	)
 	(junction
 		(at 170.18 53.34)
 		(diameter 0)
 		(color 0 0 0 0)
-		(uuid "cbe4ab34-91d6-4ebd-a23b-0f802d964714")
+		(uuid "3b99bc4d-b9df-4290-9d21-27e5ba8bfdf5")
 	)
 	(junction
-		(at 134.62 63.5)
+		(at 185.42 78.74)
 		(diameter 0)
 		(color 0 0 0 0)
-		(uuid "dfe38303-5bdc-4ac8-9bc4-9db98ea420cf")
+		(uuid "4e6ecf53-03c1-4691-9361-f962275b26b9")
+	)
+	(junction
+		(at 99.06 114.3)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "5c093fbb-f46a-45c8-a559-9905ffd59834")
+	)
+	(junction
+		(at 185.42 76.2)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "60f94e3c-5a40-4d69-8c7e-d42a6611190c")
+	)
+	(junction
+		(at 195.58 111.76)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "79add874-6546-4a5b-ab5a-874d4ebfa1af")
 	)
 	(junction
 		(at 114.3 114.3)
 		(diameter 0)
 		(color 0 0 0 0)
-		(uuid "f0eb1c64-c769-40f3-af6c-39b9b70baf26")
+		(uuid "8792fe71-487d-4919-88d8-16666e9214b4")
 	)
-	(wire
-		(pts
-			(xy 130.81 96.52) (xy 134.62 96.52)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "0467ae97-e92c-43e3-b009-a44b956a5c43")
+	(junction
+		(at 185.42 73.66)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "8b1ef4c1-a577-44d6-8261-0ed09f15e9e7")
 	)
-	(wire
-		(pts
-			(xy 139.7 96.52) (xy 149.86 96.52)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "09c2aa9a-8c08-4193-a4ff-e145f0ab58fa")
+	(junction
+		(at 130.81 96.52)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "8f67e0fe-4ab7-4f30-bd05-71e3ccc00f86")
 	)
-	(wire
-		(pts
-			(xy 147.32 53.34) (xy 147.32 55.88)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "0a70be25-5d7f-42a9-b204-73feef53f832")
+	(junction
+		(at 130.81 99.06)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "a07e43a4-0b3c-4d33-a1f2-4d1b8e335eb9")
 	)
-	(wire
-		(pts
-			(xy 114.3 121.92) (xy 114.3 124.46)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "0aaa37ca-3da7-463e-b784-42ba31b940f3")
+	(junction
+		(at 203.2 101.6)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "a46239e0-79b0-4c9c-ab10-4f10447d8a71")
 	)
-	(wire
-		(pts
-			(xy 191.77 81.28) (xy 191.77 111.76)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "0af328a7-2af9-413d-9419-fa405b1b2769")
+	(junction
+		(at 185.42 101.6)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "a7a1293f-e86b-4de6-a003-5332b0f851ca")
 	)
-	(wire
-		(pts
-			(xy 134.62 63.5) (xy 138.43 63.5)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "0ce61d37-1a7f-4a62-98b6-f604ddc70a69")
+	(junction
+		(at 191.77 73.66)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "a948168e-d0c5-4a65-8ef5-f64c55f5aa7c")
 	)
-	(wire
-		(pts
-			(xy 185.42 101.6) (xy 203.2 101.6)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "11c91417-ef9a-418a-9e2f-9d51c9cfe498")
+	(junction
+		(at 147.32 63.5)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "b9b94f6b-5ba3-418d-a8df-cc7dd300a959")
 	)
-	(wire
-		(pts
-			(xy 185.42 88.9) (xy 185.42 91.44)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "130aa80a-d3d7-4737-b9fa-e87f21f93102")
+	(junction
+		(at 195.58 83.82)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "c5eb2e6e-5828-4146-89e9-b773703ab858")
 	)
-	(wire
-		(pts
-			(xy 99.06 121.92) (xy 99.06 124.46)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "15782871-23cb-40e4-94b0-efd8c5cec0b2")
+	(junction
+		(at 185.42 91.44)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "d060bd0f-0703-410e-99e4-3994b0778b34")
 	)
-	(wire
-		(pts
-			(xy 130.81 78.74) (xy 134.62 78.74)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "2031dddc-b8d9-4f5d-894e-59acb46b9a0f")
+	(junction
+		(at 134.62 63.5)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "d4a104d4-e6cb-4d9a-9de9-11e6bf2c337b")
 	)
-	(wire
-		(pts
-			(xy 130.81 99.06) (xy 134.62 99.06)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "22a423e7-d0e9-42ff-a456-1bc9f9f2a0d6")
+	(junction
+		(at 199.39 111.76)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "fcfad243-5ad8-46f6-b07a-7e248c9cde78")
 	)
-	(wire
-		(pts
-			(xy 114.3 114.3) (xy 114.3 116.84)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "22ac3801-f186-4d75-a7d3-c9e585637f2d")
+	(junction
+		(at 199.39 91.44)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "feaa64ac-44c0-4235-90bc-ca46088027e9")
 	)
-	(wire
-		(pts
-			(xy 185.42 78.74) (xy 185.42 81.28)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "290cb1b3-3ee5-45c1-8c58-ec27fda43355")
-	)
-	(wire
-		(pts
-			(xy 114.3 114.3) (xy 119.38 114.3)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "299cdf21-c394-4486-8248-38555d110044")
-	)
-	(wire
-		(pts
-			(xy 130.81 83.82) (xy 134.62 83.82)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "299e85f9-5a77-4cbd-8a86-47a6d1b90889")
-	)
-	(wire
-		(pts
-			(xy 99.06 114.3) (xy 104.14 114.3)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "2ab6b844-7c56-4449-835f-47b4d6695b0b")
-	)
-	(wire
-		(pts
-			(xy 128.27 76.2) (xy 147.32 76.2)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "3454d0f7-1e86-4f80-b6e2-5ee598c6ff43")
-	)
-	(wire
-		(pts
-			(xy 203.2 111.76) (xy 203.2 109.22)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "3733efe2-7a13-45de-9b0d-2f21a9051627")
-	)
-	(wire
-		(pts
-			(xy 191.77 76.2) (xy 191.77 73.66)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "3d25630f-e3f1-4903-b385-2ca1a04a8e9a")
-	)
-	(wire
-		(pts
-			(xy 185.42 96.52) (xy 185.42 99.06)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "3fc08af9-3d54-409f-903a-7063cf61f586")
-	)
-	(wire
-		(pts
-			(xy 185.42 93.98) (xy 185.42 96.52)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "401d8151-001c-4253-9c48-eb633cd53a4d")
-	)
-	(wire
-		(pts
-			(xy 139.7 86.36) (xy 149.86 86.36)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "409d772e-4d1f-4f07-8c0a-333d8211a396")
-	)
-	(wire
-		(pts
-			(xy 99.06 114.3) (xy 99.06 116.84)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "40c63271-f944-489d-aeea-8c067d11e607")
-	)
-	(wire
-		(pts
-			(xy 137.16 116.84) (xy 137.16 114.3)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "40ea9dd4-7a2e-4d5f-a6d1-373bbc30cc5b")
-	)
-	(wire
-		(pts
-			(xy 134.62 53.34) (xy 147.32 53.34)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "42669f6f-1ae2-401a-8c72-63134d46065c")
-	)
-	(wire
-		(pts
-			(xy 185.42 73.66) (xy 185.42 76.2)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "4518a196-4476-4e9a-a102-4a46c9738a82")
-	)
-	(wire
-		(pts
-			(xy 191.77 111.76) (xy 195.58 111.76)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "4630994a-0aaa-4d9f-aa24-8b1d44f4ac42")
-	)
-	(wire
-		(pts
-			(xy 137.16 121.92) (xy 137.16 124.46)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "475388c2-63b8-4d06-8aa0-94951b436daf")
-	)
-	(wire
-		(pts
-			(xy 130.81 93.98) (xy 134.62 93.98)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "4897f470-1738-4266-bed5-3c2d9004a462")
-	)
-	(wire
-		(pts
-			(xy 147.32 71.12) (xy 147.32 76.2)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "49c8a140-64f6-43e9-9202-2f15514dfb78")
-	)
-	(wire
-		(pts
-			(xy 147.32 63.5) (xy 147.32 66.04)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "4c33211a-7693-4db0-982e-905315d15aa1")
-	)
-	(wire
-		(pts
-			(xy 139.7 93.98) (xy 149.86 93.98)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "51d20cd5-3219-401c-a938-5ac0fc6c1af6")
-	)
-	(wire
-		(pts
-			(xy 147.32 63.5) (xy 163.83 63.5)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "53cf2c7d-8a86-44aa-8279-8991cb3e618a")
-	)
-	(wire
-		(pts
-			(xy 130.81 81.28) (xy 134.62 81.28)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "5c139557-9e9f-4e0f-b7a5-590a7303c172")
-	)
-	(wire
-		(pts
-			(xy 113.03 76.2) (xy 123.19 76.2)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "5d75a9b5-0b68-456d-b0c7-30487756e67f")
-	)
-	(wire
-		(pts
-			(xy 149.86 101.6) (xy 137.16 101.6)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "6313cd09-53be-4760-b1ed-6870cf216b79")
-	)
-	(wire
-		(pts
-			(xy 134.62 55.88) (xy 134.62 53.34)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "65db9d3b-e04c-4820-abf2-129ec1583ef9")
-	)
-	(wire
-		(pts
-			(xy 130.81 93.98) (xy 130.81 96.52)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "662b95d2-623d-4a68-882f-2b1fbc168279")
-	)
-	(wire
-		(pts
-			(xy 130.81 99.06) (xy 130.81 101.6)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "68143a9f-5a69-4199-89d4-213976e6d73e")
-	)
-	(wire
-		(pts
-			(xy 185.42 91.44) (xy 199.39 91.44)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "795a5f16-77eb-44a8-a8b6-aa6a112555d2")
-	)
-	(wire
-		(pts
-			(xy 191.77 73.66) (xy 214.63 73.66)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "7c262131-b93e-4ba6-9629-52510b268960")
-	)
-	(wire
-		(pts
-			(xy 139.7 81.28) (xy 149.86 81.28)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "7f3d8c07-dca6-4815-a015-f834665a9001")
-	)
-	(wire
-		(pts
-			(xy 137.16 101.6) (xy 137.16 114.3)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "83bfebd8-0d42-4a0b-965e-8126305c790b")
-	)
-	(wire
-		(pts
-			(xy 113.03 73.66) (xy 113.03 76.2)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "855beffa-3d72-4f23-be6a-e06fb7218f92")
-	)
-	(wire
-		(pts
-			(xy 147.32 60.96) (xy 147.32 63.5)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "86fb992b-4b2c-4685-8b54-6a47636a4b10")
-	)
-	(wire
-		(pts
-			(xy 143.51 63.5) (xy 147.32 63.5)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "87be8313-64f1-47a4-9446-1844a5a38071")
+	(junction
+		(at 130.81 93.98)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "ff058845-b20c-4b22-9510-c56ae4481cf1")
 	)
 	(wire
 		(pts
@@ -1968,207 +1508,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "88090538-9ff7-4fc4-8adb-cd4e25315112")
-	)
-	(wire
-		(pts
-			(xy 109.22 114.3) (xy 114.3 114.3)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "985afc41-df48-429a-ae91-0e6793c8e1b1")
-	)
-	(wire
-		(pts
-			(xy 195.58 90.17) (xy 195.58 111.76)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "a11ab442-8cdf-4fe0-82d4-4f515ce0f120")
-	)
-	(wire
-		(pts
-			(xy 130.81 86.36) (xy 134.62 86.36)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "a3021137-aa8b-4151-bbbd-6a736a85f4a1")
-	)
-	(wire
-		(pts
-			(xy 110.49 88.9) (xy 118.11 88.9)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "a43b5195-d436-4ab6-af2b-d5dbf9262567")
-	)
-	(wire
-		(pts
-			(xy 199.39 93.98) (xy 199.39 91.44)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "b11945e1-6abb-48d2-9ad5-fc042c55077d")
-	)
-	(wire
-		(pts
-			(xy 203.2 101.6) (xy 214.63 101.6)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "b2f28555-8029-4f40-8d66-44265e0b3350")
-	)
-	(wire
-		(pts
-			(xy 124.46 114.3) (xy 137.16 114.3)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "b3f674db-4f7e-4c3c-9bb8-332e3751663d")
-	)
-	(wire
-		(pts
-			(xy 139.7 78.74) (xy 149.86 78.74)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "b4973039-3dc9-4654-8478-17c6c22ddba1")
-	)
-	(wire
-		(pts
-			(xy 195.58 83.82) (xy 214.63 83.82)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "b5585bc7-c557-4126-ad8f-a6167352ba1c")
-	)
-	(wire
-		(pts
-			(xy 139.7 99.06) (xy 149.86 99.06)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "b96e731a-28f6-44c3-a007-bd693a572908")
-	)
-	(wire
-		(pts
-			(xy 195.58 111.76) (xy 199.39 111.76)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "bac8b5a3-a9a7-4cce-ac0f-86e2e6940e8a")
-	)
-	(wire
-		(pts
-			(xy 139.7 83.82) (xy 149.86 83.82)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "c24fd8bf-44dc-4f2b-babc-169fcfcfc4ea")
-	)
-	(wire
-		(pts
-			(xy 134.62 60.96) (xy 134.62 63.5)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "c48b930d-764e-49b2-9140-31548bb3dfb2")
-	)
-	(wire
-		(pts
-			(xy 199.39 99.06) (xy 199.39 111.76)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "c7050586-678b-4dec-8c97-4cf828200dc4")
-	)
-	(wire
-		(pts
-			(xy 130.81 91.44) (xy 130.81 93.98)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "c90babe8-c4f6-48fc-a383-96cec262a535")
-	)
-	(wire
-		(pts
-			(xy 185.42 83.82) (xy 195.58 83.82)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "ce19b7eb-9360-45ac-b564-67c6e6eae7c8")
-	)
-	(wire
-		(pts
-			(xy 130.81 96.52) (xy 130.81 99.06)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "d947e0b8-7a9d-4768-86fb-975306b66c87")
-	)
-	(wire
-		(pts
-			(xy 134.62 66.04) (xy 134.62 63.5)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "daf0d223-8cec-447c-9ee0-3df623b72393")
-	)
-	(wire
-		(pts
-			(xy 199.39 91.44) (xy 214.63 91.44)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "dc4d14d0-3fba-490b-a048-3248e2ced1fa")
-	)
-	(wire
-		(pts
-			(xy 199.39 111.76) (xy 203.2 111.76)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "dea3e265-8963-4b11-b468-6a58448a6f7d")
+		(uuid "001b4752-9b11-4999-993b-6fd464644154")
 	)
 	(wire
 		(pts
@@ -2178,97 +1518,37 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "e90c6cec-55fd-49d0-96b6-25641f5d924e")
+		(uuid "0767603e-a79e-4930-b2e7-24f58035ef93")
 	)
 	(wire
 		(pts
-			(xy 95.25 114.3) (xy 99.06 114.3)
+			(xy 195.58 111.76) (xy 199.39 111.76)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "e938c9f6-fe1c-4559-865c-5021a91ea7c7")
+		(uuid "081f18e0-f757-4bae-8e5d-e90eb0bd950a")
 	)
 	(wire
 		(pts
-			(xy 149.86 88.9) (xy 123.19 88.9)
+			(xy 130.81 78.74) (xy 134.62 78.74)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "eb592534-7649-4319-b9a1-16a9ce889627")
+		(uuid "10d86378-99d3-4db3-b76f-bc4b6b212be1")
 	)
 	(wire
 		(pts
-			(xy 185.42 76.2) (xy 185.42 78.74)
+			(xy 114.3 114.3) (xy 114.3 116.84)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "eb656b25-b979-4e54-8326-2c258f21f6a8")
-	)
-	(wire
-		(pts
-			(xy 185.42 83.82) (xy 185.42 86.36)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "eb9239fa-8c2c-46bb-a91b-7cbbdf044f04")
-	)
-	(wire
-		(pts
-			(xy 147.32 53.34) (xy 170.18 53.34)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "f0cc2794-6f3a-4f95-8129-af4bb05b3ebd")
-	)
-	(wire
-		(pts
-			(xy 139.7 91.44) (xy 149.86 91.44)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "f2fbb128-5c6d-4209-b135-936250db9c64")
-	)
-	(wire
-		(pts
-			(xy 163.83 63.5) (xy 163.83 66.04)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "f3148dd9-d823-48cd-b118-5ec18dd4b978")
-	)
-	(wire
-		(pts
-			(xy 195.58 85.09) (xy 195.58 83.82)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "f739bcfd-2fa1-4c35-891d-d91cab9437dd")
-	)
-	(wire
-		(pts
-			(xy 185.42 73.66) (xy 191.77 73.66)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "f8dd536a-9aa9-4c99-9adc-7cab687857cb")
+		(uuid "13088c7d-f35c-436f-9ffc-b85f5854f969")
 	)
 	(wire
 		(pts
@@ -2278,27 +1558,377 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "f985180c-3b6f-46bb-9c78-a66b88c3ba28")
+		(uuid "131f7619-4863-40e5-9367-c94fd574d5dc")
 	)
 	(wire
 		(pts
-			(xy 130.81 91.44) (xy 134.62 91.44)
+			(xy 139.7 91.44) (xy 149.86 91.44)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "fc5cbb85-f16d-4f11-be39-654194e54c48")
+		(uuid "159748ce-40c5-4258-9d87-395bc22b02b0")
 	)
 	(wire
 		(pts
-			(xy 170.18 53.34) (xy 173.99 53.34)
+			(xy 195.58 85.09) (xy 195.58 83.82)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "fd0de718-1bd6-4ad2-9273-e51b4f083c34")
+		(uuid "18f30f05-5c11-447a-9a1f-831eb3e124e8")
+	)
+	(wire
+		(pts
+			(xy 199.39 99.06) (xy 199.39 111.76)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "1b9b16c5-b682-49fd-ad61-8ab67d4ed985")
+	)
+	(wire
+		(pts
+			(xy 191.77 111.76) (xy 191.77 114.3)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "202400cc-1238-4b37-a04f-67f03a7deb48")
+	)
+	(wire
+		(pts
+			(xy 147.32 71.12) (xy 147.32 76.2)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "22e9e34a-2b9c-4d6a-9904-20fd28e8d85a")
+	)
+	(wire
+		(pts
+			(xy 163.83 63.5) (xy 163.83 66.04)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "274c6b80-1b51-4892-8e0e-eb53920b4110")
+	)
+	(wire
+		(pts
+			(xy 185.42 91.44) (xy 199.39 91.44)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "27e3ceb1-eac1-4bd8-86ad-fee8828efe7a")
+	)
+	(wire
+		(pts
+			(xy 99.06 114.3) (xy 99.06 116.84)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "28ca8174-6f25-46cf-8a79-43c06e490027")
+	)
+	(wire
+		(pts
+			(xy 191.77 81.28) (xy 191.77 111.76)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "29dd63ae-6dbf-421d-a91c-bea2648f77f3")
+	)
+	(wire
+		(pts
+			(xy 137.16 101.6) (xy 137.16 114.3)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "29f1e114-b606-4f76-bb48-967ad591cbe5")
+	)
+	(wire
+		(pts
+			(xy 147.32 63.5) (xy 147.32 66.04)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "2b810614-df33-4584-a9ab-c2e16bb83e67")
+	)
+	(wire
+		(pts
+			(xy 185.42 73.66) (xy 185.42 76.2)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "2b821be3-3cdc-49f3-a4db-d94b282d4bc0")
+	)
+	(wire
+		(pts
+			(xy 191.77 73.66) (xy 214.63 73.66)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "2ea22783-1037-48f8-b878-1436704e1599")
+	)
+	(wire
+		(pts
+			(xy 139.7 81.28) (xy 149.86 81.28)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "300f2a9c-5e5f-457b-a6aa-516e524a7e75")
+	)
+	(wire
+		(pts
+			(xy 139.7 96.52) (xy 149.86 96.52)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "374bb984-9323-44a5-bce6-85b0a0eae052")
+	)
+	(wire
+		(pts
+			(xy 185.42 83.82) (xy 185.42 86.36)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "3b79d1df-6310-4757-b9c0-7fc738ab7551")
+	)
+	(wire
+		(pts
+			(xy 124.46 114.3) (xy 137.16 114.3)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "3c9c02ca-e61f-40b2-93ba-3b3caee11375")
+	)
+	(wire
+		(pts
+			(xy 185.42 88.9) (xy 185.42 91.44)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "415a9fb0-be75-4680-9d01-54a2c1b0d2e5")
+	)
+	(wire
+		(pts
+			(xy 134.62 55.88) (xy 134.62 53.34)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "434e5c14-abb5-4ed1-ba45-9f85243791e0")
+	)
+	(wire
+		(pts
+			(xy 185.42 93.98) (xy 185.42 96.52)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "4bf9c0b3-91c7-43f1-8e7d-86d37f1348b1")
+	)
+	(wire
+		(pts
+			(xy 147.32 63.5) (xy 163.83 63.5)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "4f51ebf8-4c45-4ca3-a6fb-e9860263935a")
+	)
+	(wire
+		(pts
+			(xy 147.32 60.96) (xy 147.32 63.5)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "50e42289-f85b-46a0-a654-57c006e3bea4")
+	)
+	(wire
+		(pts
+			(xy 99.06 121.92) (xy 99.06 124.46)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "598d4627-ad14-4496-924a-fa0bc973b3df")
+	)
+	(wire
+		(pts
+			(xy 130.81 86.36) (xy 134.62 86.36)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "59dd2f5a-cf60-4452-bd0f-4682304cb8a2")
+	)
+	(wire
+		(pts
+			(xy 195.58 83.82) (xy 214.63 83.82)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "5a02e56a-d6e6-4084-b797-5da829ed2aa4")
+	)
+	(wire
+		(pts
+			(xy 128.27 76.2) (xy 147.32 76.2)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "5b20d76a-62f3-41f8-b207-5b582cf484f4")
+	)
+	(wire
+		(pts
+			(xy 134.62 63.5) (xy 138.43 63.5)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "5d5e1a58-98c4-489f-9829-70f8d5f83977")
+	)
+	(wire
+		(pts
+			(xy 195.58 90.17) (xy 195.58 111.76)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "601316fa-2d16-4d73-9104-629adaff3332")
+	)
+	(wire
+		(pts
+			(xy 134.62 66.04) (xy 134.62 63.5)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "608452b3-6c1c-45ca-9810-bdb6f1d0edb5")
+	)
+	(wire
+		(pts
+			(xy 130.81 99.06) (xy 130.81 101.6)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "61cdd6a9-9e38-4279-87c7-988fc88f1e21")
+	)
+	(wire
+		(pts
+			(xy 114.3 114.3) (xy 119.38 114.3)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "61dce6fe-2cfd-45f4-9962-ff05fd6594ef")
+	)
+	(wire
+		(pts
+			(xy 110.49 88.9) (xy 118.11 88.9)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "6513516a-8656-4320-be3f-5f11aae001db")
+	)
+	(wire
+		(pts
+			(xy 113.03 76.2) (xy 123.19 76.2)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "6b857de2-ab96-40d6-ad87-5ad7a660bedb")
+	)
+	(wire
+		(pts
+			(xy 139.7 83.82) (xy 149.86 83.82)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "73012b49-672f-4723-a56d-d68a4736ba95")
+	)
+	(wire
+		(pts
+			(xy 130.81 99.06) (xy 134.62 99.06)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "7438f779-99a6-4fda-94aa-27fe05d40750")
+	)
+	(wire
+		(pts
+			(xy 143.51 63.5) (xy 147.32 63.5)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "74c1c01a-5001-49f7-b027-aba8516f9287")
+	)
+	(wire
+		(pts
+			(xy 95.25 114.3) (xy 99.06 114.3)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "7aad12a1-080f-472b-9eb6-96dbbc8f1d2e")
 	)
 	(wire
 		(pts
@@ -2308,77 +1938,397 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "feba8028-95c3-462d-a7f3-a812cdaacee9")
+		(uuid "7c939377-6df5-47e5-afb1-dd98048463be")
 	)
 	(wire
 		(pts
-			(xy 191.77 114.3) (xy 191.77 111.76)
+			(xy 139.7 86.36) (xy 149.86 86.36)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "fee6baac-a66b-4c5e-af14-410e95089177")
+		(uuid "81b9d75d-96bc-4fa5-86eb-dcbe19551458")
 	)
-	(label "PC1_GND"
-		(at 163.83 63.5 180)
-		(effects
-			(font
-				(size 0.5 0.5)
-			)
-			(justify right bottom)
+	(wire
+		(pts
+			(xy 147.32 53.34) (xy 170.18 53.34)
 		)
-		(uuid "1521c6d7-9e43-40da-b61a-184eafc451fd")
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "82a364c3-1cb2-43d9-a595-7de3b5960f89")
+	)
+	(wire
+		(pts
+			(xy 147.32 53.34) (xy 147.32 55.88)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "833785af-205e-4067-8519-b564689d596f")
+	)
+	(wire
+		(pts
+			(xy 137.16 121.92) (xy 137.16 124.46)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "8a452994-99bb-4581-92ec-c85bd5e235a1")
+	)
+	(wire
+		(pts
+			(xy 203.2 101.6) (xy 214.63 101.6)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "8e3e407b-ba10-4714-95c0-ef0fdbefa333")
+	)
+	(wire
+		(pts
+			(xy 137.16 116.84) (xy 137.16 114.3)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "91b1300c-8a2e-47d1-a680-dbc010729c40")
+	)
+	(wire
+		(pts
+			(xy 139.7 78.74) (xy 149.86 78.74)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "94fa7c57-cbe6-4877-a0ed-28f0d16873c2")
+	)
+	(wire
+		(pts
+			(xy 185.42 76.2) (xy 185.42 78.74)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "95a2c78c-81e5-4ff4-bd22-e3843b33b275")
+	)
+	(wire
+		(pts
+			(xy 109.22 114.3) (xy 114.3 114.3)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "9dd518e2-e144-4094-814a-9c6a668218a9")
+	)
+	(wire
+		(pts
+			(xy 113.03 73.66) (xy 113.03 76.2)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "9f643139-3229-419d-83e0-fa2a1f37d360")
+	)
+	(wire
+		(pts
+			(xy 185.42 101.6) (xy 203.2 101.6)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "a0a11671-edb1-42e6-b500-51aee5e269d9")
+	)
+	(wire
+		(pts
+			(xy 114.3 121.92) (xy 114.3 124.46)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "a70f9d38-6e3a-411b-94ad-65370c2c8837")
+	)
+	(wire
+		(pts
+			(xy 199.39 93.98) (xy 199.39 91.44)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "a84155a3-a7d8-4e95-90b2-44b2a4a0abdb")
+	)
+	(wire
+		(pts
+			(xy 149.86 88.9) (xy 123.19 88.9)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "a8f7029a-53bf-402e-870f-a59411ca0189")
+	)
+	(wire
+		(pts
+			(xy 134.62 53.34) (xy 147.32 53.34)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "b06f00ca-6377-4132-93ce-43c60f9645e9")
+	)
+	(wire
+		(pts
+			(xy 199.39 91.44) (xy 214.63 91.44)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "c1e07903-8404-47f8-bf00-fe66005ae2fe")
+	)
+	(wire
+		(pts
+			(xy 134.62 60.96) (xy 134.62 63.5)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "c6b5e282-233f-45ea-a0be-61a5406ea310")
+	)
+	(wire
+		(pts
+			(xy 130.81 96.52) (xy 134.62 96.52)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "c8a1f2f8-241e-4c4c-bb74-3bad38bc1838")
+	)
+	(wire
+		(pts
+			(xy 130.81 83.82) (xy 134.62 83.82)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "cbb8b760-46ca-433a-beff-97ee6247f121")
+	)
+	(wire
+		(pts
+			(xy 185.42 83.82) (xy 195.58 83.82)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "d35f7272-c981-4e0f-8fec-297d1ce35707")
+	)
+	(wire
+		(pts
+			(xy 139.7 99.06) (xy 149.86 99.06)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "d40ef7d9-7805-4b4e-a48f-fd4f46e7de15")
+	)
+	(wire
+		(pts
+			(xy 185.42 73.66) (xy 191.77 73.66)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "d4152eb4-6b21-48ad-9038-06288dc22870")
+	)
+	(wire
+		(pts
+			(xy 170.18 53.34) (xy 173.99 53.34)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "d4f1d1cd-dc25-4a67-bc4d-ecebbb549102")
+	)
+	(wire
+		(pts
+			(xy 130.81 91.44) (xy 134.62 91.44)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "d86f4755-64ea-4391-817b-7168bd0c6e0c")
+	)
+	(wire
+		(pts
+			(xy 130.81 91.44) (xy 130.81 93.98)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "d9b10479-d7ca-405d-927e-47d0535a3b68")
+	)
+	(wire
+		(pts
+			(xy 99.06 114.3) (xy 104.14 114.3)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "da2cbeb8-5c18-4d0a-a638-69d2a6c93203")
+	)
+	(wire
+		(pts
+			(xy 130.81 96.52) (xy 130.81 99.06)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "e41858ad-740b-43e3-8ab3-2d161d5d5f63")
+	)
+	(wire
+		(pts
+			(xy 185.42 78.74) (xy 185.42 81.28)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "e504e3d8-b11d-4729-bede-17f62cb4db4a")
+	)
+	(wire
+		(pts
+			(xy 149.86 101.6) (xy 137.16 101.6)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "e58130e6-8d9a-46fe-bcdf-d00ae7cff873")
+	)
+	(wire
+		(pts
+			(xy 191.77 111.76) (xy 195.58 111.76)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "e5a8a058-d2ed-43b7-ac54-20a191f6f1db")
+	)
+	(wire
+		(pts
+			(xy 130.81 81.28) (xy 134.62 81.28)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "e81c156a-f92f-4b48-b384-35fe73648859")
+	)
+	(wire
+		(pts
+			(xy 191.77 76.2) (xy 191.77 73.66)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "ee696a88-c45a-4056-9c95-1030281bd84f")
+	)
+	(wire
+		(pts
+			(xy 130.81 93.98) (xy 134.62 93.98)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "f20e3b93-59a8-4ee7-87b9-12e9605b211a")
+	)
+	(wire
+		(pts
+			(xy 139.7 93.98) (xy 149.86 93.98)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "f2b21ea2-7698-4399-87d9-7697cef306e7")
+	)
+	(wire
+		(pts
+			(xy 185.42 96.52) (xy 185.42 99.06)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "f3a29bb6-4616-407c-9f62-ef946cdd28cb")
+	)
+	(wire
+		(pts
+			(xy 199.39 111.76) (xy 203.2 111.76)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "f98e24ed-45aa-4e6c-b42a-155e273b1088")
+	)
+	(wire
+		(pts
+			(xy 203.2 111.76) (xy 203.2 109.22)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "f9fe42e3-0d8d-4562-9e0f-99d1aed4d462")
+	)
+	(wire
+		(pts
+			(xy 130.81 93.98) (xy 130.81 96.52)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "fe2cbcdb-1186-44df-8d3d-e3c8dd4754b6")
 	)
 	(label "LHI"
-		(at 149.86 88.9 180)
+		(at 149.8321 88.9 180)
 		(effects
 			(font
 				(size 0.5 0.5)
 			)
 			(justify right bottom)
 		)
-		(uuid "39793ea2-4b48-49a9-959f-7e47065b75e3")
-	)
-	(label "IN2"
-		(at 149.86 96.52 180)
-		(effects
-			(font
-				(size 0.5 0.5)
-			)
-			(justify right bottom)
-		)
-		(uuid "3ad1eba0-6fb0-4824-8941-58fe97a00d68")
-	)
-	(label "IN3"
-		(at 149.86 99.06 180)
-		(effects
-			(font
-				(size 0.5 0.5)
-			)
-			(justify right bottom)
-		)
-		(uuid "3f85b9e0-0177-4a3c-a38d-e43af7e7f0d8")
-	)
-	(label "IN0"
-		(at 149.86 91.44 180)
-		(effects
-			(font
-				(size 0.5 0.5)
-			)
-			(justify right bottom)
-		)
-		(uuid "45db68e1-0191-473e-9ed6-45ad2943d02f")
-	)
-	(label "SO"
-		(at 149.86 78.74 180)
-		(effects
-			(font
-				(size 0.5 0.5)
-			)
-			(justify right bottom)
-		)
-		(uuid "5e38b98c-04cf-4d65-9e76-4a6a9753aedd")
+		(uuid "1706fcfb-0fb7-4bb7-8081-c4e896106f6b")
 	)
 	(label "IN1"
 		(at 149.86 93.98 180)
@@ -2388,47 +2338,17 @@
 			)
 			(justify right bottom)
 		)
-		(uuid "6d4bc206-0edf-400c-9edd-84241cb4dfc6")
+		(uuid "2a56ecca-57a3-43c0-b4e8-a8bf54246a97")
 	)
-	(label "R_IS_PROT"
-		(at 119.38 114.3 180)
+	(label "IN2"
+		(at 149.86 96.52 180)
 		(effects
 			(font
 				(size 0.5 0.5)
 			)
 			(justify right bottom)
 		)
-		(uuid "6fd1cc04-f78b-486c-917b-102aeaa07c9a")
-	)
-	(label "CSN"
-		(at 149.86 86.36 180)
-		(effects
-			(font
-				(size 0.5 0.5)
-			)
-			(justify right bottom)
-		)
-		(uuid "75c90ac5-806a-4829-a674-f10d4192250f")
-	)
-	(label "SI"
-		(at 149.86 81.28 180)
-		(effects
-			(font
-				(size 0.5 0.5)
-			)
-			(justify right bottom)
-		)
-		(uuid "ab140da6-1779-4365-8418-be2178db358c")
-	)
-	(label "IS"
-		(at 149.86 101.6 180)
-		(effects
-			(font
-				(size 0.5 0.5)
-			)
-			(justify right bottom)
-		)
-		(uuid "b80e557c-5588-4f83-bb97-6e62884b0bd7")
+		(uuid "302e8d72-5ca4-4298-a156-dcdaca77a142")
 	)
 	(label "VDD"
 		(at 149.86 76.2 180)
@@ -2438,7 +2358,47 @@
 			)
 			(justify right bottom)
 		)
-		(uuid "e7c771c4-54c3-422d-b183-bcb07130b003")
+		(uuid "55541c0f-e68c-4ea2-be17-6f6bc68358ed")
+	)
+	(label "IN3"
+		(at 149.86 99.06 180)
+		(effects
+			(font
+				(size 0.5 0.5)
+			)
+			(justify right bottom)
+		)
+		(uuid "6ebc4379-bd37-4b48-9190-d556f8cbdd39")
+	)
+	(label "PC3_GND"
+		(at 163.83 63.5 180)
+		(effects
+			(font
+				(size 0.5 0.5)
+			)
+			(justify right bottom)
+		)
+		(uuid "744575ff-36ee-4ac7-9d45-b39700e5d8ae")
+	)
+	(label "SO"
+		(at 149.86 78.74 180)
+		(effects
+			(font
+				(size 0.5 0.5)
+			)
+			(justify right bottom)
+		)
+		(uuid "76fabd85-c57d-4dc4-ace9-0776c16e3d96")
+	)
+	(label "IS"
+		(at 149.86 101.6 180)
+		(effects
+			(font
+				(size 0.5 0.5)
+			)
+			(justify right bottom)
+		)
+		(uuid "843e767c-05df-48f9-8754-6545b5bf71ec")
 	)
 	(label "SCLK"
 		(at 149.8149 83.82 180)
@@ -2448,9 +2408,60 @@
 			)
 			(justify right bottom)
 		)
-		(uuid "e8d55507-45c7-491a-bf5b-a4ab00ae98b9")
+		(uuid "b50c78dc-973f-4d2d-83c0-88a7363f6e6d")
 	)
-	(hierarchical_label "LHI1"
+	(label "IN0"
+		(at 149.86 91.44 180)
+		(effects
+			(font
+				(size 0.5 0.5)
+			)
+			(justify right bottom)
+		)
+		(uuid "bf126550-d39e-4329-b541-d45304c3fa53")
+	)
+	(label "CSN"
+		(at 149.86 86.36 180)
+		(effects
+			(font
+				(size 0.5 0.5)
+			)
+			(justify right bottom)
+		)
+		(uuid "e0feb788-5869-428f-a045-2ae61344f956")
+	)
+	(label "SI"
+		(at 149.86 81.28 180)
+		(effects
+			(font
+				(size 0.5 0.5)
+			)
+			(justify right bottom)
+		)
+		(uuid "e7fe1205-4283-4a11-b597-fb6c7a52eaa3")
+	)
+	(label "R_IS_PROT"
+		(at 119.38 114.3 180)
+		(effects
+			(font
+				(size 0.5 0.5)
+			)
+			(justify right bottom)
+		)
+		(uuid "fa2d8724-a017-402d-af09-5247abb6d871")
+	)
+	(hierarchical_label "OUT3_3"
+		(shape output)
+		(at 214.63 101.6 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "0ad17671-bf42-4419-86fa-f657c5242121")
+	)
+	(hierarchical_label "LHI3"
 		(shape input)
 		(at 110.49 88.9 180)
 		(effects
@@ -2459,29 +2470,18 @@
 			)
 			(justify right)
 		)
-		(uuid "5bdfb218-397c-45bf-8c3c-901335233202")
+		(uuid "23f9b679-dcfe-4672-af92-3c7079942a62")
 	)
-	(hierarchical_label "OUT1_2"
-		(shape output)
-		(at 214.63 91.44 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left)
-		)
-		(uuid "67ca0388-9698-4e06-a4a0-a3f001021989")
-	)
-	(hierarchical_label "VS"
+	(hierarchical_label "FUSE_IS3"
 		(shape input)
-		(at 173.99 53.34 0)
+		(at 95.25 114.3 180)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
-			(justify left)
+			(justify right)
 		)
-		(uuid "732534e1-3a5b-433e-a58a-084398365c1f")
+		(uuid "33f55767-dbab-42f1-9790-97811efc676d")
 	)
 	(hierarchical_label "NSS"
 		(shape input)
@@ -2492,29 +2492,18 @@
 			)
 			(justify right)
 		)
-		(uuid "7a304dbe-ed71-49d8-9eab-f907c7edb26f")
+		(uuid "5b9f1f36-8253-4cc8-85c3-133f0eb3ea1d")
 	)
-	(hierarchical_label "SCK"
+	(hierarchical_label "VS"
 		(shape input)
-		(at 130.81 83.82 180)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right)
-		)
-		(uuid "8a5ef2a5-48dc-4940-b216-ec4af2c3c0db")
-	)
-	(hierarchical_label "OUT1_1"
-		(shape output)
-		(at 214.63 83.82 0)
+		(at 173.99 53.34 0)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify left)
 		)
-		(uuid "9b5e1530-09e8-4fa0-ac13-2ad947ab7d13")
+		(uuid "5cbaee26-304f-4af2-aa7b-c763bc405e5d")
 	)
 	(hierarchical_label "MISO"
 		(shape output)
@@ -2525,31 +2514,31 @@
 			)
 			(justify right)
 		)
-		(uuid "a3e8e0a7-debc-40b0-b40b-49d7376e1f7f")
+		(uuid "75b5fd9e-5726-4d91-b489-780b57fd7f89")
 	)
-	(hierarchical_label "FUSE_IS1"
-		(shape input)
-		(at 95.25 114.3 180)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right)
-		)
-		(uuid "b8731866-c0be-443c-9bf9-e141a7181341")
-	)
-	(hierarchical_label "OUT1_3"
+	(hierarchical_label "OUT3_2"
 		(shape output)
-		(at 214.63 101.6 0)
+		(at 214.63 91.44 0)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify left)
 		)
-		(uuid "bd9368dd-f3e1-4db6-b3a0-f26ed00e541f")
+		(uuid "760335d1-4707-4371-847a-4898ca5b5841")
 	)
-	(hierarchical_label "OUT1_0"
+	(hierarchical_label "SCK"
+		(shape input)
+		(at 130.81 83.82 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "8b48ee29-e129-445b-90bf-4243ec6724f1")
+	)
+	(hierarchical_label "OUT3_0"
 		(shape output)
 		(at 214.63 73.66 0)
 		(effects
@@ -2558,7 +2547,18 @@
 			)
 			(justify left)
 		)
-		(uuid "ca1b5b37-61ec-497f-8f7e-b8c63bd00240")
+		(uuid "8e19f33d-9346-4343-91df-00c231896dc6")
+	)
+	(hierarchical_label "OUT3_1"
+		(shape output)
+		(at 214.63 83.82 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "d911bcf3-34aa-4aff-b158-92a6313675bf")
 	)
 	(hierarchical_label "MOSI"
 		(shape input)
@@ -2569,19 +2569,85 @@
 			)
 			(justify right)
 		)
-		(uuid "f63d5534-13b7-49c8-bcc8-18ee00ce5a8b")
+		(uuid "ed2c2e9f-e4c6-4c7d-86d3-8dd047e78e3b")
 	)
 	(symbol
-		(lib_id "Device:R_Small")
-		(at 137.16 96.52 90)
+		(lib_id "power:GND")
+		(at 114.3 124.46 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid "0dfdf2c4-05a0-48c3-a002-581482b851d4")
-		(property "Reference" "R38"
-			(at 133.35 95.25 90)
+		(fields_autoplaced yes)
+		(uuid "0ecd1f4a-68ac-4558-ad3d-91877cce121c")
+		(property "Reference" "#PWR055"
+			(at 114.3 130.81 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "GND"
+			(at 114.3 129.54 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 114.3 124.46 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 114.3 124.46 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
+			(at 114.3 124.46 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "f57374c3-0dd6-4537-9ab0-654b66fee4de")
+		)
+		(instances
+			(project "PUTM_EV_PDMv2_2024"
+				(path "/b652b05a-4e3d-4ad1-b032-18886abe7d45/fd7d6fe4-610a-44c2-815e-0a8f21ae1980/65a856a8-6110-42cd-b516-e67517f06f0a"
+					(reference "#PWR055")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:R_Small")
+		(at 137.16 93.98 90)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "2021aff5-6168-43a6-8d27-411784ae15ca")
+		(property "Reference" "R67"
+			(at 133.35 92.71 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2589,7 +2655,7 @@
 			)
 		)
 		(property "Value" "10k"
-			(at 142.24 95.25 90)
+			(at 142.24 92.71 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2597,7 +2663,7 @@
 			)
 		)
 		(property "Footprint" "Resistor_SMD:R_0603_1608Metric_Pad0.98x0.95mm_HandSolder"
-			(at 137.16 96.52 0)
+			(at 137.16 93.98 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2606,7 +2672,7 @@
 			)
 		)
 		(property "Datasheet" "https://www.vishay.com/docs/20043/crcwhpe3.pdf"
-			(at 137.16 96.52 0)
+			(at 137.16 93.98 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2615,7 +2681,7 @@
 			)
 		)
 		(property "Description" "Resistor, small symbol"
-			(at 137.16 96.52 0)
+			(at 137.16 93.98 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2624,7 +2690,7 @@
 			)
 		)
 		(property "Url" ""
-			(at 137.16 96.52 90)
+			(at 137.16 93.98 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2633,7 +2699,7 @@
 			)
 		)
 		(property "model " ""
-			(at 137.16 96.52 90)
+			(at 137.16 93.98 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2642,7 +2708,7 @@
 			)
 		)
 		(property "Done?" "y"
-			(at 137.16 96.52 90)
+			(at 137.16 93.98 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2651,7 +2717,7 @@
 			)
 		)
 		(property "Mouser Part Number" "71-CRCW060310K0FKEAH"
-			(at 137.16 96.52 90)
+			(at 137.16 93.98 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2660,7 +2726,7 @@
 			)
 		)
 		(property "Mouser Price/Stock" "https://www.mouser.pl/ProductDetail/Vishay/CRCW060310K0FKEAHP?qs=FlFvgi4rxBwhwmNEaK0SzQ%3D%3D"
-			(at 137.16 96.52 90)
+			(at 137.16 93.98 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2669,15 +2735,685 @@
 			)
 		)
 		(pin "2"
-			(uuid "e81e8d32-65a3-4816-9d36-4be3c3c45f74")
+			(uuid "f7e35306-f6c6-4713-90a2-b32c9aa24710")
 		)
 		(pin "1"
-			(uuid "c09335e9-f135-4adb-a829-c1f847bb81a1")
+			(uuid "aeaf74d7-cb99-4110-89c4-db035589c715")
 		)
 		(instances
 			(project "PUTM_EV_PDMv2_2024"
-				(path "/b652b05a-4e3d-4ad1-b032-18886abe7d45/fd7d6fe4-610a-44c2-815e-0a8f21ae1980/17ad3a55-6e01-4cd1-ba2c-831ac663ce22"
-					(reference "R38")
+				(path "/b652b05a-4e3d-4ad1-b032-18886abe7d45/fd7d6fe4-610a-44c2-815e-0a8f21ae1980/65a856a8-6110-42cd-b516-e67517f06f0a"
+					(reference "R67")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:R_Small")
+		(at 137.16 78.74 90)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "223379f7-f7fb-4715-aeca-8c9360751309")
+		(property "Reference" "R62"
+			(at 133.35 77.47 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "330R"
+			(at 142.24 77.47 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "Resistor_SMD:R_0603_1608Metric_Pad0.98x0.95mm_HandSolder"
+			(at 137.16 78.74 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "https://www.vishay.com/docs/20035/dcrcwe3.pdf"
+			(at 137.16 78.74 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Resistor, small symbol"
+			(at 137.16 78.74 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Url" ""
+			(at 137.16 78.74 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "model " ""
+			(at 137.16 78.74 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Done?" "y"
+			(at 137.16 78.74 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Mouser Part Number" "71-CRCW0603-330-E3"
+			(at 137.16 78.74 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Mouser Price/Stock" "https://www.mouser.pl/ProductDetail/Vishay/CRCW0603330RFKEA?qs=xLmuQgtoMPNxrOftWKAO4w%3D%3D"
+			(at 137.16 78.74 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "2"
+			(uuid "07a876f2-25fc-4bfb-b528-68f3adc713ba")
+		)
+		(pin "1"
+			(uuid "786c04cc-25c5-4939-b630-c1b34c5ce9dc")
+		)
+		(instances
+			(project "PUTM_EV_PDMv2_2024"
+				(path "/b652b05a-4e3d-4ad1-b032-18886abe7d45/fd7d6fe4-610a-44c2-815e-0a8f21ae1980/65a856a8-6110-42cd-b516-e67517f06f0a"
+					(reference "R62")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:C_Small")
+		(at 191.77 78.74 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "2458696c-4970-4312-9db5-4e8c8e9d9cc6")
+		(property "Reference" "C57"
+			(at 194.31 77.4763 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "10n"
+			(at 194.31 80.0163 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Capacitor_SMD:C_0603_1608Metric_Pad1.08x0.95mm_HandSolder"
+			(at 191.77 78.74 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "https://www.mouser.pl/datasheet/3/76/2/GCE188R71H103KA01_01B.pdf"
+			(at 191.77 78.74 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 191.77 78.74 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Url" ""
+			(at 191.77 78.74 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "model " ""
+			(at 191.77 78.74 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Mouser Part Number" "81-GCE188R71H103KA1D"
+			(at 191.77 78.74 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Mouser Price/Stock" "https://www.mouser.pl/ProductDetail/Murata-Electronics/GCE188R71H103KA01D?qs=coxMWmu44UD8EgQ3nJ%2FBqQ%3D%3D"
+			(at 191.77 78.74 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Done?" "y"
+			(at 191.77 78.74 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "e854e677-7c81-4c16-873e-8b5ec0701480")
+		)
+		(pin "2"
+			(uuid "7ff77283-2250-4293-98e4-151014b4e3f6")
+		)
+		(instances
+			(project "PUTM_EV_PDMv2_2024"
+				(path "/b652b05a-4e3d-4ad1-b032-18886abe7d45/fd7d6fe4-610a-44c2-815e-0a8f21ae1980/65a856a8-6110-42cd-b516-e67517f06f0a"
+					(reference "C57")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "PDM:BTS722204ESAXUMA1")
+		(at 149.86 73.66 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "301bcd3f-8795-4bf2-9caf-5400556474df")
+		(property "Reference" "IC4"
+			(at 167.64 116.84 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "BTS722204ESAXUMA1"
+			(at 167.64 119.38 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "PDM:SOP65P600X115-25N"
+			(at 181.61 168.58 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "https://www.infineon.com/dgdl/Infineon-BTS72220-4ESA-DS-v01_00-EN.pdf?fileId=5546d462636cc8fb0163feab173708d9"
+			(at 181.61 268.58 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+				(hide yes)
+			)
+		)
+		(property "Description" "Power Switch ICs - Power Distribution SPOC"
+			(at 149.86 73.66 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Height" "1.15"
+			(at 181.61 468.58 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+				(hide yes)
+			)
+		)
+		(property "Mouser Part Number" "726-BTS722204ESAXUMA"
+			(at 181.61 568.58 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+				(hide yes)
+			)
+		)
+		(property "Mouser Price/Stock" "https://www.mouser.co.uk/ProductDetail/Infineon-Technologies/BTS722204ESAXUMA1?qs=%252BEew9%252B0nqrBKRVYWm1E2Qg%3D%3D"
+			(at 181.61 668.58 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer_Name" "Infineon"
+			(at 181.61 768.58 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer_Part_Number" "BTS722204ESAXUMA1"
+			(at 181.61 868.58 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+				(hide yes)
+			)
+		)
+		(property "Url" ""
+			(at 149.86 73.66 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "model " ""
+			(at 149.86 73.66 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Done?" "y"
+			(at 149.86 73.66 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "22"
+			(uuid "6be6470c-f6fa-44f6-832f-0b86ea2171be")
+		)
+		(pin "9"
+			(uuid "cc7edb77-19a7-41f7-af71-4cef9ddabbb8")
+		)
+		(pin "19"
+			(uuid "0c32f140-9585-4c79-8c93-57dda3709a95")
+		)
+		(pin "10"
+			(uuid "caecf782-d0fa-4eb0-b881-934b8c02c1b1")
+		)
+		(pin "16"
+			(uuid "a712759b-03db-47cc-8640-59cb8b25623d")
+		)
+		(pin "7"
+			(uuid "34fcebcf-5a4a-46ee-9452-16f3b8d29895")
+		)
+		(pin "12"
+			(uuid "4d843407-3014-463c-9e96-275806dd756f")
+		)
+		(pin "15"
+			(uuid "e63cd6d8-de7a-4788-8d65-73160c1d165e")
+		)
+		(pin "20"
+			(uuid "8853f5f1-be18-4324-8088-3be7f2d57108")
+		)
+		(pin "17"
+			(uuid "0950dbb8-af90-4ca4-ad4f-cc21ecb412dc")
+		)
+		(pin "8"
+			(uuid "5e8536f1-b546-4cb7-891b-d0d1e7cfd955")
+		)
+		(pin "11"
+			(uuid "6872e4a3-3ca2-46e7-b615-d3a69fc2d03b")
+		)
+		(pin "18"
+			(uuid "f3ac4c52-a6e6-4ee3-825f-512cf95629d7")
+		)
+		(pin "23"
+			(uuid "cd647689-3f04-4c77-b398-0e6f2783c686")
+		)
+		(pin "2"
+			(uuid "7ad5333e-fd14-48da-800f-a03d03458ed0")
+		)
+		(pin "3"
+			(uuid "d974ed15-e2d8-48ad-a68e-659b4228659d")
+		)
+		(pin "4"
+			(uuid "7b908f9f-4514-41eb-889f-121b7e15e5e1")
+		)
+		(pin "5"
+			(uuid "91268f00-ae1e-4180-a97e-53f6f519f19e")
+		)
+		(pin "6"
+			(uuid "26f1c691-1686-4ba7-b40a-a2b9909c85a3")
+		)
+		(pin "24"
+			(uuid "7c766946-97ef-431e-9023-5b9bf3cd104a")
+		)
+		(pin "25"
+			(uuid "a660417d-3149-475c-bd37-c7c8421f9aa0")
+		)
+		(pin "1"
+			(uuid "a6ef9614-ebcd-409e-9344-c597f6a68c6a")
+		)
+		(pin "13"
+			(uuid "a141517b-4f89-4ffd-a479-842f777eb149")
+		)
+		(pin "14"
+			(uuid "24d3830b-160e-46a4-9e6e-a3f60cd76e60")
+		)
+		(pin "21"
+			(uuid "8392d097-494a-4308-93b3-2edb0904e72c")
+		)
+		(instances
+			(project "PUTM_EV_PDMv2_2024"
+				(path "/b652b05a-4e3d-4ad1-b032-18886abe7d45/fd7d6fe4-610a-44c2-815e-0a8f21ae1980/65a856a8-6110-42cd-b516-e67517f06f0a"
+					(reference "IC4")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:R_Small")
+		(at 137.16 119.38 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "3cc84387-99cc-487d-9323-a6d4b6f9404c")
+		(property "Reference" "R70"
+			(at 139.7 118.1099 0)
+			(effects
+				(font
+					(size 1.016 1.016)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "1k2"
+			(at 139.7 120.6499 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Resistor_SMD:R_0603_1608Metric_Pad0.98x0.95mm_HandSolder"
+			(at 137.16 119.38 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "https://www.vishay.com/docs/20035/dcrcwe3.pdf"
+			(at 137.16 119.38 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Resistor, small symbol"
+			(at 137.16 119.38 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Url" ""
+			(at 137.16 119.38 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "model " ""
+			(at 137.16 119.38 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Done?" "y"
+			(at 137.16 119.38 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Mouser Part Number" "71-CRCW0603-1.2K-E3"
+			(at 137.16 119.38 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Mouser Price/Stock" "https://www.mouser.pl/ProductDetail/Vishay/CRCW06031K20FKEA?qs=pAReC37xhjXGEGle1f9MAA%3D%3D"
+			(at 137.16 119.38 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "2"
+			(uuid "20ac30d4-9338-4822-8256-4c2bb3ad91d0")
+		)
+		(pin "1"
+			(uuid "345aaf9b-47a4-431b-bd6e-bd98b4ae4cc3")
+		)
+		(instances
+			(project "PUTM_EV_PDMv2_2024"
+				(path "/b652b05a-4e3d-4ad1-b032-18886abe7d45/fd7d6fe4-610a-44c2-815e-0a8f21ae1980/65a856a8-6110-42cd-b516-e67517f06f0a"
+					(reference "R70")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:R_Small")
+		(at 140.97 63.5 90)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "3df1ceeb-d36b-49b9-8394-ede4e76e519c")
+		(property "Reference" "R71"
+			(at 140.97 58.42 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "47R"
+			(at 140.97 60.96 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "Resistor_SMD:R_0603_1608Metric_Pad0.98x0.95mm_HandSolder"
+			(at 140.97 63.5 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "https://www.vishay.com/docs/20065/rcse3.pdf"
+			(at 140.97 63.5 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Resistor, small symbol"
+			(at 140.97 63.5 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Url" ""
+			(at 140.97 63.5 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "model " ""
+			(at 140.97 63.5 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Done?" ""
+			(at 140.97 63.5 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Mouser Part Number" "71-RCS060347R0JNEA"
+			(at 140.97 63.5 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Mouser Price/Stock" "https://www.mouser.pl/ProductDetail/Vishay-Draloric/RCS060347R0JNEA?qs=NKmfXavxMax66VGK5GWd2A%3D%3D"
+			(at 140.97 63.5 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "2"
+			(uuid "0f1d5e3a-ebbe-4f08-91e7-0999dfadcf57")
+		)
+		(pin "1"
+			(uuid "f3c75e49-e3dc-4c30-979e-86c9d8383222")
+		)
+		(instances
+			(project "PUTM_EV_PDMv2_2024"
+				(path "/b652b05a-4e3d-4ad1-b032-18886abe7d45/fd7d6fe4-610a-44c2-815e-0a8f21ae1980/65a856a8-6110-42cd-b516-e67517f06f0a"
+					(reference "R71")
 					(unit 1)
 				)
 			)
@@ -2692,8 +3428,8 @@
 		(on_board yes)
 		(dnp no)
 		(fields_autoplaced yes)
-		(uuid "12e9b864-1f44-4f78-bec5-98531988c61d")
-		(property "Reference" "C43"
+		(uuid "3faac2ad-7f96-4cc9-8cf8-6520214d0361")
+		(property "Reference" "C60"
 			(at 205.74 105.4163 0)
 			(effects
 				(font
@@ -2784,240 +3520,15 @@
 			)
 		)
 		(pin "1"
-			(uuid "9df217e7-a7c1-476c-8c2a-5e66df0b7876")
+			(uuid "eb1f3036-0f7f-4f25-8539-2961c6d37fd0")
 		)
 		(pin "2"
-			(uuid "c660f8b0-9e58-448b-8b43-b2d29c55a369")
+			(uuid "6eb151a9-d632-4411-9b89-cdabf9ce4809")
 		)
 		(instances
 			(project "PUTM_EV_PDMv2_2024"
-				(path "/b652b05a-4e3d-4ad1-b032-18886abe7d45/fd7d6fe4-610a-44c2-815e-0a8f21ae1980/17ad3a55-6e01-4cd1-ba2c-831ac663ce22"
-					(reference "C43")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "Device:R_Small")
-		(at 120.65 88.9 90)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(fields_autoplaced yes)
-		(uuid "18234f4d-8ba3-4bb9-9bfa-2d2d0e1db433")
-		(property "Reference" "R29"
-			(at 120.65 83.82 90)
-			(effects
-				(font
-					(size 1.016 1.016)
-				)
-			)
-		)
-		(property "Value" "4k7"
-			(at 120.65 86.36 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" "Resistor_SMD:R_0603_1608Metric_Pad0.98x0.95mm_HandSolder"
-			(at 120.65 88.9 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" "https://www.vishay.com/docs/20035/dcrcwe3.pdf"
-			(at 120.65 88.9 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "Resistor, small symbol"
-			(at 120.65 88.9 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Url" ""
-			(at 120.65 88.9 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "model " ""
-			(at 120.65 88.9 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Done?" "y"
-			(at 120.65 88.9 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Mouser Part Number" "71-CRCW0603-4.7K-E3"
-			(at 120.65 88.9 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Mouser Price/Stock" "https://www.mouser.pl/ProductDetail/Vishay/CRCW06034K70FKEA?qs=4E3O%252BEEZcdLDG%2FSk4GmlWQ%3D%3D"
-			(at 120.65 88.9 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "326cd94c-1907-45f6-976c-475ddbcfb93b")
-		)
-		(pin "2"
-			(uuid "89e84083-c580-4ba0-8557-50e859071928")
-		)
-		(instances
-			(project "PUTM_EV_PDMv2_2024"
-				(path "/b652b05a-4e3d-4ad1-b032-18886abe7d45/fd7d6fe4-610a-44c2-815e-0a8f21ae1980/17ad3a55-6e01-4cd1-ba2c-831ac663ce22"
-					(reference "R29")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "Device:R_Small")
-		(at 137.16 83.82 90)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "1ada2f3e-3c00-4687-9e33-c0f5e7e36702")
-		(property "Reference" "R34"
-			(at 133.35 82.55 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "330R"
-			(at 142.24 82.55 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" "Resistor_SMD:R_0603_1608Metric_Pad0.98x0.95mm_HandSolder"
-			(at 137.16 83.82 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" "https://www.vishay.com/docs/20035/dcrcwe3.pdf"
-			(at 137.16 83.82 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "Resistor, small symbol"
-			(at 137.16 83.82 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Url" ""
-			(at 137.16 83.82 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "model " ""
-			(at 137.16 83.82 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Done?" "y"
-			(at 137.16 83.82 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Mouser Part Number" "71-CRCW0603-330-E3"
-			(at 137.16 83.82 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Mouser Price/Stock" "https://www.mouser.pl/ProductDetail/Vishay/CRCW0603330RFKEA?qs=xLmuQgtoMPNxrOftWKAO4w%3D%3D"
-			(at 137.16 83.82 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "2"
-			(uuid "74b29138-98a3-406f-a8e3-2e1a79890667")
-		)
-		(pin "1"
-			(uuid "f47398d8-d1bd-4df7-8780-52957fbf0a04")
-		)
-		(instances
-			(project "PUTM_EV_PDMv2_2024"
-				(path "/b652b05a-4e3d-4ad1-b032-18886abe7d45/fd7d6fe4-610a-44c2-815e-0a8f21ae1980/17ad3a55-6e01-4cd1-ba2c-831ac663ce22"
-					(reference "R34")
+				(path "/b652b05a-4e3d-4ad1-b032-18886abe7d45/fd7d6fe4-610a-44c2-815e-0a8f21ae1980/65a856a8-6110-42cd-b516-e67517f06f0a"
+					(reference "C60")
 					(unit 1)
 				)
 			)
@@ -3025,16 +3536,16 @@
 	)
 	(symbol
 		(lib_id "power:GND")
-		(at 99.06 124.46 0)
+		(at 130.81 101.6 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
 		(fields_autoplaced yes)
-		(uuid "27ec35cb-796b-4499-bd9a-5ede4fd0b1be")
-		(property "Reference" "#PWR036"
-			(at 99.06 130.81 0)
+		(uuid "4b7c6736-edf4-4c83-9b11-ed2add0f9f2d")
+		(property "Reference" "#PWR056"
+			(at 130.81 107.95 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3043,7 +3554,7 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 99.06 129.54 0)
+			(at 130.81 106.68 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3051,7 +3562,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 99.06 124.46 0)
+			(at 130.81 101.6 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3060,7 +3571,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 99.06 124.46 0)
+			(at 130.81 101.6 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3069,7 +3580,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 99.06 124.46 0)
+			(at 130.81 101.6 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3078,12 +3589,12 @@
 			)
 		)
 		(pin "1"
-			(uuid "0ed5531a-aae5-4526-9137-21e860a0e220")
+			(uuid "cb0b50a0-c7b0-4c99-baa9-b4c09c2c7c33")
 		)
 		(instances
 			(project "PUTM_EV_PDMv2_2024"
-				(path "/b652b05a-4e3d-4ad1-b032-18886abe7d45/fd7d6fe4-610a-44c2-815e-0a8f21ae1980/17ad3a55-6e01-4cd1-ba2c-831ac663ce22"
-					(reference "#PWR036")
+				(path "/b652b05a-4e3d-4ad1-b032-18886abe7d45/fd7d6fe4-610a-44c2-815e-0a8f21ae1980/65a856a8-6110-42cd-b516-e67517f06f0a"
+					(reference "#PWR056")
 					(unit 1)
 				)
 			)
@@ -3091,34 +3602,34 @@
 	)
 	(symbol
 		(lib_id "Device:C_Small")
-		(at 199.39 96.52 0)
+		(at 147.32 58.42 0)
+		(mirror y)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(fields_autoplaced yes)
-		(uuid "2d6c098a-bfc6-48bc-a144-d8b6a5d4ce2e")
-		(property "Reference" "C42"
-			(at 201.93 95.2563 0)
+		(uuid "4d749901-93e1-406a-b2ba-ee620af9c439")
+		(property "Reference" "C55"
+			(at 149.86 57.1563 0)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(justify left)
+				(justify right)
 			)
 		)
-		(property "Value" "10n"
-			(at 201.93 97.7963 0)
+		(property "Value" "22n"
+			(at 149.86 59.6963 0)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(justify left)
+				(justify right)
 			)
 		)
 		(property "Footprint" "Capacitor_SMD:C_0603_1608Metric_Pad1.08x0.95mm_HandSolder"
-			(at 199.39 96.52 0)
+			(at 147.32 58.42 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3126,8 +3637,8 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" "https://www.mouser.pl/datasheet/3/76/2/GCE188R71H103KA01_01B.pdf"
-			(at 199.39 96.52 0)
+		(property "Datasheet" "https://search.murata.co.jp/Ceramy/image/img/A01X/G101/ENG/GCE188R71H223KA01-01B.pdf"
+			(at 147.32 58.42 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3136,7 +3647,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 199.39 96.52 0)
+			(at 147.32 58.42 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3145,7 +3656,7 @@
 			)
 		)
 		(property "Url" ""
-			(at 199.39 96.52 0)
+			(at 147.32 58.42 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3154,7 +3665,122 @@
 			)
 		)
 		(property "model " ""
-			(at 199.39 96.52 0)
+			(at 147.32 58.42 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Mouser Part Number" "GCE188R71H223KA01D"
+			(at 147.32 58.42 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Mouser Price/Stock" "https://www.tme.eu/pl/details/gce188r71h223ka01d/kondensatory-mlcc-smd/murata/"
+			(at 147.32 58.42 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Done?" "y"
+			(at 147.32 58.42 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "2"
+			(uuid "b81087fa-9c96-4150-849d-b6a61cb46661")
+		)
+		(pin "1"
+			(uuid "24fb6971-82be-4a4b-9fc6-ef244ba0238e")
+		)
+		(instances
+			(project "PUTM_EV_PDMv2_2024"
+				(path "/b652b05a-4e3d-4ad1-b032-18886abe7d45/fd7d6fe4-610a-44c2-815e-0a8f21ae1980/65a856a8-6110-42cd-b516-e67517f06f0a"
+					(reference "C55")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:C_Small")
+		(at 195.58 87.63 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "5cf37d07-6188-4e96-9b7e-1669456a1f6d")
+		(property "Reference" "C58"
+			(at 198.12 86.3663 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "10n"
+			(at 198.12 88.9063 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Capacitor_SMD:C_0603_1608Metric_Pad1.08x0.95mm_HandSolder"
+			(at 195.58 87.63 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "https://www.mouser.pl/datasheet/3/76/2/GCE188R71H103KA01_01B.pdf"
+			(at 195.58 87.63 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 195.58 87.63 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Url" ""
+			(at 195.58 87.63 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "model " ""
+			(at 195.58 87.63 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3163,7 +3789,7 @@
 			)
 		)
 		(property "Mouser Part Number" "81-GCE188R71H103KA1D"
-			(at 199.39 96.52 0)
+			(at 195.58 87.63 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3172,7 +3798,7 @@
 			)
 		)
 		(property "Mouser Price/Stock" "https://www.mouser.pl/ProductDetail/Murata-Electronics/GCE188R71H103KA01D?qs=coxMWmu44UD8EgQ3nJ%2FBqQ%3D%3D"
-			(at 199.39 96.52 0)
+			(at 195.58 87.63 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3181,7 +3807,7 @@
 			)
 		)
 		(property "Done?" "y"
-			(at 199.39 96.52 0)
+			(at 195.58 87.63 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3190,81 +3816,15 @@
 			)
 		)
 		(pin "1"
-			(uuid "55be5cfd-660c-4e9e-8d2d-c57ac0ebfe77")
+			(uuid "47414912-717b-4aee-b6f9-0c9e4915e5a4")
 		)
 		(pin "2"
-			(uuid "6ca32e9d-b385-4386-aa34-112cb0f42080")
+			(uuid "2956b7ac-35a0-4787-bda8-57cc2aa2d4a9")
 		)
 		(instances
 			(project "PUTM_EV_PDMv2_2024"
-				(path "/b652b05a-4e3d-4ad1-b032-18886abe7d45/fd7d6fe4-610a-44c2-815e-0a8f21ae1980/17ad3a55-6e01-4cd1-ba2c-831ac663ce22"
-					(reference "C42")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "power:GND")
-		(at 134.62 66.04 0)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(fields_autoplaced yes)
-		(uuid "361aa681-b8a0-43f1-a3d6-eef062c98f63")
-		(property "Reference" "#PWR040"
-			(at 134.62 72.39 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Value" "GND"
-			(at 134.62 71.12 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" ""
-			(at 134.62 66.04 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" ""
-			(at 134.62 66.04 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 134.62 66.04 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "158e0e72-4de9-4eef-8214-31938b2e58a5")
-		)
-		(instances
-			(project "PUTM_EV_PDMv2_2024"
-				(path "/b652b05a-4e3d-4ad1-b032-18886abe7d45/fd7d6fe4-610a-44c2-815e-0a8f21ae1980/17ad3a55-6e01-4cd1-ba2c-831ac663ce22"
-					(reference "#PWR040")
+				(path "/b652b05a-4e3d-4ad1-b032-18886abe7d45/fd7d6fe4-610a-44c2-815e-0a8f21ae1980/65a856a8-6110-42cd-b516-e67517f06f0a"
+					(reference "C58")
 					(unit 1)
 				)
 			)
@@ -3272,23 +3832,23 @@
 	)
 	(symbol
 		(lib_id "Device:R_Small")
-		(at 137.16 86.36 90)
+		(at 137.16 96.52 90)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid "42b067d6-c61b-4849-8a51-ad9266eab65f")
-		(property "Reference" "R35"
-			(at 133.35 85.09 90)
+		(uuid "632771e7-bbc2-404d-b744-744e779c0fa4")
+		(property "Reference" "R68"
+			(at 133.35 95.25 90)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 			)
 		)
-		(property "Value" "330R"
-			(at 142.24 85.09 90)
+		(property "Value" "10k"
+			(at 142.24 95.25 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3296,7 +3856,7 @@
 			)
 		)
 		(property "Footprint" "Resistor_SMD:R_0603_1608Metric_Pad0.98x0.95mm_HandSolder"
-			(at 137.16 86.36 0)
+			(at 137.16 96.52 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3304,8 +3864,8 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" "https://www.vishay.com/docs/20035/dcrcwe3.pdf"
-			(at 137.16 86.36 0)
+		(property "Datasheet" "https://www.vishay.com/docs/20043/crcwhpe3.pdf"
+			(at 137.16 96.52 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3314,7 +3874,7 @@
 			)
 		)
 		(property "Description" "Resistor, small symbol"
-			(at 137.16 86.36 0)
+			(at 137.16 96.52 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3323,7 +3883,7 @@
 			)
 		)
 		(property "Url" ""
-			(at 137.16 86.36 90)
+			(at 137.16 96.52 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3332,7 +3892,7 @@
 			)
 		)
 		(property "model " ""
-			(at 137.16 86.36 90)
+			(at 137.16 96.52 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3341,7 +3901,7 @@
 			)
 		)
 		(property "Done?" "y"
-			(at 137.16 86.36 90)
+			(at 137.16 96.52 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3349,8 +3909,8 @@
 				(hide yes)
 			)
 		)
-		(property "Mouser Part Number" "71-CRCW0603-330-E3"
-			(at 137.16 86.36 90)
+		(property "Mouser Part Number" "71-CRCW060310K0FKEAH"
+			(at 137.16 96.52 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3358,8 +3918,8 @@
 				(hide yes)
 			)
 		)
-		(property "Mouser Price/Stock" "https://www.mouser.pl/ProductDetail/Vishay/CRCW0603330RFKEA?qs=xLmuQgtoMPNxrOftWKAO4w%3D%3D"
-			(at 137.16 86.36 90)
+		(property "Mouser Price/Stock" "https://www.mouser.pl/ProductDetail/Vishay/CRCW060310K0FKEAHP?qs=FlFvgi4rxBwhwmNEaK0SzQ%3D%3D"
+			(at 137.16 96.52 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3368,15 +3928,419 @@
 			)
 		)
 		(pin "2"
-			(uuid "cc9c4ecc-f517-4229-8054-9e3f381ff7c1")
+			(uuid "88da0d9b-5f35-4c49-9255-5a0ebbc4431f")
 		)
 		(pin "1"
-			(uuid "4e8bcad4-a961-41b3-9c76-711a207bd12d")
+			(uuid "c7028e9a-1e10-464f-8640-daadff82c58f")
 		)
 		(instances
 			(project "PUTM_EV_PDMv2_2024"
-				(path "/b652b05a-4e3d-4ad1-b032-18886abe7d45/fd7d6fe4-610a-44c2-815e-0a8f21ae1980/17ad3a55-6e01-4cd1-ba2c-831ac663ce22"
-					(reference "R35")
+				(path "/b652b05a-4e3d-4ad1-b032-18886abe7d45/fd7d6fe4-610a-44c2-815e-0a8f21ae1980/65a856a8-6110-42cd-b516-e67517f06f0a"
+					(reference "R68")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:GND")
+		(at 137.16 124.46 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "66b296e2-c8af-4176-bb97-13420450399b")
+		(property "Reference" "#PWR058"
+			(at 137.16 130.81 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "GND"
+			(at 137.16 129.54 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 137.16 124.46 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 137.16 124.46 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
+			(at 137.16 124.46 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "d01d09ab-3fdc-4a7a-a959-bd317729d723")
+		)
+		(instances
+			(project "PUTM_EV_PDMv2_2024"
+				(path "/b652b05a-4e3d-4ad1-b032-18886abe7d45/fd7d6fe4-610a-44c2-815e-0a8f21ae1980/65a856a8-6110-42cd-b516-e67517f06f0a"
+					(reference "#PWR058")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:C_Small")
+		(at 134.62 58.42 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "6af9d7b2-d724-4d2c-9312-b753129ea6ce")
+		(property "Reference" "C54"
+			(at 132.08 57.1563 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(property "Value" "100n"
+			(at 132.08 59.6963 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(property "Footprint" "Capacitor_SMD:C_0603_1608Metric_Pad1.08x0.95mm_HandSolder"
+			(at 134.62 58.42 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "https://www.mouser.pl/datasheet/3/76/2/GCJ188R71H104KA12_02B.pdf"
+			(at 134.62 58.42 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 134.62 58.42 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Url" ""
+			(at 134.62 58.42 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "model " ""
+			(at 134.62 58.42 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Done?" "y"
+			(at 134.62 58.42 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Mouser Part Number" "81-GCJ188R71H104KA2D"
+			(at 134.62 58.42 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Mouser Price/Stock" "https://www.mouser.pl/ProductDetail/Murata-Electronics/GCJ188R71H104KA12D?qs=zThidflJDvYKuGhiQaflUg%3D%3D"
+			(at 134.62 58.42 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "2"
+			(uuid "e465500e-5c6b-47ef-914f-538a831c3aa7")
+		)
+		(pin "1"
+			(uuid "07a421ef-0830-427b-9ade-8ca48ebbbf64")
+		)
+		(instances
+			(project "PUTM_EV_PDMv2_2024"
+				(path "/b652b05a-4e3d-4ad1-b032-18886abe7d45/fd7d6fe4-610a-44c2-815e-0a8f21ae1980/65a856a8-6110-42cd-b516-e67517f06f0a"
+					(reference "C54")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:R_Small")
+		(at 137.16 81.28 90)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "6f3f5e56-2178-4b2f-a055-be6d5207d504")
+		(property "Reference" "R63"
+			(at 133.35 80.01 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "330R"
+			(at 142.24 80.01 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "Resistor_SMD:R_0603_1608Metric_Pad0.98x0.95mm_HandSolder"
+			(at 137.16 81.28 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "https://www.vishay.com/docs/20035/dcrcwe3.pdf"
+			(at 137.16 81.28 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Resistor, small symbol"
+			(at 137.16 81.28 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Url" ""
+			(at 137.16 81.28 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "model " ""
+			(at 137.16 81.28 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Done?" "y"
+			(at 137.16 81.28 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Mouser Part Number" "71-CRCW0603-330-E3"
+			(at 137.16 81.28 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Mouser Price/Stock" "https://www.mouser.pl/ProductDetail/Vishay/CRCW0603330RFKEA?qs=xLmuQgtoMPNxrOftWKAO4w%3D%3D"
+			(at 137.16 81.28 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "2"
+			(uuid "2a5d3197-daa0-4b0f-99f6-b00286402a70")
+		)
+		(pin "1"
+			(uuid "af7290ef-7b39-43df-a51c-308d25f21178")
+		)
+		(instances
+			(project "PUTM_EV_PDMv2_2024"
+				(path "/b652b05a-4e3d-4ad1-b032-18886abe7d45/fd7d6fe4-610a-44c2-815e-0a8f21ae1980/65a856a8-6110-42cd-b516-e67517f06f0a"
+					(reference "R63")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:R_Small")
+		(at 137.16 91.44 90)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "6f6ec5c6-1961-472a-9846-c586e8a9f4ab")
+		(property "Reference" "R66"
+			(at 133.35 90.17 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "10k"
+			(at 142.24 90.17 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "Resistor_SMD:R_0603_1608Metric_Pad0.98x0.95mm_HandSolder"
+			(at 137.16 91.44 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "https://www.vishay.com/docs/20043/crcwhpe3.pdf"
+			(at 137.16 91.44 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Resistor, small symbol"
+			(at 137.16 91.44 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Url" ""
+			(at 137.16 91.44 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "model " ""
+			(at 137.16 91.44 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Done?" "y"
+			(at 137.16 91.44 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Mouser Part Number" "71-CRCW060310K0FKEAH"
+			(at 137.16 91.44 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Mouser Price/Stock" "https://www.mouser.pl/ProductDetail/Vishay/CRCW060310K0FKEAHP?qs=FlFvgi4rxBwhwmNEaK0SzQ%3D%3D"
+			(at 137.16 91.44 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "2"
+			(uuid "761b1e2c-371d-48cb-bb8e-164ab5db11f8")
+		)
+		(pin "1"
+			(uuid "79e6c26e-7a49-44db-a3c1-6111cd33a3e4")
+		)
+		(instances
+			(project "PUTM_EV_PDMv2_2024"
+				(path "/b652b05a-4e3d-4ad1-b032-18886abe7d45/fd7d6fe4-610a-44c2-815e-0a8f21ae1980/65a856a8-6110-42cd-b516-e67517f06f0a"
+					(reference "R66")
 					(unit 1)
 				)
 			)
@@ -3391,8 +4355,8 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid "4d4548a2-7db9-4828-92d8-c9c2cdfab9f6")
-		(property "Reference" "D13"
+		(uuid "7a0df9c9-ec2a-4fd3-a4fb-3f73b60f8f03")
+		(property "Reference" "D17"
 			(at 116.84 120.3961 90)
 			(effects
 				(font
@@ -3523,1626 +4487,15 @@
 			)
 		)
 		(pin "1"
-			(uuid "b953f9d4-c87b-4457-a41d-8a58e5ef122d")
+			(uuid "b84529c8-2fb1-4047-a911-24b4ac186197")
 		)
 		(pin "2"
-			(uuid "42774acb-77b7-4d47-ac72-fa6b830fcbff")
+			(uuid "ed9abe12-ac5d-4b60-b01b-a501d6887c22")
 		)
 		(instances
 			(project "PUTM_EV_PDMv2_2024"
-				(path "/b652b05a-4e3d-4ad1-b032-18886abe7d45/fd7d6fe4-610a-44c2-815e-0a8f21ae1980/17ad3a55-6e01-4cd1-ba2c-831ac663ce22"
-					(reference "D13")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "power:+3V3")
-		(at 113.03 73.66 0)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(fields_autoplaced yes)
-		(uuid "4e10ff37-de47-4bfb-aed5-6bad9d5ba064")
-		(property "Reference" "#PWR037"
-			(at 113.03 77.47 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Value" "+3V3"
-			(at 113.03 68.58 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" ""
-			(at 113.03 73.66 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" ""
-			(at 113.03 73.66 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "Power symbol creates a global label with name \"+3V3\""
-			(at 113.03 73.66 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "0e836cd0-2986-48ed-84de-e9bf2cf42ef4")
-		)
-		(instances
-			(project "PUTM_EV_PDMv2_2024"
-				(path "/b652b05a-4e3d-4ad1-b032-18886abe7d45/fd7d6fe4-610a-44c2-815e-0a8f21ae1980/17ad3a55-6e01-4cd1-ba2c-831ac663ce22"
-					(reference "#PWR037")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "Device:R_Small")
-		(at 137.16 81.28 90)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "50112154-9b49-4336-a84d-439f03f983f8")
-		(property "Reference" "R33"
-			(at 133.35 80.01 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "330R"
-			(at 142.24 80.01 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" "Resistor_SMD:R_0603_1608Metric_Pad0.98x0.95mm_HandSolder"
-			(at 137.16 81.28 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" "https://www.vishay.com/docs/20035/dcrcwe3.pdf"
-			(at 137.16 81.28 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "Resistor, small symbol"
-			(at 137.16 81.28 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Url" ""
-			(at 137.16 81.28 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "model " ""
-			(at 137.16 81.28 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Done?" "y"
-			(at 137.16 81.28 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Mouser Part Number" "71-CRCW0603-330-E3"
-			(at 137.16 81.28 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Mouser Price/Stock" "https://www.mouser.pl/ProductDetail/Vishay/CRCW0603330RFKEA?qs=xLmuQgtoMPNxrOftWKAO4w%3D%3D"
-			(at 137.16 81.28 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "2"
-			(uuid "968e5f7d-20be-4558-bc8c-700a63ea868b")
-		)
-		(pin "1"
-			(uuid "ee4b3e31-c0cd-4a72-89b7-c5cbbd0a1fec")
-		)
-		(instances
-			(project "PUTM_EV_PDMv2_2024"
-				(path "/b652b05a-4e3d-4ad1-b032-18886abe7d45/fd7d6fe4-610a-44c2-815e-0a8f21ae1980/17ad3a55-6e01-4cd1-ba2c-831ac663ce22"
-					(reference "R33")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "Device:R_Small")
-		(at 125.73 76.2 90)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(fields_autoplaced yes)
-		(uuid "639d63e1-afc2-407b-97c0-8d2977d1afab")
-		(property "Reference" "R31"
-			(at 125.73 71.12 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "470R"
-			(at 125.73 73.66 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" "Resistor_SMD:R_0603_1608Metric_Pad0.98x0.95mm_HandSolder"
-			(at 125.73 76.2 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" "https://www.vishay.com/docs/20035/dcrcwe3.pdf"
-			(at 125.73 76.2 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "Resistor, small symbol"
-			(at 125.73 76.2 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Url" ""
-			(at 125.73 76.2 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "model " ""
-			(at 125.73 76.2 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Done?" "y"
-			(at 125.73 76.2 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Mouser Price/Stock" "https://www.mouser.pl/ProductDetail/Vishay/CRCW0603470RJNEA?qs=NW1wgvpSas3lUsjQwt8mQg%3D%3D"
-			(at 125.73 76.2 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Mouser Part Number" "71-CRCW0603J-470-E3"
-			(at 125.73 76.2 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "2"
-			(uuid "652ba3a5-d6b6-485a-87b2-02d6678e9be5")
-		)
-		(pin "1"
-			(uuid "9e797ad2-2b7d-4331-ad0a-10c038964f33")
-		)
-		(instances
-			(project "PUTM_EV_PDMv2_2024"
-				(path "/b652b05a-4e3d-4ad1-b032-18886abe7d45/fd7d6fe4-610a-44c2-815e-0a8f21ae1980/17ad3a55-6e01-4cd1-ba2c-831ac663ce22"
-					(reference "R31")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "Device:R_Small")
-		(at 121.92 114.3 90)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(fields_autoplaced yes)
-		(uuid "67b47526-7e42-499e-a250-96f438365156")
-		(property "Reference" "R30"
-			(at 121.92 109.22 90)
-			(effects
-				(font
-					(size 1.016 1.016)
-				)
-			)
-		)
-		(property "Value" "4k7"
-			(at 121.92 111.76 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" "Resistor_SMD:R_0603_1608Metric_Pad0.98x0.95mm_HandSolder"
-			(at 121.92 114.3 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" "https://www.vishay.com/docs/20035/dcrcwe3.pdf"
-			(at 121.92 114.3 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "Resistor, small symbol"
-			(at 121.92 114.3 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Url" ""
-			(at 121.92 114.3 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "model " ""
-			(at 121.92 114.3 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Done?" "y"
-			(at 121.92 114.3 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Mouser Part Number" "71-CRCW0603-4.7K-E3"
-			(at 121.92 114.3 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Mouser Price/Stock" "https://www.mouser.pl/ProductDetail/Vishay/CRCW06034K70FKEA?qs=4E3O%252BEEZcdLDG%2FSk4GmlWQ%3D%3D"
-			(at 121.92 114.3 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "44817d20-ee4e-4add-bfc1-c412825266ed")
-		)
-		(pin "2"
-			(uuid "e849b009-d7cd-4e8c-8313-95591bc4c42c")
-		)
-		(instances
-			(project "PUTM_EV_PDMv2_2024"
-				(path "/b652b05a-4e3d-4ad1-b032-18886abe7d45/fd7d6fe4-610a-44c2-815e-0a8f21ae1980/17ad3a55-6e01-4cd1-ba2c-831ac663ce22"
-					(reference "R30")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "Device:R_Small")
-		(at 137.16 91.44 90)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "6d9f9af0-487d-437f-a891-748cea61285b")
-		(property "Reference" "R36"
-			(at 133.35 90.17 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "10k"
-			(at 142.24 90.17 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" "Resistor_SMD:R_0603_1608Metric_Pad0.98x0.95mm_HandSolder"
-			(at 137.16 91.44 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" "https://www.vishay.com/docs/20043/crcwhpe3.pdf"
-			(at 137.16 91.44 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "Resistor, small symbol"
-			(at 137.16 91.44 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Url" ""
-			(at 137.16 91.44 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "model " ""
-			(at 137.16 91.44 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Done?" "y"
-			(at 137.16 91.44 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Mouser Part Number" "71-CRCW060310K0FKEAH"
-			(at 137.16 91.44 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Mouser Price/Stock" "https://www.mouser.pl/ProductDetail/Vishay/CRCW060310K0FKEAHP?qs=FlFvgi4rxBwhwmNEaK0SzQ%3D%3D"
-			(at 137.16 91.44 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "2"
-			(uuid "912e651a-2184-4063-9824-cfd0c42e108e")
-		)
-		(pin "1"
-			(uuid "bfb462f6-1226-460e-bc6a-0c95aa59de8a")
-		)
-		(instances
-			(project "PUTM_EV_PDMv2_2024"
-				(path "/b652b05a-4e3d-4ad1-b032-18886abe7d45/fd7d6fe4-610a-44c2-815e-0a8f21ae1980/17ad3a55-6e01-4cd1-ba2c-831ac663ce22"
-					(reference "R36")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "Device:C_Small")
-		(at 147.32 58.42 0)
-		(mirror y)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "7304876b-7d9f-483d-97df-a32a33a44904")
-		(property "Reference" "C38"
-			(at 149.86 57.1563 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify right)
-			)
-		)
-		(property "Value" "22n"
-			(at 149.86 59.6963 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify right)
-			)
-		)
-		(property "Footprint" "Capacitor_SMD:C_0603_1608Metric_Pad1.08x0.95mm_HandSolder"
-			(at 147.32 58.42 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" "https://search.murata.co.jp/Ceramy/image/img/A01X/G101/ENG/GCE188R71H223KA01-01B.pdf"
-			(at 147.32 58.42 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" ""
-			(at 147.32 58.42 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Url" ""
-			(at 147.32 58.42 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "model " ""
-			(at 147.32 58.42 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Mouser Part Number" "GCE188R71H223KA01D"
-			(at 147.32 58.42 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Mouser Price/Stock" "https://www.tme.eu/pl/details/gce188r71h223ka01d/kondensatory-mlcc-smd/murata/"
-			(at 147.32 58.42 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Done?" "y"
-			(at 147.32 58.42 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "2"
-			(uuid "ae01d533-7286-47fe-981e-7b05cf4caa52")
-		)
-		(pin "1"
-			(uuid "e48839ad-632b-4328-b8c0-ff3f6dd789a7")
-		)
-		(instances
-			(project "PUTM_EV_PDMv2_2024"
-				(path "/b652b05a-4e3d-4ad1-b032-18886abe7d45/fd7d6fe4-610a-44c2-815e-0a8f21ae1980/17ad3a55-6e01-4cd1-ba2c-831ac663ce22"
-					(reference "C38")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "power:GND")
-		(at 137.16 124.46 0)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(fields_autoplaced yes)
-		(uuid "8eac788f-748e-46cc-922f-bada35300afd")
-		(property "Reference" "#PWR041"
-			(at 137.16 130.81 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Value" "GND"
-			(at 137.16 129.54 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" ""
-			(at 137.16 124.46 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" ""
-			(at 137.16 124.46 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 137.16 124.46 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "68b7f90a-6579-41e1-973b-e12bd1b9a76e")
-		)
-		(instances
-			(project "PUTM_EV_PDMv2_2024"
-				(path "/b652b05a-4e3d-4ad1-b032-18886abe7d45/fd7d6fe4-610a-44c2-815e-0a8f21ae1980/17ad3a55-6e01-4cd1-ba2c-831ac663ce22"
-					(reference "#PWR041")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "PDM:BTS722204ESAXUMA1")
-		(at 149.86 73.66 0)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "90deba2e-eb91-4d43-883f-93db0bd5e0fc")
-		(property "Reference" "IC2"
-			(at 167.64 116.84 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "BTS722204ESAXUMA1"
-			(at 167.64 119.38 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" "PDM:SOP65P600X115-25N"
-			(at 181.61 168.58 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left top)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" "https://www.infineon.com/dgdl/Infineon-BTS72220-4ESA-DS-v01_00-EN.pdf?fileId=5546d462636cc8fb0163feab173708d9"
-			(at 181.61 268.58 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left top)
-				(hide yes)
-			)
-		)
-		(property "Description" "Power Switch ICs - Power Distribution SPOC"
-			(at 149.86 73.66 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Height" "1.15"
-			(at 181.61 468.58 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left top)
-				(hide yes)
-			)
-		)
-		(property "Mouser Part Number" "726-BTS722204ESAXUMA"
-			(at 181.61 568.58 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left top)
-				(hide yes)
-			)
-		)
-		(property "Mouser Price/Stock" "https://www.mouser.co.uk/ProductDetail/Infineon-Technologies/BTS722204ESAXUMA1?qs=%252BEew9%252B0nqrBKRVYWm1E2Qg%3D%3D"
-			(at 181.61 668.58 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left top)
-				(hide yes)
-			)
-		)
-		(property "Manufacturer_Name" "Infineon"
-			(at 181.61 768.58 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left top)
-				(hide yes)
-			)
-		)
-		(property "Manufacturer_Part_Number" "BTS722204ESAXUMA1"
-			(at 181.61 868.58 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left top)
-				(hide yes)
-			)
-		)
-		(property "Url" ""
-			(at 149.86 73.66 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "model " ""
-			(at 149.86 73.66 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Done?" "y"
-			(at 149.86 73.66 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "22"
-			(uuid "d9541aab-a7b3-4571-a539-6771ec168dd8")
-		)
-		(pin "9"
-			(uuid "9c8b265e-7494-492f-9849-bf42d465b635")
-		)
-		(pin "19"
-			(uuid "9e5a42ec-2e4c-4b33-9c88-4dd043e771e2")
-		)
-		(pin "10"
-			(uuid "77ca4243-ad06-4b45-a853-f42da8605601")
-		)
-		(pin "16"
-			(uuid "fffb30f2-ec2b-475b-87f8-ae5fd2b3ad59")
-		)
-		(pin "7"
-			(uuid "377b7082-6058-4424-a1df-48769f7a4fce")
-		)
-		(pin "12"
-			(uuid "5ce29718-37cf-430b-b6c8-36517c0f2ba9")
-		)
-		(pin "15"
-			(uuid "f1261ba2-3f17-4be5-9bd5-8abfd2e74393")
-		)
-		(pin "20"
-			(uuid "a7bfaf82-6c18-4d49-bb86-ccc7e24199e1")
-		)
-		(pin "17"
-			(uuid "9eb14f4b-944a-4cd7-9099-60ba5242f646")
-		)
-		(pin "8"
-			(uuid "b27da02f-2da5-4582-8145-d0ffc0308ad1")
-		)
-		(pin "11"
-			(uuid "ed8056c0-a703-47ff-bde0-682126efc927")
-		)
-		(pin "18"
-			(uuid "ce935dd0-f696-416c-aa2b-49e23adf8bbf")
-		)
-		(pin "23"
-			(uuid "1a9f1303-aa72-48b5-b981-26a8e090a328")
-		)
-		(pin "2"
-			(uuid "1719bf38-5c5d-45e5-b3a6-fa79d3d8d856")
-		)
-		(pin "3"
-			(uuid "fb648ca7-f5cb-42b4-9ea4-6dfd525e4b08")
-		)
-		(pin "4"
-			(uuid "fe8e678f-e57b-430f-9bd7-48229e0bc734")
-		)
-		(pin "5"
-			(uuid "06a69b79-59a9-46e0-a223-f28bbe05cfa4")
-		)
-		(pin "6"
-			(uuid "ca5c6323-da38-445b-9bb6-2709c4231712")
-		)
-		(pin "24"
-			(uuid "1b8998ef-f160-4151-8427-90996ae0cfe8")
-		)
-		(pin "25"
-			(uuid "f78af87c-3979-47ec-8688-de9df57baf67")
-		)
-		(pin "1"
-			(uuid "0bee6fcb-5d57-4cc2-8f72-03d139bccf93")
-		)
-		(pin "13"
-			(uuid "015b5222-e5c2-426c-a7ab-de67090ae92d")
-		)
-		(pin "14"
-			(uuid "eb0dcb5a-4f3f-49ac-91b0-5955f960f3dc")
-		)
-		(pin "21"
-			(uuid "702d6baf-a5ed-4c4a-a1eb-6f4a705c3f6f")
-		)
-		(instances
-			(project "PUTM_EV_PDMv2_2024"
-				(path "/b652b05a-4e3d-4ad1-b032-18886abe7d45/fd7d6fe4-610a-44c2-815e-0a8f21ae1980/17ad3a55-6e01-4cd1-ba2c-831ac663ce22"
-					(reference "IC2")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "Device:R_Small")
-		(at 140.97 63.5 90)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(fields_autoplaced yes)
-		(uuid "9b147c48-a2c7-4804-9020-3d1a683821e7")
-		(property "Reference" "R41"
-			(at 140.97 58.42 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "47R"
-			(at 140.97 60.96 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" "Resistor_SMD:R_0603_1608Metric_Pad0.98x0.95mm_HandSolder"
-			(at 140.97 63.5 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" "https://www.vishay.com/docs/20065/rcse3.pdf"
-			(at 140.97 63.5 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "Resistor, small symbol"
-			(at 140.97 63.5 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Url" ""
-			(at 140.97 63.5 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "model " ""
-			(at 140.97 63.5 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Done?" ""
-			(at 140.97 63.5 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Mouser Part Number" "71-RCS060347R0JNEA"
-			(at 140.97 63.5 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Mouser Price/Stock" "https://www.mouser.pl/ProductDetail/Vishay-Draloric/RCS060347R0JNEA?qs=NKmfXavxMax66VGK5GWd2A%3D%3D"
-			(at 140.97 63.5 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "2"
-			(uuid "96541d4d-d8fc-43f6-976a-e47243b40708")
-		)
-		(pin "1"
-			(uuid "f59cc53d-ae9a-437d-a8fe-132e70977dc2")
-		)
-		(instances
-			(project "PUTM_EV_PDMv2_2024"
-				(path "/b652b05a-4e3d-4ad1-b032-18886abe7d45/fd7d6fe4-610a-44c2-815e-0a8f21ae1980/17ad3a55-6e01-4cd1-ba2c-831ac663ce22"
-					(reference "R41")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "Device:R_Small")
-		(at 137.16 99.06 90)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "a0e92fab-438a-4e76-90ff-d1730e45a8e2")
-		(property "Reference" "R39"
-			(at 133.35 97.79 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "10k"
-			(at 142.24 97.79 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" "Resistor_SMD:R_0603_1608Metric_Pad0.98x0.95mm_HandSolder"
-			(at 137.16 99.06 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" "https://www.vishay.com/docs/20043/crcwhpe3.pdf"
-			(at 137.16 99.06 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "Resistor, small symbol"
-			(at 137.16 99.06 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Url" ""
-			(at 137.16 99.06 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "model " ""
-			(at 137.16 99.06 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Done?" "y"
-			(at 137.16 99.06 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Mouser Part Number" "71-CRCW060310K0FKEAH"
-			(at 137.16 99.06 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Mouser Price/Stock" "https://www.mouser.pl/ProductDetail/Vishay/CRCW060310K0FKEAHP?qs=FlFvgi4rxBwhwmNEaK0SzQ%3D%3D"
-			(at 137.16 99.06 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "2"
-			(uuid "16536eb2-1bf8-4fad-8f27-f19ec3e5ef5d")
-		)
-		(pin "1"
-			(uuid "569c9641-aa24-4a73-b9d9-3e59eb3f9d9c")
-		)
-		(instances
-			(project "PUTM_EV_PDMv2_2024"
-				(path "/b652b05a-4e3d-4ad1-b032-18886abe7d45/fd7d6fe4-610a-44c2-815e-0a8f21ae1980/17ad3a55-6e01-4cd1-ba2c-831ac663ce22"
-					(reference "R39")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "Device:C_Small")
-		(at 134.62 58.42 0)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "a3dfa84b-1cf8-45df-842b-1a4a30968f51")
-		(property "Reference" "C37"
-			(at 132.08 57.1563 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify right)
-			)
-		)
-		(property "Value" "100n"
-			(at 132.08 59.6963 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify right)
-			)
-		)
-		(property "Footprint" "Capacitor_SMD:C_0603_1608Metric_Pad1.08x0.95mm_HandSolder"
-			(at 134.62 58.42 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" "https://www.mouser.pl/datasheet/3/76/2/GCJ188R71H104KA12_02B.pdf"
-			(at 134.62 58.42 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" ""
-			(at 134.62 58.42 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Url" ""
-			(at 134.62 58.42 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "model " ""
-			(at 134.62 58.42 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Done?" "y"
-			(at 134.62 58.42 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Mouser Part Number" "81-GCJ188R71H104KA2D"
-			(at 134.62 58.42 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Mouser Price/Stock" "https://www.mouser.pl/ProductDetail/Murata-Electronics/GCJ188R71H104KA12D?qs=zThidflJDvYKuGhiQaflUg%3D%3D"
-			(at 134.62 58.42 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "2"
-			(uuid "fb6b2ce9-8ca6-4380-8127-d016e2a09295")
-		)
-		(pin "1"
-			(uuid "3c3a0278-a337-4b38-8b9d-2ba529f53363")
-		)
-		(instances
-			(project "PUTM_EV_PDMv2_2024"
-				(path "/b652b05a-4e3d-4ad1-b032-18886abe7d45/fd7d6fe4-610a-44c2-815e-0a8f21ae1980/17ad3a55-6e01-4cd1-ba2c-831ac663ce22"
-					(reference "C37")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "power:GND")
-		(at 191.77 114.3 0)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(fields_autoplaced yes)
-		(uuid "a5ae6986-4bac-424e-9a14-e8fd9794656f")
-		(property "Reference" "#PWR042"
-			(at 191.77 120.65 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Value" "GND"
-			(at 191.77 119.38 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" ""
-			(at 191.77 114.3 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" ""
-			(at 191.77 114.3 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 191.77 114.3 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "e7b1d015-de88-4b5e-8645-4f908cbe2dbe")
-		)
-		(instances
-			(project "PUTM_EV_PDMv2_2024"
-				(path "/b652b05a-4e3d-4ad1-b032-18886abe7d45/fd7d6fe4-610a-44c2-815e-0a8f21ae1980/17ad3a55-6e01-4cd1-ba2c-831ac663ce22"
-					(reference "#PWR042")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "Device:C_Small")
-		(at 191.77 78.74 0)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(fields_autoplaced yes)
-		(uuid "a6d34721-c387-45cf-a546-d47110165889")
-		(property "Reference" "C40"
-			(at 194.31 77.4763 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Value" "10n"
-			(at 194.31 80.0163 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Footprint" "Capacitor_SMD:C_0603_1608Metric_Pad1.08x0.95mm_HandSolder"
-			(at 191.77 78.74 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" "https://www.mouser.pl/datasheet/3/76/2/GCE188R71H103KA01_01B.pdf"
-			(at 191.77 78.74 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" ""
-			(at 191.77 78.74 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Url" ""
-			(at 191.77 78.74 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "model " ""
-			(at 191.77 78.74 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Mouser Part Number" "81-GCE188R71H103KA1D"
-			(at 191.77 78.74 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Mouser Price/Stock" "https://www.mouser.pl/ProductDetail/Murata-Electronics/GCE188R71H103KA01D?qs=coxMWmu44UD8EgQ3nJ%2FBqQ%3D%3D"
-			(at 191.77 78.74 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Done?" "y"
-			(at 191.77 78.74 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "31d1e23f-c43b-4bf4-a3f0-a40aec55e55b")
-		)
-		(pin "2"
-			(uuid "3b3f1c44-8530-4b14-a321-88ff5f419661")
-		)
-		(instances
-			(project "PUTM_EV_PDMv2_2024"
-				(path "/b652b05a-4e3d-4ad1-b032-18886abe7d45/fd7d6fe4-610a-44c2-815e-0a8f21ae1980/17ad3a55-6e01-4cd1-ba2c-831ac663ce22"
-					(reference "C40")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "power:GND")
-		(at 130.81 101.6 0)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(fields_autoplaced yes)
-		(uuid "b838a88e-d5be-4825-a33f-2d250b0e0976")
-		(property "Reference" "#PWR039"
-			(at 130.81 107.95 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Value" "GND"
-			(at 130.81 106.68 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" ""
-			(at 130.81 101.6 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" ""
-			(at 130.81 101.6 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 130.81 101.6 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "c625dc34-d77c-47a2-af14-f4134b1fdefe")
-		)
-		(instances
-			(project "PUTM_EV_PDMv2_2024"
-				(path "/b652b05a-4e3d-4ad1-b032-18886abe7d45/fd7d6fe4-610a-44c2-815e-0a8f21ae1980/17ad3a55-6e01-4cd1-ba2c-831ac663ce22"
-					(reference "#PWR039")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "Device:R_Small")
-		(at 106.68 114.3 90)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(fields_autoplaced yes)
-		(uuid "bd0884c4-7470-4444-a792-d3b13a2343f0")
-		(property "Reference" "R28"
-			(at 106.68 109.22 90)
-			(effects
-				(font
-					(size 1.016 1.016)
-				)
-			)
-		)
-		(property "Value" "4k7"
-			(at 106.68 111.76 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" "Resistor_SMD:R_0603_1608Metric_Pad0.98x0.95mm_HandSolder"
-			(at 106.68 114.3 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" "https://www.vishay.com/docs/20035/dcrcwe3.pdf"
-			(at 106.68 114.3 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "Resistor, small symbol"
-			(at 106.68 114.3 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Url" ""
-			(at 106.68 114.3 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "model " ""
-			(at 106.68 114.3 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Done?" "y"
-			(at 106.68 114.3 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Mouser Part Number" "71-CRCW0603-4.7K-E3"
-			(at 106.68 114.3 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Mouser Price/Stock" "https://www.mouser.pl/ProductDetail/Vishay/CRCW06034K70FKEA?qs=4E3O%252BEEZcdLDG%2FSk4GmlWQ%3D%3D"
-			(at 106.68 114.3 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "f0366ee1-7eae-41a1-9e9b-0325fc4548c7")
-		)
-		(pin "2"
-			(uuid "8278e228-4b1b-41dd-9a0e-dcb63952430c")
-		)
-		(instances
-			(project "PUTM_EV_PDMv2_2024"
-				(path "/b652b05a-4e3d-4ad1-b032-18886abe7d45/fd7d6fe4-610a-44c2-815e-0a8f21ae1980/17ad3a55-6e01-4cd1-ba2c-831ac663ce22"
-					(reference "R28")
+				(path "/b652b05a-4e3d-4ad1-b032-18886abe7d45/fd7d6fe4-610a-44c2-815e-0a8f21ae1980/65a856a8-6110-42cd-b516-e67517f06f0a"
+					(reference "D17")
 					(unit 1)
 				)
 			)
@@ -5157,8 +4510,8 @@
 		(on_board yes)
 		(dnp no)
 		(fields_autoplaced yes)
-		(uuid "c0752a34-df1a-413b-bd0e-a52e090a9ad0")
-		(property "Reference" "C36"
+		(uuid "8128c0e9-e86f-42f7-aa0f-c2ea00937b75")
+		(property "Reference" "C53"
 			(at 101.6 118.1163 0)
 			(effects
 				(font
@@ -5249,15 +4602,15 @@
 			)
 		)
 		(pin "2"
-			(uuid "dc1ff7b7-8386-4bbe-9e65-daa1172f1e3c")
+			(uuid "078e564a-f23f-4e26-bb39-a52e23b12252")
 		)
 		(pin "1"
-			(uuid "82daf8cf-ed6d-4652-94f3-aac426c27d1b")
+			(uuid "dea9f73f-ce9e-4713-a3f5-a7162391c12c")
 		)
 		(instances
 			(project "PUTM_EV_PDMv2_2024"
-				(path "/b652b05a-4e3d-4ad1-b032-18886abe7d45/fd7d6fe4-610a-44c2-815e-0a8f21ae1980/17ad3a55-6e01-4cd1-ba2c-831ac663ce22"
-					(reference "C36")
+				(path "/b652b05a-4e3d-4ad1-b032-18886abe7d45/fd7d6fe4-610a-44c2-815e-0a8f21ae1980/65a856a8-6110-42cd-b516-e67517f06f0a"
+					(reference "C53")
 					(unit 1)
 				)
 			)
@@ -5265,23 +4618,24 @@
 	)
 	(symbol
 		(lib_id "Device:R_Small")
-		(at 137.16 78.74 90)
+		(at 125.73 76.2 90)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid "c37e6aab-4355-4b24-8221-02c90eea69bf")
-		(property "Reference" "R32"
-			(at 133.35 77.47 90)
+		(fields_autoplaced yes)
+		(uuid "8a1909f9-8d6f-4ba8-ab21-cfb9e00d342c")
+		(property "Reference" "R61"
+			(at 125.73 71.12 90)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 			)
 		)
-		(property "Value" "330R"
-			(at 142.24 77.47 90)
+		(property "Value" "470R"
+			(at 125.73 73.66 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5289,7 +4643,7 @@
 			)
 		)
 		(property "Footprint" "Resistor_SMD:R_0603_1608Metric_Pad0.98x0.95mm_HandSolder"
-			(at 137.16 78.74 0)
+			(at 125.73 76.2 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5298,7 +4652,7 @@
 			)
 		)
 		(property "Datasheet" "https://www.vishay.com/docs/20035/dcrcwe3.pdf"
-			(at 137.16 78.74 0)
+			(at 125.73 76.2 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5307,7 +4661,7 @@
 			)
 		)
 		(property "Description" "Resistor, small symbol"
-			(at 137.16 78.74 0)
+			(at 125.73 76.2 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5316,7 +4670,7 @@
 			)
 		)
 		(property "Url" ""
-			(at 137.16 78.74 90)
+			(at 125.73 76.2 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5325,7 +4679,7 @@
 			)
 		)
 		(property "model " ""
-			(at 137.16 78.74 90)
+			(at 125.73 76.2 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5334,7 +4688,768 @@
 			)
 		)
 		(property "Done?" "y"
-			(at 137.16 78.74 90)
+			(at 125.73 76.2 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Mouser Price/Stock" "https://www.mouser.pl/ProductDetail/Vishay/CRCW0603470RJNEA?qs=NW1wgvpSas3lUsjQwt8mQg%3D%3D"
+			(at 125.73 76.2 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Mouser Part Number" "71-CRCW0603J-470-E3"
+			(at 125.73 76.2 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "2"
+			(uuid "5ad98422-4ad0-4088-9782-9c1aac1b9989")
+		)
+		(pin "1"
+			(uuid "9cfa9f7d-2841-4e1c-8568-d8c9cf514211")
+		)
+		(instances
+			(project "PUTM_EV_PDMv2_2024"
+				(path "/b652b05a-4e3d-4ad1-b032-18886abe7d45/fd7d6fe4-610a-44c2-815e-0a8f21ae1980/65a856a8-6110-42cd-b516-e67517f06f0a"
+					(reference "R61")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:GND")
+		(at 99.06 124.46 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "90bda490-bd67-4256-b8fd-1251064efdf7")
+		(property "Reference" "#PWR053"
+			(at 99.06 130.81 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "GND"
+			(at 99.06 129.54 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 99.06 124.46 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 99.06 124.46 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
+			(at 99.06 124.46 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "06974bcf-27c0-451e-b411-e44d9aebd651")
+		)
+		(instances
+			(project "PUTM_EV_PDMv2_2024"
+				(path "/b652b05a-4e3d-4ad1-b032-18886abe7d45/fd7d6fe4-610a-44c2-815e-0a8f21ae1980/65a856a8-6110-42cd-b516-e67517f06f0a"
+					(reference "#PWR053")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:+3V3")
+		(at 113.03 73.66 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "984910b2-714d-4228-9c7a-8f85dd804131")
+		(property "Reference" "#PWR054"
+			(at 113.03 77.47 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "+3V3"
+			(at 113.03 68.58 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 113.03 73.66 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 113.03 73.66 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"+3V3\""
+			(at 113.03 73.66 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "9f358850-977c-441e-83fc-ba9d6efc2217")
+		)
+		(instances
+			(project "PUTM_EV_PDMv2_2024"
+				(path "/b652b05a-4e3d-4ad1-b032-18886abe7d45/fd7d6fe4-610a-44c2-815e-0a8f21ae1980/65a856a8-6110-42cd-b516-e67517f06f0a"
+					(reference "#PWR054")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:R_Small")
+		(at 106.68 114.3 90)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "9921dd66-d178-47b4-a13c-838ccb8a66ae")
+		(property "Reference" "R58"
+			(at 106.68 109.22 90)
+			(effects
+				(font
+					(size 1.016 1.016)
+				)
+			)
+		)
+		(property "Value" "4k7"
+			(at 106.68 111.76 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "Resistor_SMD:R_0603_1608Metric_Pad0.98x0.95mm_HandSolder"
+			(at 106.68 114.3 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "https://www.vishay.com/docs/20035/dcrcwe3.pdf"
+			(at 106.68 114.3 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Resistor, small symbol"
+			(at 106.68 114.3 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Url" ""
+			(at 106.68 114.3 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "model " ""
+			(at 106.68 114.3 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Done?" "y"
+			(at 106.68 114.3 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Mouser Part Number" "71-CRCW0603-4.7K-E3"
+			(at 106.68 114.3 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Mouser Price/Stock" "https://www.mouser.pl/ProductDetail/Vishay/CRCW06034K70FKEA?qs=4E3O%252BEEZcdLDG%2FSk4GmlWQ%3D%3D"
+			(at 106.68 114.3 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "8df734ce-34ef-46ce-83bd-33de7082fa52")
+		)
+		(pin "2"
+			(uuid "df4ad1d5-e835-4156-982e-4742f4da0a5d")
+		)
+		(instances
+			(project "PUTM_EV_PDMv2_2024"
+				(path "/b652b05a-4e3d-4ad1-b032-18886abe7d45/fd7d6fe4-610a-44c2-815e-0a8f21ae1980/65a856a8-6110-42cd-b516-e67517f06f0a"
+					(reference "R58")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:R_Small")
+		(at 120.65 88.9 90)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "a5b6a866-a14b-48a6-87e2-f441e9b2570c")
+		(property "Reference" "R59"
+			(at 120.65 83.82 90)
+			(effects
+				(font
+					(size 1.016 1.016)
+				)
+			)
+		)
+		(property "Value" "4k7"
+			(at 120.65 86.36 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "Resistor_SMD:R_0603_1608Metric_Pad0.98x0.95mm_HandSolder"
+			(at 120.65 88.9 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "https://www.vishay.com/docs/20035/dcrcwe3.pdf"
+			(at 120.65 88.9 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Resistor, small symbol"
+			(at 120.65 88.9 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Url" ""
+			(at 120.65 88.9 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "model " ""
+			(at 120.65 88.9 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Done?" "y"
+			(at 120.65 88.9 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Mouser Part Number" "71-CRCW0603-4.7K-E3"
+			(at 120.65 88.9 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Mouser Price/Stock" "https://www.mouser.pl/ProductDetail/Vishay/CRCW06034K70FKEA?qs=4E3O%252BEEZcdLDG%2FSk4GmlWQ%3D%3D"
+			(at 120.65 88.9 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "bcb0ed51-3e88-4412-b42a-e23e08f861f5")
+		)
+		(pin "2"
+			(uuid "edaab1ff-4a6f-403a-8e02-db08d3d86df0")
+		)
+		(instances
+			(project "PUTM_EV_PDMv2_2024"
+				(path "/b652b05a-4e3d-4ad1-b032-18886abe7d45/fd7d6fe4-610a-44c2-815e-0a8f21ae1980/65a856a8-6110-42cd-b516-e67517f06f0a"
+					(reference "R59")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:GND")
+		(at 134.62 66.04 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "a9dc9100-94b2-4dd9-a7a2-7493ae90f379")
+		(property "Reference" "#PWR057"
+			(at 134.62 72.39 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "GND"
+			(at 134.62 71.12 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 134.62 66.04 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 134.62 66.04 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
+			(at 134.62 66.04 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "c9b5b961-3eaf-4ca0-88aa-2d7b09c37c23")
+		)
+		(instances
+			(project "PUTM_EV_PDMv2_2024"
+				(path "/b652b05a-4e3d-4ad1-b032-18886abe7d45/fd7d6fe4-610a-44c2-815e-0a8f21ae1980/65a856a8-6110-42cd-b516-e67517f06f0a"
+					(reference "#PWR057")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:R_Small")
+		(at 121.92 114.3 90)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "ae849615-747b-46a6-b21f-07fd86838983")
+		(property "Reference" "R60"
+			(at 121.92 109.22 90)
+			(effects
+				(font
+					(size 1.016 1.016)
+				)
+			)
+		)
+		(property "Value" "4k7"
+			(at 121.92 111.76 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "Resistor_SMD:R_0603_1608Metric_Pad0.98x0.95mm_HandSolder"
+			(at 121.92 114.3 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "https://www.vishay.com/docs/20035/dcrcwe3.pdf"
+			(at 121.92 114.3 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Resistor, small symbol"
+			(at 121.92 114.3 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Url" ""
+			(at 121.92 114.3 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "model " ""
+			(at 121.92 114.3 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Done?" "y"
+			(at 121.92 114.3 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Mouser Part Number" "71-CRCW0603-4.7K-E3"
+			(at 121.92 114.3 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Mouser Price/Stock" "https://www.mouser.pl/ProductDetail/Vishay/CRCW06034K70FKEA?qs=4E3O%252BEEZcdLDG%2FSk4GmlWQ%3D%3D"
+			(at 121.92 114.3 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "e05b52fe-bb0a-4ba4-bbab-0aee1588ab5f")
+		)
+		(pin "2"
+			(uuid "9eacd61e-3894-4aec-8be7-67056d606660")
+		)
+		(instances
+			(project "PUTM_EV_PDMv2_2024"
+				(path "/b652b05a-4e3d-4ad1-b032-18886abe7d45/fd7d6fe4-610a-44c2-815e-0a8f21ae1980/65a856a8-6110-42cd-b516-e67517f06f0a"
+					(reference "R60")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:R_Small")
+		(at 137.16 99.06 90)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "d6589135-09c8-4393-a296-bc0c4dfdaec1")
+		(property "Reference" "R69"
+			(at 133.35 97.79 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "10k"
+			(at 142.24 97.79 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "Resistor_SMD:R_0603_1608Metric_Pad0.98x0.95mm_HandSolder"
+			(at 137.16 99.06 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "https://www.vishay.com/docs/20043/crcwhpe3.pdf"
+			(at 137.16 99.06 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Resistor, small symbol"
+			(at 137.16 99.06 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Url" ""
+			(at 137.16 99.06 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "model " ""
+			(at 137.16 99.06 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Done?" "y"
+			(at 137.16 99.06 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Mouser Part Number" "71-CRCW060310K0FKEAH"
+			(at 137.16 99.06 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Mouser Price/Stock" "https://www.mouser.pl/ProductDetail/Vishay/CRCW060310K0FKEAHP?qs=FlFvgi4rxBwhwmNEaK0SzQ%3D%3D"
+			(at 137.16 99.06 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "2"
+			(uuid "688c8006-3cd0-44fc-8424-d2eeab899766")
+		)
+		(pin "1"
+			(uuid "a846453b-7107-4edd-873e-74bc26403e5f")
+		)
+		(instances
+			(project "PUTM_EV_PDMv2_2024"
+				(path "/b652b05a-4e3d-4ad1-b032-18886abe7d45/fd7d6fe4-610a-44c2-815e-0a8f21ae1980/65a856a8-6110-42cd-b516-e67517f06f0a"
+					(reference "R69")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:R_Small")
+		(at 137.16 86.36 90)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "d6eee148-ba28-45fe-9058-cf870753d115")
+		(property "Reference" "R65"
+			(at 133.35 85.09 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "330R"
+			(at 142.24 85.09 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "Resistor_SMD:R_0603_1608Metric_Pad0.98x0.95mm_HandSolder"
+			(at 137.16 86.36 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "https://www.vishay.com/docs/20035/dcrcwe3.pdf"
+			(at 137.16 86.36 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Resistor, small symbol"
+			(at 137.16 86.36 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Url" ""
+			(at 137.16 86.36 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "model " ""
+			(at 137.16 86.36 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Done?" "y"
+			(at 137.16 86.36 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5343,7 +5458,7 @@
 			)
 		)
 		(property "Mouser Part Number" "71-CRCW0603-330-E3"
-			(at 137.16 78.74 90)
+			(at 137.16 86.36 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5352,7 +5467,7 @@
 			)
 		)
 		(property "Mouser Price/Stock" "https://www.mouser.pl/ProductDetail/Vishay/CRCW0603330RFKEA?qs=xLmuQgtoMPNxrOftWKAO4w%3D%3D"
-			(at 137.16 78.74 90)
+			(at 137.16 86.36 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5361,130 +5476,15 @@
 			)
 		)
 		(pin "2"
-			(uuid "2b5ce5d7-4d20-4474-ab3b-a155d616606f")
+			(uuid "9abce586-6277-4f5d-8071-cd1cb028b320")
 		)
 		(pin "1"
-			(uuid "58a67b11-dba2-4415-9815-d0c1b0346f5d")
+			(uuid "16a76c4c-c5ab-4857-b43c-4edb4382286f")
 		)
 		(instances
 			(project "PUTM_EV_PDMv2_2024"
-				(path "/b652b05a-4e3d-4ad1-b032-18886abe7d45/fd7d6fe4-610a-44c2-815e-0a8f21ae1980/17ad3a55-6e01-4cd1-ba2c-831ac663ce22"
-					(reference "R32")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "Device:R_Small")
-		(at 137.16 119.38 0)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(fields_autoplaced yes)
-		(uuid "d0ee1e6e-8590-48e4-841e-cb13d1446429")
-		(property "Reference" "R40"
-			(at 139.7 118.1099 0)
-			(effects
-				(font
-					(size 1.016 1.016)
-				)
-				(justify left)
-			)
-		)
-		(property "Value" "1k2"
-			(at 139.7 120.6499 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Footprint" "Resistor_SMD:R_0603_1608Metric_Pad0.98x0.95mm_HandSolder"
-			(at 137.16 119.38 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" "https://www.vishay.com/docs/20035/dcrcwe3.pdf"
-			(at 137.16 119.38 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "Resistor, small symbol"
-			(at 137.16 119.38 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Url" ""
-			(at 137.16 119.38 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "model " ""
-			(at 137.16 119.38 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Done?" "y"
-			(at 137.16 119.38 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Mouser Part Number" "71-CRCW0603-1.2K-E3"
-			(at 137.16 119.38 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Mouser Price/Stock" "https://www.mouser.pl/ProductDetail/Vishay/CRCW06031K20FKEA?qs=pAReC37xhjXGEGle1f9MAA%3D%3D"
-			(at 137.16 119.38 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "2"
-			(uuid "ac8a0399-5d70-42a4-88ff-5b37abb22eb0")
-		)
-		(pin "1"
-			(uuid "5499a26b-a166-43c9-a310-703a57d6482b")
-		)
-		(instances
-			(project "PUTM_EV_PDMv2_2024"
-				(path "/b652b05a-4e3d-4ad1-b032-18886abe7d45/fd7d6fe4-610a-44c2-815e-0a8f21ae1980/17ad3a55-6e01-4cd1-ba2c-831ac663ce22"
-					(reference "R40")
+				(path "/b652b05a-4e3d-4ad1-b032-18886abe7d45/fd7d6fe4-610a-44c2-815e-0a8f21ae1980/65a856a8-6110-42cd-b516-e67517f06f0a"
+					(reference "R65")
 					(unit 1)
 				)
 			)
@@ -5499,8 +5499,8 @@
 		(on_board yes)
 		(dnp no)
 		(fields_autoplaced yes)
-		(uuid "de1c33de-643e-456f-9a41-98192cce437d")
-		(property "Reference" "C39"
+		(uuid "e4999210-eb8a-47c6-8348-c137644f2df0")
+		(property "Reference" "C56"
 			(at 149.86 67.3163 0)
 			(effects
 				(font
@@ -5591,130 +5591,15 @@
 			)
 		)
 		(pin "2"
-			(uuid "4f35544c-324a-419f-a1f7-d1c9592b11fc")
+			(uuid "43c0b296-1ca6-48f7-b8ee-6ff165826930")
 		)
 		(pin "1"
-			(uuid "07749086-2b44-42a0-94f7-e9c732283f78")
+			(uuid "71c1c1d8-d19d-4cc9-93d5-6bcfff4ba0ad")
 		)
 		(instances
 			(project "PUTM_EV_PDMv2_2024"
-				(path "/b652b05a-4e3d-4ad1-b032-18886abe7d45/fd7d6fe4-610a-44c2-815e-0a8f21ae1980/17ad3a55-6e01-4cd1-ba2c-831ac663ce22"
-					(reference "C39")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "Device:C_Small")
-		(at 195.58 87.63 0)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(fields_autoplaced yes)
-		(uuid "e7387471-610c-4f29-a751-dab1d93f401e")
-		(property "Reference" "C41"
-			(at 198.12 86.3663 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Value" "10n"
-			(at 198.12 88.9063 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Footprint" "Capacitor_SMD:C_0603_1608Metric_Pad1.08x0.95mm_HandSolder"
-			(at 195.58 87.63 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" "https://www.mouser.pl/datasheet/3/76/2/GCE188R71H103KA01_01B.pdf"
-			(at 195.58 87.63 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" ""
-			(at 195.58 87.63 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Url" ""
-			(at 195.58 87.63 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "model " ""
-			(at 195.58 87.63 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Mouser Part Number" "81-GCE188R71H103KA1D"
-			(at 195.58 87.63 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Mouser Price/Stock" "https://www.mouser.pl/ProductDetail/Murata-Electronics/GCE188R71H103KA01D?qs=coxMWmu44UD8EgQ3nJ%2FBqQ%3D%3D"
-			(at 195.58 87.63 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Done?" "y"
-			(at 195.58 87.63 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "92d1aeec-260b-4a1f-a407-685a13ebd798")
-		)
-		(pin "2"
-			(uuid "aab5c25d-687c-4cef-8c0e-601f17ee7fa0")
-		)
-		(instances
-			(project "PUTM_EV_PDMv2_2024"
-				(path "/b652b05a-4e3d-4ad1-b032-18886abe7d45/fd7d6fe4-610a-44c2-815e-0a8f21ae1980/17ad3a55-6e01-4cd1-ba2c-831ac663ce22"
-					(reference "C41")
+				(path "/b652b05a-4e3d-4ad1-b032-18886abe7d45/fd7d6fe4-610a-44c2-815e-0a8f21ae1980/65a856a8-6110-42cd-b516-e67517f06f0a"
+					(reference "C56")
 					(unit 1)
 				)
 			)
@@ -5722,23 +5607,23 @@
 	)
 	(symbol
 		(lib_id "Device:R_Small")
-		(at 137.16 93.98 90)
+		(at 137.16 83.82 90)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid "ef07fd70-b94d-4da4-8155-0cd469848cc7")
-		(property "Reference" "R37"
-			(at 133.35 92.71 90)
+		(uuid "e6c797f0-13c3-4c94-bc0f-1ab6da5d307d")
+		(property "Reference" "R64"
+			(at 133.35 82.55 90)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 			)
 		)
-		(property "Value" "10k"
-			(at 142.24 92.71 90)
+		(property "Value" "330R"
+			(at 142.24 82.55 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5746,7 +5631,7 @@
 			)
 		)
 		(property "Footprint" "Resistor_SMD:R_0603_1608Metric_Pad0.98x0.95mm_HandSolder"
-			(at 137.16 93.98 0)
+			(at 137.16 83.82 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5754,8 +5639,8 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" "https://www.vishay.com/docs/20043/crcwhpe3.pdf"
-			(at 137.16 93.98 0)
+		(property "Datasheet" "https://www.vishay.com/docs/20035/dcrcwe3.pdf"
+			(at 137.16 83.82 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5764,7 +5649,7 @@
 			)
 		)
 		(property "Description" "Resistor, small symbol"
-			(at 137.16 93.98 0)
+			(at 137.16 83.82 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5773,7 +5658,7 @@
 			)
 		)
 		(property "Url" ""
-			(at 137.16 93.98 90)
+			(at 137.16 83.82 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5782,7 +5667,7 @@
 			)
 		)
 		(property "model " ""
-			(at 137.16 93.98 90)
+			(at 137.16 83.82 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5791,7 +5676,7 @@
 			)
 		)
 		(property "Done?" "y"
-			(at 137.16 93.98 90)
+			(at 137.16 83.82 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5799,8 +5684,8 @@
 				(hide yes)
 			)
 		)
-		(property "Mouser Part Number" "71-CRCW060310K0FKEAH"
-			(at 137.16 93.98 90)
+		(property "Mouser Part Number" "71-CRCW0603-330-E3"
+			(at 137.16 83.82 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5808,8 +5693,8 @@
 				(hide yes)
 			)
 		)
-		(property "Mouser Price/Stock" "https://www.mouser.pl/ProductDetail/Vishay/CRCW060310K0FKEAHP?qs=FlFvgi4rxBwhwmNEaK0SzQ%3D%3D"
-			(at 137.16 93.98 90)
+		(property "Mouser Price/Stock" "https://www.mouser.pl/ProductDetail/Vishay/CRCW0603330RFKEA?qs=xLmuQgtoMPNxrOftWKAO4w%3D%3D"
+			(at 137.16 83.82 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5818,15 +5703,130 @@
 			)
 		)
 		(pin "2"
-			(uuid "4b108e50-4641-4695-9e49-8ca031b19c73")
+			(uuid "dbfc17dc-6b90-4f34-848c-dfd8d662200b")
 		)
 		(pin "1"
-			(uuid "1b561f88-ddcd-4cf0-aa31-99366a4559bd")
+			(uuid "2dee5331-ff28-4515-ad09-6de5acd64b33")
 		)
 		(instances
 			(project "PUTM_EV_PDMv2_2024"
-				(path "/b652b05a-4e3d-4ad1-b032-18886abe7d45/fd7d6fe4-610a-44c2-815e-0a8f21ae1980/17ad3a55-6e01-4cd1-ba2c-831ac663ce22"
-					(reference "R37")
+				(path "/b652b05a-4e3d-4ad1-b032-18886abe7d45/fd7d6fe4-610a-44c2-815e-0a8f21ae1980/65a856a8-6110-42cd-b516-e67517f06f0a"
+					(reference "R64")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:C_Small")
+		(at 199.39 96.52 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "edd027c6-335b-4645-9a6c-f4d0b8e9f85d")
+		(property "Reference" "C59"
+			(at 201.93 95.2563 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "10n"
+			(at 201.93 97.7963 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Capacitor_SMD:C_0603_1608Metric_Pad1.08x0.95mm_HandSolder"
+			(at 199.39 96.52 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "https://www.mouser.pl/datasheet/3/76/2/GCE188R71H103KA01_01B.pdf"
+			(at 199.39 96.52 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 199.39 96.52 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Url" ""
+			(at 199.39 96.52 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "model " ""
+			(at 199.39 96.52 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Mouser Part Number" "81-GCE188R71H103KA1D"
+			(at 199.39 96.52 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Mouser Price/Stock" "https://www.mouser.pl/ProductDetail/Murata-Electronics/GCE188R71H103KA01D?qs=coxMWmu44UD8EgQ3nJ%2FBqQ%3D%3D"
+			(at 199.39 96.52 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Done?" "y"
+			(at 199.39 96.52 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "0985de9a-d2fe-4cc0-b318-9de5f49e5057")
+		)
+		(pin "2"
+			(uuid "5157873e-e1bc-48f0-ad2f-94132b966a73")
+		)
+		(instances
+			(project "PUTM_EV_PDMv2_2024"
+				(path "/b652b05a-4e3d-4ad1-b032-18886abe7d45/fd7d6fe4-610a-44c2-815e-0a8f21ae1980/65a856a8-6110-42cd-b516-e67517f06f0a"
+					(reference "C59")
 					(unit 1)
 				)
 			)
@@ -5834,16 +5834,16 @@
 	)
 	(symbol
 		(lib_id "power:GND")
-		(at 114.3 124.46 0)
+		(at 191.77 114.3 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
 		(fields_autoplaced yes)
-		(uuid "fabda9e2-5ff4-4c9b-90fe-57769e9113d9")
-		(property "Reference" "#PWR038"
-			(at 114.3 130.81 0)
+		(uuid "f6f16a0c-433e-43b7-bba5-deacdec86778")
+		(property "Reference" "#PWR059"
+			(at 191.77 120.65 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5852,7 +5852,7 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 114.3 129.54 0)
+			(at 191.77 119.38 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5860,7 +5860,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 114.3 124.46 0)
+			(at 191.77 114.3 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5869,7 +5869,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 114.3 124.46 0)
+			(at 191.77 114.3 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5878,7 +5878,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 114.3 124.46 0)
+			(at 191.77 114.3 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5887,12 +5887,12 @@
 			)
 		)
 		(pin "1"
-			(uuid "6cf20786-e921-486d-addb-c6278ef80693")
+			(uuid "057bbfd8-79f2-4cd4-9212-ff24840674b8")
 		)
 		(instances
 			(project "PUTM_EV_PDMv2_2024"
-				(path "/b652b05a-4e3d-4ad1-b032-18886abe7d45/fd7d6fe4-610a-44c2-815e-0a8f21ae1980/17ad3a55-6e01-4cd1-ba2c-831ac663ce22"
-					(reference "#PWR038")
+				(path "/b652b05a-4e3d-4ad1-b032-18886abe7d45/fd7d6fe4-610a-44c2-815e-0a8f21ae1980/65a856a8-6110-42cd-b516-e67517f06f0a"
+					(reference "#PWR059")
 					(unit 1)
 				)
 			)

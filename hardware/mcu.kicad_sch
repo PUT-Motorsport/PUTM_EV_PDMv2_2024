@@ -1876,12 +1876,20 @@
 		(uuid "e5d3a5e6-8a3d-4c03-bf06-acfae03e2e65")
 	)
 	(no_connect
+		(at 179.07 114.3)
+		(uuid "5b0c8541-35a3-41ea-95a1-e51760e50df6")
+	)
+	(no_connect
 		(at 140.97 121.92)
 		(uuid "c2b97df2-2fb6-44fe-90ce-1b7560d5aaf0")
 	)
 	(no_connect
 		(at 140.97 106.68)
 		(uuid "c4828d9c-1ef9-4320-b642-aa9f7bfd130c")
+	)
+	(no_connect
+		(at 179.07 116.84)
+		(uuid "e048149d-ec6d-4e23-9860-01da22825661")
 	)
 	(no_connect
 		(at 140.97 124.46)
@@ -1913,15 +1921,6 @@
 			(type default)
 		)
 		(uuid "22afb40e-33e0-47ae-845e-6485f20f1e79")
-	)
-	(bus_entry
-		(at 194.31 114.3)
-		(size 2.54 -2.54)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "28c8a589-d1bd-49f8-b467-aac1d0c91072")
 	)
 	(bus_entry
 		(at 194.31 93.98)
@@ -2023,15 +2022,6 @@
 		(uuid "bc5624a1-6ac2-4d6d-ac9f-94f1a8f4455c")
 	)
 	(bus_entry
-		(at 196.85 114.3)
-		(size -2.54 2.54)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "c2e5464c-f533-4b5d-8c1e-d831f496947b")
-	)
-	(bus_entry
 		(at 194.31 91.44)
 		(size 2.54 -2.54)
 		(stroke
@@ -2066,15 +2056,6 @@
 			(type default)
 		)
 		(uuid "f5547b77-073c-45d9-898c-bee7a709d2ca")
-	)
-	(bus_entry
-		(at 196.85 111.76)
-		(size -2.54 2.54)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "f674bc48-96a6-445c-974b-e1e519e812ab")
 	)
 	(wire
 		(pts
@@ -2368,16 +2349,6 @@
 	)
 	(bus
 		(pts
-			(xy 196.85 109.22) (xy 200.66 109.22)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "6951d0f5-0db5-42ab-a3cd-63e2fddd3e05")
-	)
-	(bus
-		(pts
 			(xy 196.85 86.36) (xy 196.85 83.82)
 		)
 		(stroke
@@ -2505,16 +2476,6 @@
 			(type default)
 		)
 		(uuid "844c416d-7cf6-4e8b-9a5f-94ea49d4fc8a")
-	)
-	(wire
-		(pts
-			(xy 194.31 116.84) (xy 179.07 116.84)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "8471a249-b599-4b74-924d-abd63403ef5b")
 	)
 	(wire
 		(pts
@@ -2858,16 +2819,6 @@
 	)
 	(bus
 		(pts
-			(xy 196.85 111.76) (xy 196.85 114.3)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "cc639b82-1a72-47f1-8a23-3af5b46ebbeb")
-	)
-	(bus
-		(pts
 			(xy 123.19 121.92) (xy 123.19 119.38)
 		)
 		(stroke
@@ -2936,16 +2887,6 @@
 		)
 		(uuid "dacd9efd-95c1-4e8e-9351-3f1b33c0cf31")
 	)
-	(wire
-		(pts
-			(xy 179.07 114.3) (xy 194.31 114.3)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "dc9df366-b787-474a-b72b-eb9c1f6fc176")
-	)
 	(bus
 		(pts
 			(xy 123.19 99.06) (xy 119.38 99.06)
@@ -2995,16 +2936,6 @@
 			(type default)
 		)
 		(uuid "e7fe7444-773a-4832-a010-99a8514590d8")
-	)
-	(bus
-		(pts
-			(xy 196.85 109.22) (xy 196.85 111.76)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "f01b128b-1224-4d59-8a7c-74ece1e01734")
 	)
 	(wire
 		(pts
@@ -3236,16 +3167,6 @@
 		)
 		(uuid "7589e501-f936-406e-aa91-ec405c72f754")
 	)
-	(label "USB.-"
-		(at 194.31 114.3 180)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right bottom)
-		)
-		(uuid "798b4318-aabf-48f3-837e-9dcdad6b7014")
-	)
 	(label "FUSE_IS3"
 		(at 194.31 93.98 180)
 		(effects
@@ -3356,16 +3277,6 @@
 		)
 		(uuid "b90edc5d-d321-4fbf-a3e2-e84d00091c1a")
 	)
-	(label "USB.+"
-		(at 194.31 116.84 180)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right bottom)
-		)
-		(uuid "c2654fa5-e49b-4ded-bb8f-d3b4851eeb3b")
-	)
 	(label "SPI.SCK"
 		(at 194.31 99.06 180)
 		(effects
@@ -3425,17 +3336,6 @@
 			(justify left bottom)
 		)
 		(uuid "fe35256f-daef-4457-9c56-9155c42fb540")
-	)
-	(hierarchical_label "USB{- +}"
-		(shape bidirectional)
-		(at 200.66 109.22 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left)
-		)
-		(uuid "07c2be6a-6f60-4efe-9eb1-b3e374876e76")
 	)
 	(hierarchical_label "CAN{RX TX}"
 		(shape bidirectional)
@@ -3971,7 +3871,7 @@
 			(uuid "4c6863a6-ac57-4c33-8e65-685c2d689c09")
 		)
 		(instances
-			(project ""
+			(project "PUTM_EV_PDMv2_2024"
 				(path "/b652b05a-4e3d-4ad1-b032-18886abe7d45/44511ce6-951c-4505-8af7-9d44a269eea4"
 					(reference "D4")
 					(unit 1)
@@ -4037,7 +3937,7 @@
 			(uuid "ed6c53c0-06a6-4706-8688-604973284bbb")
 		)
 		(instances
-			(project ""
+			(project "PUTM_EV_PDMv2_2024"
 				(path "/b652b05a-4e3d-4ad1-b032-18886abe7d45/44511ce6-951c-4505-8af7-9d44a269eea4"
 					(reference "#FLG01")
 					(unit 1)
@@ -4263,7 +4163,7 @@
 			(uuid "5c1f0456-4986-49eb-94fa-5d2eed681c27")
 		)
 		(instances
-			(project ""
+			(project "PUTM_EV_PDMv2_2024"
 				(path "/b652b05a-4e3d-4ad1-b032-18886abe7d45/44511ce6-951c-4505-8af7-9d44a269eea4"
 					(reference "R4")
 					(unit 1)
@@ -5902,7 +5802,7 @@
 			(uuid "f6c357f8-e64b-456e-b4a9-8b149157870a")
 		)
 		(instances
-			(project ""
+			(project "PUTM_EV_PDMv2_2024"
 				(path "/b652b05a-4e3d-4ad1-b032-18886abe7d45/44511ce6-951c-4505-8af7-9d44a269eea4"
 					(reference "#PWR01")
 					(unit 1)
