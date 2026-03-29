@@ -1,4 +1,4 @@
-27106931217673668
+27212728885888038
 Audio_Module
 Reverb_BTDR-1H
 Digital Reverberation Unit, http://www.belton.co.kr/inc/downfile.php?seq=17&file=pdf (footprint from http://www.uk-electronic.de/PDF/BTDR-1.pdf)
@@ -75544,8 +75544,22 @@ Connector
 14
 14
 PDM
+FUSC7451X115N
+6.73*4.8
+Fuse
+0
+2
+2
+PDM
 IPBS11001TDGP
 IPBS-110-01-T-D-GP-2
+Connector
+0
+20
+20
+PDM
+IPBT110H1TDRAGP
+IPBT-110-H1-T-D-RA-GP-2
 Connector
 0
 20
@@ -75557,6 +75571,13 @@ Integrated Circuit
 0
 25
 25
+PDM
+VLS6045
+VLS6045
+Inductor
+0
+2
+2
 PUTM_logo
 PUTM_logo
 

@@ -10,7 +10,7 @@
 		(comment 1 "Reviewer:")
 	)
 	(lib_symbols
-		(symbol "power:+24V"
+		(symbol "power:+BATT"
 			(power)
 			(pin_numbers
 				(hide yes)
@@ -31,7 +31,7 @@
 					(hide yes)
 				)
 			)
-			(property "Value" "+24V"
+			(property "Value" "+BATT"
 				(at 0 3.556 0)
 				(effects
 					(font
@@ -57,7 +57,7 @@
 					(hide yes)
 				)
 			)
-			(property "Description" "Power symbol creates a global label with name \"+24V\""
+			(property "Description" "Power symbol creates a global label with name \"+BATT\""
 				(at 0 0 0)
 				(effects
 					(font
@@ -66,7 +66,7 @@
 					(hide yes)
 				)
 			)
-			(property "ki_keywords" "global power"
+			(property "ki_keywords" "global power battery"
 				(at 0 0 0)
 				(effects
 					(font
@@ -75,7 +75,7 @@
 					(hide yes)
 				)
 			)
-			(symbol "+24V_0_1"
+			(symbol "+BATT_0_1"
 				(polyline
 					(pts
 						(xy -0.762 1.27) (xy 0 2.54)
@@ -113,7 +113,7 @@
 					)
 				)
 			)
-			(symbol "+24V_1_1"
+			(symbol "+BATT_1_1"
 				(pin power_in line
 					(at 0 0 90)
 					(length 0)
@@ -1614,7 +1614,7 @@
 		(uuid "fb55e9c5-0e78-4446-b49c-ee3758bcb62b")
 	)
 	(symbol
-		(lib_id "power:+24V")
+		(lib_id "power:+BATT")
 		(at 60.96 48.26 0)
 		(unit 1)
 		(exclude_from_sim no)
@@ -1622,8 +1622,8 @@
 		(on_board yes)
 		(dnp no)
 		(fields_autoplaced yes)
-		(uuid "c14154a8-f92e-4905-8898-d1e23668375d")
-		(property "Reference" "#PWR028"
+		(uuid "2ab05864-4f22-471d-8b67-25a350038bed")
+		(property "Reference" "#PWR011"
 			(at 60.96 52.07 0)
 			(effects
 				(font
@@ -1632,7 +1632,7 @@
 				(hide yes)
 			)
 		)
-		(property "Value" "+24V"
+		(property "Value" "+BATT"
 			(at 60.96 43.18 0)
 			(effects
 				(font
@@ -1658,7 +1658,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "Power symbol creates a global label with name \"+24V\""
+		(property "Description" "Power symbol creates a global label with name \"+BATT\""
 			(at 60.96 48.26 0)
 			(effects
 				(font
@@ -1668,12 +1668,12 @@
 			)
 		)
 		(pin "1"
-			(uuid "950c3899-f86a-454c-89cb-5de88d659cd1")
+			(uuid "3f1decfe-cf50-4059-933b-c208cf031429")
 		)
 		(instances
 			(project "PUTM_EV_PDMv2_2024"
 				(path "/b652b05a-4e3d-4ad1-b032-18886abe7d45/fd7d6fe4-610a-44c2-815e-0a8f21ae1980"
-					(reference "#PWR028")
+					(reference "#PWR011")
 					(unit 1)
 				)
 			)
