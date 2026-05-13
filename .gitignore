@@ -1,2 +1,25 @@
+# LTspice
+/documentation/*.log
+/documentation/*.raw
 
-hardware/
+# STM32CubeIDE
+/firmware/.metadata/
+/firmware/[Rr]elease/
+/firmware/[Dd]ebug/
+/firmware/*.launch
+/firmware/.settings/*
+/firmware/.vscode
+/firmware/build
+
+# KiCad
+/hardware/*-backups/
+/hardware/*.kicad_prl
+/hardware/fp-info-cache
+/hardware/\#auto_saved_files\#
+/hardware/*.lck
+
+# Interactive HTML BOM
+/hardware/bom/
+
+# Fabrication Toolkit
+/hardware/production/
