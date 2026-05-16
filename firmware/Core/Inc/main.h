@@ -65,8 +65,6 @@ void Error_Handler(void);
 #define FUSE3_GPIO_Port GPIOA
 #define FUSE4_Pin GPIO_PIN_3
 #define FUSE4_GPIO_Port GPIOA
-#define SPI1_SS_Pin GPIO_PIN_4
-#define SPI1_SS_GPIO_Port GPIOA
 #define LHI_3_Pin GPIO_PIN_0
 #define LHI_3_GPIO_Port GPIOB
 #define LHI_4_Pin GPIO_PIN_1
