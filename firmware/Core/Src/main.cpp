@@ -148,12 +148,12 @@ constexpr uint32_t MAX_RETRIES{5};
 using namespace BTS72220;
 class Led {
 public:
+  const GPIO_TypeDef *port{nullptr};
+  const uint16_t pin{0};
+
   Led(GPIO_TypeDef *port, uint16_t pin) : port{port}, pin{pin} {};
 
 private:
-  const GPIO_TypeDef *port;
-  const uint16_t pin;
-
   uint32_t blink_counter{};
   uint32_t blink_phase{};
   uint32_t last_toggle{};
@@ -163,6 +163,21 @@ private:
 class Pdu {
 public:
   static constexpr uint8_t IC_COUNT{4};
+
+  Pdu(std::array<Led, IC_COUNT> leds,
+      std::array<std::array<uint32_t, Ic::CHANNEL_COUNT>, Pdu::IC_COUNT>
+          thresholds)
+      : leds{leds} {
+    int ic_count{};
+    for (auto &ic : ics) {
+      int channel_count{};
+      for (auto &channel : ic.channels) {
+        channel.set_threshold(thresholds[ic_count][channel_count]);
+        channel_count++;
+      }
+      ic_count++;
+    }
+  }
 
   void update_led_status(uint32_t now) {
     bool all_failed{true};
@@ -190,20 +205,24 @@ public:
     return sum;
   }
 
+  bool update_currents() {
+    
+  }
+
 private:
   std::array<Led, IC_COUNT> leds;
   std::array<Ic, IC_COUNT> ics{};
   struct {
-    const Channel::Status &pc_status;
-    const Channel::Status &fan_status;
-    const Channel::Status &pump_status;
-    const Channel::Status &inverter_status;
-    const Channel::Status &fbox_status;
-    const Channel::Status &sdc_status;
-    const Channel::Status &dash_status;
-    const Channel::Status &tsal_hv_status;
-    const Channel::Status &rbox_diagport_brake_l_status;
-    const Channel::Status &brake_ir_air_status;
+    Channel::Status pc;
+    Channel::Status fan;
+    Channel::Status pump;
+    Channel::Status inverter;
+    Channel::Status fbox;
+    Channel::Status sdc;
+    Channel::Status dash;
+    Channel::Status tsal_hv;
+    Channel::Status rbox_diagport_brake_l;
+    Channel::Status brake_ir_air;
   } system_status;
 
   uint32_t total_current{};
@@ -218,53 +237,53 @@ uint8_t rx_buffer[5];
 
 bool after_first_loop{false};
 
-static constexpr struct {
-  uint32_t INV2{50};
-  uint32_t INV1{30};
-  uint32_t RBOX_DIAG_BRAKE_L{50};
-  uint32_t TSAL_HV{20};
-
-  uint32_t DASH{30};
-  uint32_t SDC_ASMS{10};
-  uint32_t BRAKE_IR_AIR{50};
-  uint32_t FBOX{50};
-
-  uint32_t PC4{40};
-  uint32_t PC3{50};
-  uint32_t PC2{50};
-  uint32_t PC1{40};
-
-  uint32_t FAN2{50};
-  uint32_t PUMP2{50};
-  uint32_t PUMP1{50};
-  uint32_t FAN1{50};
-} I_MAX; // Current thresholds
-
-std::array<std::array<uint32_t, Ic::CHANNEL_COUNT>, Pdu::IC_COUNT> thresholds{{
-    {I_MAX.INV2, I_MAX.INV1, I_MAX.RBOX_DIAG_BRAKE_L, I_MAX.TSAL_HV}, // IC0
-    {I_MAX.DASH, I_MAX.SDC_ASMS, I_MAX.BRAKE_IR_AIR, I_MAX.FBOX},     // IC1
-    {I_MAX.PC4, I_MAX.PC3, I_MAX.PC2, I_MAX.PC1},                     // IC2
-    {I_MAX.FAN2, I_MAX.PUMP2, I_MAX.PUMP1, I_MAX.FAN1},               // IC3
-}};
-
 bool RTD_status;
-uint8_t rearRightInverterTemperature;  // Range 20-100
-uint8_t rearLeftInverterTemperature;   // Range 20-100
-uint8_t rearRightMotorTemperature;     // Range 20-130
-uint8_t rearLeftMotorTemperature;      // Range 20-130
-uint8_t frontRightInverterTemperature; // Range 20-100
-uint8_t frontLeftInverterTemperature;  // Range 20-100
-uint8_t frontRightMotorTemperature;    // Range 20-130
-uint8_t frontLeftMotorTemperature;     // Range 20-130
+
+class Temperature {
+public:
+  const uint8_t min;
+  const uint8_t max;
+
+  Temperature(const uint8_t min_temperature, const uint8_t max_temperature)
+      : min{min_temperature}, max{max_temperature} {}
+
+  bool check(uint8_t value) {
+    if (value < min || value > max)
+      return true;
+    return false;
+  }
+
+  bool update(uint8_t front_left_value, uint8_t front_right_value,
+              uint8_t rear_left_value, uint8_t rear_right_value) {
+    front_left = front_left_value;
+    front_right = front_right_value;
+    rear_left = rear_left_value;
+    rear_right = rear_right_value;
+    if (check(front_left) || check(front_right) || check(rear_left) ||
+        check(rear_right)) {
+      return true;
+    }
+    return false;
+  }
+
+private:
+  uint8_t front_left{};
+  uint8_t front_right{};
+  uint8_t rear_left{};
+  uint8_t rear_right{};
+};
+
 /* USER CODE END PV */
 
-/* Private function prototypes -----------------------------------------------*/
+/* Private function prototypes
+ * -----------------------------------------------*/
 void SystemClock_Config(void);
 /* USER CODE BEGIN PFP */
 
 /* USER CODE END PFP */
 
-/* Private user code ---------------------------------------------------------*/
+/* Private user code
+ * ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
 int get_tx_index(uint8_t ic_index) { return 1 + ic_index; }
 
@@ -302,48 +321,21 @@ void handle_overcurrent(uint8_t ic_index, uint8_t channel_number,
   }
 }
 
-ChannelStatus reduce_status(ChannelStatus a, ChannelStatus b) {
-  if (a == STATUS_LOCK || b == STATUS_LOCK)
-    return STATUS_LOCK;
-  if (a == STATUS_ERR || b == STATUS_ERR)
-    return STATUS_ERR;
-  if (a == STATUS_OFF || b == STATUS_OFF)
-    return STATUS_OFF;
-  return STATUS_ON;
-}
+// void update_fan_channel_logic() {
+//   // Update state based on RTD
+//   //    if (RTD_status) {
+//   if (RTD_status) {
+//     fan_forced_on_by_rtd = true;
+//   } else {
+//     fan_forced_on_by_rtd = false;
 
-bool is_temp_high() {
-  return rearRightInverterTemperature >= 40 ||
-         rearLeftInverterTemperature >= 40 || rearRightMotorTemperature >= 40 ||
-         rearLeftMotorTemperature >= 40 ||
-         frontRightInverterTemperature >= 40 ||
-         frontLeftInverterTemperature >= 40 ||
-         frontRightMotorTemperature >= 40 || frontLeftMotorTemperature >= 40;
-}
-
-bool is_temp_low() {
-  return rearRightInverterTemperature < 30 &&
-         rearLeftInverterTemperature < 30 && rearRightMotorTemperature < 30 &&
-         rearLeftMotorTemperature < 30 && frontRightInverterTemperature < 30 &&
-         frontLeftInverterTemperature < 30 && frontRightMotorTemperature < 30 &&
-         frontLeftMotorTemperature < 30;
-}
-
-void update_fan_channel_logic() {
-  // Update state based on RTD
-  //    if (RTD_status) {
-  if (RTD_status) {
-    fan_forced_on_by_rtd = true;
-  } else {
-    fan_forced_on_by_rtd = false;
-
-    if (!fan_temp_triggered && is_temp_high()) {
-      fan_temp_triggered = true;
-    } else if (fan_temp_triggered && is_temp_low()) {
-      fan_temp_triggered = false;
-    }
-  }
-}
+//     if (!fan_temp_triggered && is_temp_high()) {
+//       fan_temp_triggered = true;
+//     } else if (fan_temp_triggered && is_temp_low()) {
+//       fan_temp_triggered = false;
+//     }
+//   }
+// }
 
 /* USER CODE END 0 */
 
@@ -356,9 +348,11 @@ int main(void) {
 
   /* USER CODE END 1 */
 
-  /* MCU Configuration--------------------------------------------------------*/
+  /* MCU
+   * Configuration--------------------------------------------------------*/
 
-  /* Reset of all peripherals, Initializes the Flash interface and the Systick.
+  /* Reset of all peripherals, Initializes the Flash interface and the
+   * Systick.
    */
   HAL_Init();
 
@@ -386,6 +380,44 @@ int main(void) {
   }
 
   // tx_buffer[1] = fuse4 (IC3), ..., tx_buffer[4] = fuse1 (IC0)
+
+  static constexpr struct {
+    uint32_t INV2{50};
+    uint32_t INV1{30};
+    uint32_t RBOX_DIAG_BRAKE_L{50};
+    uint32_t TSAL_HV{20};
+
+    uint32_t DASH{30};
+    uint32_t SDC_ASMS{10};
+    uint32_t BRAKE_IR_AIR{50};
+    uint32_t FBOX{50};
+
+    uint32_t PC4{40};
+    uint32_t PC3{50};
+    uint32_t PC2{50};
+    uint32_t PC1{40};
+
+    uint32_t FAN2{50};
+    uint32_t PUMP2{50};
+    uint32_t PUMP1{50};
+    uint32_t FAN1{50};
+  } I_MAX; // Current thresholds
+
+  std::array<std::array<uint32_t, Ic::CHANNEL_COUNT>, Pdu::IC_COUNT> thresholds{
+      {
+          {I_MAX.INV2, I_MAX.INV1, I_MAX.RBOX_DIAG_BRAKE_L, I_MAX.TSAL_HV},
+          {I_MAX.DASH, I_MAX.SDC_ASMS, I_MAX.BRAKE_IR_AIR, I_MAX.FBOX},
+          {I_MAX.PC4, I_MAX.PC3, I_MAX.PC2, I_MAX.PC1},
+          {I_MAX.FAN2, I_MAX.PUMP2, I_MAX.PUMP1, I_MAX.FAN1},
+      }};
+
+  std::array<Led, Pdu::IC_COUNT> leds{{{LED1_GPIO_Port, LED1_Pin},
+                                       {LED2_GPIO_Port, LED2_Pin},
+                                       {LED3_GPIO_Port, LED3_Pin},
+                                       {LED4_GPIO_Port, LED4_Pin}}};
+  Pdu pdu{leds, thresholds};
+  Temperature inv_temperature{20, 100};
+  Temperature motor_temperature{20, 130};
 
   HAL_GPIO_WritePin(LHI_1_GPIO_Port, LHI_1_Pin, GPIO_PIN_RESET);
   HAL_GPIO_WritePin(LHI_2_GPIO_Port, LHI_2_Pin, GPIO_PIN_RESET);
@@ -441,7 +473,8 @@ int main(void) {
     //       pc_temp.frontLeftInverterTemperature; // Range 20-100
     //   frontRightMotorTemperature =
     //       pc_temp.frontRightMotorTemperature; // Range 20-130
-    //   frontLeftMotorTemperature = pc_temp.frontLeftMotorTemperature; // Range
+    //   frontLeftMotorTemperature = pc_temp.frontLeftMotorTemperature; //
+    //   Range
     // }
 
     // SystemStatus currentStatus = get_system_status_from_channels();
@@ -507,14 +540,18 @@ int main(void) {
     HAL_SPI_TransmitReceive(&hspi1, tx_buffer, rx_buffer, 5, 100);
     HAL_SPI_TransmitReceive(&hspi1, tx_buffer, rx_buffer, 5, 100);
     // check current on channel 0 - 7A
-    fuse_currents[0][0] = mv_to_hma(__HAL_ADC_CALC_DATA_TO_VOLTAGE(
-        __VREFANALOG_VOLTAGE__, adc_buffer[3], ADC_RESOLUTION12b)); // IC0 - CH0
-    fuse_currents[1][0] = mv_to_hma(__HAL_ADC_CALC_DATA_TO_VOLTAGE(
-        __VREFANALOG_VOLTAGE__, adc_buffer[2], ADC_RESOLUTION12b)); // IC1 - CH0
-    fuse_currents[2][0] = mv_to_hma(__HAL_ADC_CALC_DATA_TO_VOLTAGE(
-        __VREFANALOG_VOLTAGE__, adc_buffer[1], ADC_RESOLUTION12b)); // IC2 - CH0
-    fuse_currents[3][0] = mv_to_hma(__HAL_ADC_CALC_DATA_TO_VOLTAGE(
-        __VREFANALOG_VOLTAGE__, adc_buffer[0], ADC_RESOLUTION12b)); // IC3 - CH0
+    fuse_currents[0][0] = mv_to_hma(
+        __HAL_ADC_CALC_DATA_TO_VOLTAGE(__VREFANALOG_VOLTAGE__, adc_buffer[3],
+                                       ADC_RESOLUTION12b)); // IC0 - CH0
+    fuse_currents[1][0] = mv_to_hma(
+        __HAL_ADC_CALC_DATA_TO_VOLTAGE(__VREFANALOG_VOLTAGE__, adc_buffer[2],
+                                       ADC_RESOLUTION12b)); // IC1 - CH0
+    fuse_currents[2][0] = mv_to_hma(
+        __HAL_ADC_CALC_DATA_TO_VOLTAGE(__VREFANALOG_VOLTAGE__, adc_buffer[1],
+                                       ADC_RESOLUTION12b)); // IC2 - CH0
+    fuse_currents[3][0] = mv_to_hma(
+        __HAL_ADC_CALC_DATA_TO_VOLTAGE(__VREFANALOG_VOLTAGE__, adc_buffer[0],
+                                       ADC_RESOLUTION12b)); // IC3 - CH0
 
     // set channel 1 - 4A // value fuse = 217,4*current + 93
     tx_buffer[0] = DCR_CHANNEL1;
@@ -741,7 +778,8 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
  */
 void Error_Handler(void) {
   /* USER CODE BEGIN Error_Handler_Debug */
-  /* User can add his own implementation to report the HAL error return state */
+  /* User can add his own implementation to report the HAL error return state
+   */
   __disable_irq();
   while (1) {
   }
@@ -759,8 +797,8 @@ void Error_Handler(void) {
 void assert_failed(uint8_t *file, uint32_t line) {
   /* USER CODE BEGIN 6 */
   /* User can add his own implementation to report the file name and line
-     number, ex: printf("Wrong parameters value: file %s on line %d\r\n", file,
-     line) */
+     number, ex: printf("Wrong parameters value: file %s on line %d\r\n",
+     file, line) */
   /* USER CODE END 6 */
 }
 #endif /* USE_FULL_ASSERT */

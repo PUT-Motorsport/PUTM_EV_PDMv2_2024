@@ -44,14 +44,19 @@ public:
   };
 
   inline Status get_status() { return status; }
-  inline uint32_t get_current() { return current; }
+  inline uint16_t get_current() { return current; }
+  inline void set_threshold(uint16_t threshold_value) {
+    threshold = threshold_value
+  };
+
+  bool update_current(uint16_t current_value);
 
 private:
   Status status{};
-  uint32_t current{};
+  uint16_t current{};
   uint32_t retry_count{};
   uint32_t last_attempt{};
-  uint32_t threshold{};
+  uint16_t threshold{};
 };
 
 class Ic {
