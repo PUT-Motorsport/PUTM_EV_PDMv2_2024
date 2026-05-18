@@ -84,6 +84,7 @@ public:
   }
 
   void update_current(uint32_t current_value, uint32_t tick_now);
+  bool handle_overcurrent(uint32_t tick_now);
 
 private:
   uint32_t current{};
@@ -98,10 +99,14 @@ public:
     READY,
     ACTIVE,
   };
+
   static constexpr uint8_t CHANNEL_COUNT{4};
+
+  Status status{Status::SLEEP};
   std::array<Channel, CHANNEL_COUNT> channels{};
 
-  bool check_diag(uint8_t rx_value);
+  bool check_response(uint8_t rx_value);
+  bool check_err(uint8_t rx_value);
 
 private:
 };

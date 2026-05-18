@@ -223,10 +223,29 @@ public:
     return rx;
   }
 
-  bool check_rx(std::array<uint8_t, IC_COUNT> rx) {
+  bool check_chain_responses(std::array<uint8_t, IC_COUNT> rx) {
     int ic_count{0};
     for (auto &ic : ics) {
-      if (ic.check_diag(rx.at(ic_count))) {
+      if (ic.check_response(rx.at(ic_count))) {
+        return true;
+      }
+      ic_count++;
+    }
+    return false;
+  }
+
+  bool check_chain_errors() {
+    std::array<uint8_t, IC_COUNT> tx{
+        ERRDIAG_CMD,
+        ERRDIAG_CMD,
+        ERRDIAG_CMD,
+        ERRDIAG_CMD,
+    };
+    auto rx{daisy_chain_send(std::move(tx))};
+
+    int ic_count{0};
+    for (auto &ic : ics) {
+      if (ic.check_err(rx.at(ic_count))) {
         return true;
       }
       ic_count++;
@@ -247,7 +266,12 @@ public:
         DCR_ACTIVE,
     };
     auto rx{daisy_chain_send(std::move(tx))};
-    return check_rx(std::move(rx));
+    if (check_chain_responses(std::move(rx)))
+      return true;
+
+    for (auto &ic : ics) {
+      ic.status = Ic::Status::STAND_BY;
+    }
   }
 
   bool start_ics() {
@@ -258,7 +282,13 @@ public:
         OUT_READY,
     };
     auto rx{daisy_chain_send(std::move(tx))};
-    return check_rx(std::move(rx));
+    if (check_chain_responses(std::move(rx)))
+      return true;
+
+    for (auto &ic : ics) {
+      ic.status = Ic::Status::ACTIVE;
+    }
+    return false;
   }
 
   bool set_channel_sense(uint8_t channel) {
@@ -293,8 +323,9 @@ public:
     };
 
     auto rx{daisy_chain_send(std::move(tx))};
-    return check_rx(std::move(rx));
+    return check_chain_responses(std::move(rx));
   }
+
   void update_channel_currents(uint8_t channel,
                                std::span<uint16_t, ADC_BUF_SIZE> adc_buffer) {
     int ic_count{0};
@@ -348,21 +379,15 @@ public:
     for (auto &ic : ics) {
       int channel_count{0};
       for (auto &channel : ic.channels) {
-        if (channel.status == Channel::Status::ERR) {
-          channel.tick_last_attempt = HAL_GetTick();
-          channel.status = Channel::Status::TEMP_LOCK;
-
-        } else if (channel.status == Channel::Status::ON) {
+        if (channel.handle_overcurrent(HAL_GetTick()) == false)
           tx.at(ic_count) |= 1 << channel_count;
-        }
-
         channel_count++;
       }
       ic_count++;
     }
 
     auto rx{daisy_chain_send(std::move(tx))};
-    return check_rx(std::move(rx));
+    return check_chain_responses(std::move(rx));
   }
 
 private:
@@ -525,10 +550,8 @@ int main(void) {
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1) {
-    uint8_t tx_buffer_diag[4] = {ERRDIAG_CMD, 0, 0, 0};
-    uint8_t rx_buffer_diag[4];
 
-    HAL_SPI_TransmitReceive(&hspi1, tx_buffer_diag, rx_buffer_diag, 4, 100);
+    pdu.check_chain_errors();
 
     for (int i{}; i < Ic::CHANNEL_COUNT; i++) {
       pdu.set_channel_sense(i);
