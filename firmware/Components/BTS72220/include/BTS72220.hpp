@@ -92,6 +92,12 @@ private:
 
 class Ic {
 public:
+  enum class Status {
+    SLEEP,
+    STAND_BY,
+    READY,
+    ACTIVE,
+  };
   static constexpr uint8_t CHANNEL_COUNT{4};
   std::array<Channel, CHANNEL_COUNT> channels{};
 

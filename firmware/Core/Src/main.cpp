@@ -35,6 +35,8 @@
 /* USER CODE BEGIN Includes */
 #include "BTS72220.hpp"
 #include "stm32g0xx_hal.h"
+#include "stm32g0xx_hal_spi.h"
+#include <algorithm>
 #include <array>
 #include <span>
 
@@ -163,6 +165,7 @@ uint32_t mv_to_hma2(uint32_t mv) {
 }
 
 using namespace BTS72220;
+
 class Led {
 public:
   const GPIO_TypeDef *port{nullptr};
@@ -196,28 +199,34 @@ public:
     }
   }
 
-  bool init_ics() {
-    HAL_GPIO_WritePin(LHI_1_GPIO_Port, LHI_1_Pin, GPIO_PIN_RESET);
-    HAL_GPIO_WritePin(LHI_2_GPIO_Port, LHI_2_Pin, GPIO_PIN_RESET);
-    HAL_GPIO_WritePin(LHI_3_GPIO_Port, LHI_3_Pin, GPIO_PIN_RESET);
-    HAL_GPIO_WritePin(LHI_4_GPIO_Port, LHI_4_Pin, GPIO_PIN_RESET);
+  std::array<uint8_t, IC_COUNT>
+  daisy_chain_send(std::array<uint8_t, IC_COUNT> tx) {
+    uint8_t tx_buffer[IC_COUNT]{};
+    int tx_count{tx.max_size() - 1};
+    for (auto tx_val : tx) {
+      tx_buffer[tx_count] = tx_val;
+      tx_count--;
+    }
+    uint8_t rx_buffer[IC_COUNT]{};
 
-    uint8_t tx_buffer[IC_COUNT + 1]{};
-    tx_buffer[0] = OUT_READY;
-    tx_buffer[1] = OUT_READY;
-    tx_buffer[2] = OUT_READY;
-    tx_buffer[3] = OUT_READY;
-    tx_buffer[4] = OUT_READY;
-    uint8_t rx_buffer[IC_COUNT + 1]{};
-    if (HAL_SPI_TransmitReceive(&hspi1, tx_buffer, rx_buffer, sizeof(rx_buffer),
-                                100) != HAL_OK)
-      return true;
-    if (HAL_SPI_TransmitReceive(&hspi1, tx_buffer, rx_buffer, sizeof(rx_buffer),
-                                100) != HAL_OK)
-      return true;
-    int ic_count{1};
+    HAL_SPI_TransmitReceive(&hspi1, tx_buffer, rx_buffer, sizeof(rx_buffer),
+                            100);
+    HAL_SPI_TransmitReceive(&hspi1, tx_buffer, rx_buffer, sizeof(rx_buffer),
+                            100);
+
+    std::array<uint8_t, IC_COUNT> rx{};
+    int rx_count{tx.max_size() - 1};
+    for (auto &rx_val : rx) {
+      rx_val = rx_buffer[rx_count];
+      rx_count--;
+    }
+    return rx;
+  }
+
+  bool check_rx(std::array<uint8_t, IC_COUNT> rx) {
+    int ic_count{0};
     for (auto &ic : ics) {
-      if (ic.check_diag(rx_buffer[ic_count])) {
+      if (ic.check_diag(rx.at(ic_count))) {
         return true;
       }
       ic_count++;
@@ -225,21 +234,31 @@ public:
     return false;
   }
 
+  bool init_ics() {
+    HAL_GPIO_WritePin(LHI_1_GPIO_Port, LHI_1_Pin, GPIO_PIN_RESET);
+    HAL_GPIO_WritePin(LHI_2_GPIO_Port, LHI_2_Pin, GPIO_PIN_RESET);
+    HAL_GPIO_WritePin(LHI_3_GPIO_Port, LHI_3_Pin, GPIO_PIN_RESET);
+    HAL_GPIO_WritePin(LHI_4_GPIO_Port, LHI_4_Pin, GPIO_PIN_RESET);
+
+    std::array<uint8_t, IC_COUNT> tx{
+        DCR_ACTIVE,
+        DCR_ACTIVE,
+        DCR_ACTIVE,
+        DCR_ACTIVE,
+    };
+    auto rx{daisy_chain_send(std::move(tx))};
+    return check_rx(std::move(rx));
+  }
+
   bool start_ics() {
-    uint8_t tx_buffer[IC_COUNT + 1]{};
-    tx_buffer[0] = DCR_ACTIVE;
-    tx_buffer[1] = DCR_ACTIVE;
-    tx_buffer[2] = DCR_ACTIVE;
-    tx_buffer[3] = DCR_ACTIVE;
-    tx_buffer[4] = DCR_ACTIVE;
-    uint8_t rx_buffer[IC_COUNT + 1]{};
-    if (HAL_SPI_TransmitReceive(&hspi1, tx_buffer, rx_buffer, sizeof(rx_buffer),
-                                100) != HAL_OK)
-      return true;
-    if (HAL_SPI_TransmitReceive(&hspi1, tx_buffer, rx_buffer, sizeof(rx_buffer),
-                                100) != HAL_OK)
-      return true;
-    return false;
+    std::array<uint8_t, IC_COUNT> tx{
+        OUT_READY,
+        OUT_READY,
+        OUT_READY,
+        OUT_READY,
+    };
+    auto rx{daisy_chain_send(std::move(tx))};
+    return check_rx(std::move(rx));
   }
 
   bool set_channel_sense(uint8_t channel) {
@@ -266,31 +285,25 @@ public:
     }
     }
 
-    uint8_t tx_buffer[IC_COUNT + 1]{};
-    tx_buffer[0] = dcr_channel;
-    tx_buffer[1] = dcr_channel;
-    tx_buffer[2] = dcr_channel;
-    tx_buffer[3] = dcr_channel;
-    tx_buffer[4] = dcr_channel;
-    uint8_t rx_buffer[IC_COUNT + 1]{};
-    if (HAL_SPI_TransmitReceive(&hspi1, tx_buffer, rx_buffer, sizeof(rx_buffer),
-                                100) != HAL_OK)
-      return true;
-    if (HAL_SPI_TransmitReceive(&hspi1, tx_buffer, rx_buffer, sizeof(rx_buffer),
-                                100) != HAL_OK)
-      return true;
-    HAL_Delay(5);
-    return false;
+    std::array<uint8_t, IC_COUNT> tx{
+        dcr_channel,
+        dcr_channel,
+        dcr_channel,
+        dcr_channel,
+    };
+
+    auto rx{daisy_chain_send(std::move(tx))};
+    return check_rx(std::move(rx));
   }
   void update_channel_currents(uint8_t channel,
                                std::span<uint16_t, ADC_BUF_SIZE> adc_buffer) {
     int ic_count{0};
     for (auto &ic : ics) {
       uint32_t mv = __HAL_ADC_CALC_DATA_TO_VOLTAGE(
-          __VREFANALOG_VOLTAGE__, adc_buffer[(IC_COUNT - 1) - ic_count],
-          ADC_RESOLUTION12b);
+          __VREFANALOG_VOLTAGE__, adc_buffer[ic_count], ADC_RESOLUTION12b);
 
-      uint32_t current_val = (channel == 0 || channel == 3) ? mv_to_hma(mv) : mv_to_hma2(mv);
+      uint32_t current_val =
+          (channel == 0 || channel == 3) ? mv_to_hma(mv) : mv_to_hma2(mv);
 
       ic.channels[channel].update_current(current_val, HAL_GetTick());
       ic_count++;
@@ -324,12 +337,12 @@ public:
   }
 
   bool handle_overcurrent() {
-    uint8_t tx_buffer[IC_COUNT + 1]{};
-    tx_buffer[0] = OUT_CLOSE;
-    tx_buffer[1] = OUT_CLOSE;
-    tx_buffer[2] = OUT_CLOSE;
-    tx_buffer[3] = OUT_CLOSE;
-    tx_buffer[4] = OUT_CLOSE;
+    std::array<uint8_t, IC_COUNT> tx{
+        OUT_CLOSE,
+        OUT_CLOSE,
+        OUT_CLOSE,
+        OUT_CLOSE,
+    };
 
     int ic_count{0};
     for (auto &ic : ics) {
@@ -338,23 +351,18 @@ public:
         if (channel.status == Channel::Status::ERR) {
           channel.tick_last_attempt = HAL_GetTick();
           channel.status = Channel::Status::TEMP_LOCK;
+
         } else if (channel.status == Channel::Status::ON) {
-          tx_buffer[IC_COUNT - ic_count] |= 1 << channel_count;
+          tx.at(ic_count) |= 1 << channel_count;
         }
+
         channel_count++;
       }
       ic_count++;
     }
 
-    uint8_t rx_buffer[IC_COUNT + 1]{};
-    if (HAL_SPI_TransmitReceive(&hspi1, tx_buffer, rx_buffer, sizeof(rx_buffer),
-                                100) != HAL_OK)
-      return true;
-    if (HAL_SPI_TransmitReceive(&hspi1, tx_buffer, rx_buffer, sizeof(rx_buffer),
-                                100) != HAL_OK)
-      return true;
-
-    return false;
+    auto rx{daisy_chain_send(std::move(tx))};
+    return check_rx(std::move(rx));
   }
 
 private:
@@ -499,16 +507,17 @@ int main(void) {
   Temperature inv_temperature{20, 100};
   Temperature motor_temperature{20, 130};
 
-  pdu.init_ics();
-
   bool RTD_status;
 
   bool after_first_loop{false};
   uint16_t adc_buffer[ADC_BUF_SIZE];
+
+  pdu.init_ics();
+  HAL_Delay(100);
+
   HAL_ADC_Start_DMA(&hadc1, (uint32_t *)adc_buffer, ADC_BUF_SIZE);
 
   pdu.start_ics();
-
   HAL_Delay(100);
 
   /* USER CODE END 2 */
