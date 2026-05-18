@@ -72,7 +72,7 @@ bool Ic::check_response(uint8_t rx_value) {
 bool Ic::check_err(uint8_t rx_value) {
   if (rx_value >> 6) {
     ERRDIAG errdiag{rx_value};
-    if (errdiag.reg.ERRn < 0)
+    if (errdiag.reg.ERRn == 0)
       return false;
 
     int channel_count{0};

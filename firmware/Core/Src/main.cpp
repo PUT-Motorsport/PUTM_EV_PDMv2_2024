@@ -35,8 +35,8 @@
 /* USER CODE BEGIN Includes */
 #include "BTS72220.hpp"
 #include "stm32g0xx_hal.h"
+#include "stm32g0xx_hal_gpio.h"
 #include "stm32g0xx_hal_spi.h"
-#include <algorithm>
 #include <array>
 #include <span>
 
@@ -168,16 +168,33 @@ using namespace BTS72220;
 
 class Led {
 public:
-  const GPIO_TypeDef *port{nullptr};
+  GPIO_TypeDef *port{nullptr};
   const uint16_t pin{0};
 
-  Led(GPIO_TypeDef *port, uint16_t pin) : port{port}, pin{pin} {};
+  Led(GPIO_TypeDef *port, const uint16_t pin) : port{port}, pin{pin} {};
+
+  bool update(uint8_t channels_failed, uint32_t tick_now) {
+    if (channels_failed > Ic::CHANNEL_COUNT) {
+      return true;
+    } else if (channels_failed == Ic::CHANNEL_COUNT) {
+      HAL_GPIO_WritePin(port, pin, GPIO_PIN_SET);
+      return false;
+    } else if (channels_failed == 0) {
+      HAL_GPIO_WritePin(port, pin, GPIO_PIN_RESET);
+      return false;
+    } else {
+      toggle_time = 1500 / channels_failed;
+      if (tick_now - last_toggle >= toggle_time) {
+        last_toggle = tick_now;
+        HAL_GPIO_TogglePin(port, pin);
+      }
+      return false;
+    }
+  }
 
 private:
-  uint32_t blink_counter{};
-  uint32_t blink_phase{};
+  uint32_t toggle_time{};
   uint32_t last_toggle{};
-  uint32_t pause_time{};
 };
 
 class Pdu {
@@ -197,6 +214,64 @@ public:
       }
       ic_count++;
     }
+  }
+
+  bool update_leds(uint32_t tick_now) {
+    int ic_count{0};
+    bool fail{false};
+    for (auto &ic : ics) {
+      int led_err_count{0};
+      for (auto &channel : ic.channels) {
+        if (channel.status != Channel::Status::ON) {
+          led_err_count++;
+        }
+      }
+      if (leds.at(ic_count).update(led_err_count, tick_now)) {
+        fail = true;
+      }
+    }
+    return fail;
+  }
+
+  Channel::Status reduce_status(const Channel::Status a,
+                                const Channel::Status b) {
+    auto a_val{static_cast<uint8_t>(a)};
+    auto b_val{static_cast<uint8_t>(b)};
+    uint8_t out_val{};
+
+    if (a_val > b_val) {
+      out_val = b_val;
+    } else {
+      out_val = a_val;
+    }
+
+    return static_cast<Channel::Status>(out_val);
+  }
+
+  void update_system_status() {
+    system.fan_status = reduce_status(fan1().status, fan2().status);
+    system.pump_status = reduce_status(pump1().status, pump2().status);
+    system.pc_status = reduce_status(
+        pc1().status,
+        reduce_status(pc2().status, reduce_status(pc3().status, pc4().status)));
+    system.dash_status = dash().status;
+    system.sdc_status = sdc_asms().status;
+    system.brake_ir_air_status = brake_ir_air().status;
+    system.fbox_status = fbox().status;
+    system.inverter_status = reduce_status(inv1().status, inv2().status);
+
+    system.rbox_diag_brake_l_status = rbox_diag_brake_l().status;
+    system.tsal_hv_status = tsal_hv().status;
+
+    system.fan_current = fan1().get_current() + fan2().get_current();
+    system.pump_current = pump1().get_current() + pump2().get_current();
+    system.pc_current = pc1().get_current() + pc2().get_current() +
+                        pc3().get_current() + pc4().get_current();
+    system.sdc_current = sdc_asms().get_current();
+    system.fbox_current = fbox().get_current();
+    system.inverter_current = inv1().get_current() + inv2().get_current();
+
+    system.total_current = update_total_current();
   }
 
   std::array<uint8_t, IC_COUNT>
@@ -241,7 +316,7 @@ public:
         ERRDIAG_CMD,
         ERRDIAG_CMD,
     };
-    auto rx{daisy_chain_send(std::move(tx))};
+    auto rx{daisy_chain_send(tx)};
 
     int ic_count{0};
     for (auto &ic : ics) {
@@ -265,13 +340,14 @@ public:
         DCR_ACTIVE,
         DCR_ACTIVE,
     };
-    auto rx{daisy_chain_send(std::move(tx))};
-    if (check_chain_responses(std::move(rx)))
+    auto rx{daisy_chain_send(tx)};
+    if (check_chain_responses(rx))
       return true;
 
     for (auto &ic : ics) {
       ic.status = Ic::Status::STAND_BY;
     }
+    return true;
   }
 
   bool start_ics() {
@@ -281,8 +357,8 @@ public:
         OUT_READY,
         OUT_READY,
     };
-    auto rx{daisy_chain_send(std::move(tx))};
-    if (check_chain_responses(std::move(rx)))
+    auto rx{daisy_chain_send(tx)};
+    if (check_chain_responses(rx))
       return true;
 
     for (auto &ic : ics) {
@@ -322,12 +398,13 @@ public:
         dcr_channel,
     };
 
-    auto rx{daisy_chain_send(std::move(tx))};
-    return check_chain_responses(std::move(rx));
+    auto rx{daisy_chain_send(tx)};
+    return check_chain_responses(rx);
   }
 
   void update_channel_currents(uint8_t channel,
-                               std::span<uint16_t, ADC_BUF_SIZE> adc_buffer) {
+                               std::span<uint16_t, ADC_BUF_SIZE> adc_buffer,
+                               uint32_t tick_now) {
     int ic_count{0};
     for (auto &ic : ics) {
       uint32_t mv = __HAL_ADC_CALC_DATA_TO_VOLTAGE(
@@ -336,21 +413,8 @@ public:
       uint32_t current_val =
           (channel == 0 || channel == 3) ? mv_to_hma(mv) : mv_to_hma2(mv);
 
-      ic.channels[channel].update_current(current_val, HAL_GetTick());
+      ic.channels[channel].update_current(current_val, tick_now);
       ic_count++;
-    }
-  }
-
-  void update_led_status(uint32_t now) {
-    bool all_failed{true};
-
-    for (auto &ic : ics) {
-      uint8_t failed_channels{};
-      for (auto channel : ic.channels) {
-        if (channel.status == Channel::Status::ERR) {
-          failed_channels++;
-        }
-      }
     }
   }
 
@@ -363,11 +427,11 @@ public:
                 .get_current(); // If channel is off, current is 0 → no effect
       }
     }
-    total_current = sum;
+    system.total_current = sum;
     return sum;
   }
 
-  bool handle_overcurrent() {
+  bool handle_overcurrent(uint32_t tick_now) {
     std::array<uint8_t, IC_COUNT> tx{
         OUT_CLOSE,
         OUT_CLOSE,
@@ -379,34 +443,59 @@ public:
     for (auto &ic : ics) {
       int channel_count{0};
       for (auto &channel : ic.channels) {
-        if (channel.handle_overcurrent(HAL_GetTick()) == false)
+        if (channel.handle_overcurrent(tick_now) == false)
           tx.at(ic_count) |= 1 << channel_count;
         channel_count++;
       }
       ic_count++;
     }
 
-    auto rx{daisy_chain_send(std::move(tx))};
-    return check_chain_responses(std::move(rx));
+    auto rx{daisy_chain_send(tx)};
+    return check_chain_responses(rx);
   }
 
 private:
   std::array<Led, IC_COUNT> leds;
   std::array<Ic, IC_COUNT> ics{};
-  struct {
-    Channel::Status pc;
-    Channel::Status fan;
-    Channel::Status pump;
-    Channel::Status inverter;
-    Channel::Status fbox;
-    Channel::Status sdc;
-    Channel::Status dash;
-    Channel::Status tsal_hv;
-    Channel::Status rbox_diagport_brake_l;
-    Channel::Status brake_ir_air;
-  } system_status;
 
-  uint32_t total_current{};
+  struct {
+    Channel::Status pc_status{};
+    Channel::Status fan_status{};
+    Channel::Status pump_status{};
+    Channel::Status inverter_status{};
+    Channel::Status fbox_status{};
+    Channel::Status sdc_status{};
+    Channel::Status dash_status{};
+    Channel::Status tsal_hv_status{};
+    Channel::Status rbox_diag_brake_l_status{};
+    Channel::Status brake_ir_air_status{};
+
+    uint32_t pc_current{};
+    uint32_t pump_current{};
+    uint32_t fan_current{};
+    uint32_t inverter_current{};
+    uint32_t fbox_current{};
+    uint32_t sdc_current{};
+
+    uint32_t total_current{};
+  } system;
+
+  Channel &inv2() { return ics[0].channels[0]; }
+  Channel &inv1() { return ics[0].channels[1]; }
+  Channel &rbox_diag_brake_l() { return ics[0].channels[2]; }
+  Channel &tsal_hv() { return ics[0].channels[3]; }
+  Channel &dash() { return ics[1].channels[0]; }
+  Channel &sdc_asms() { return ics[1].channels[1]; }
+  Channel &brake_ir_air() { return ics[1].channels[2]; }
+  Channel &fbox() { return ics[1].channels[3]; }
+  Channel &pc4() { return ics[2].channels[0]; }
+  Channel &pc3() { return ics[2].channels[1]; }
+  Channel &pc2() { return ics[2].channels[2]; }
+  Channel &pc1() { return ics[2].channels[3]; }
+  Channel &fan2() { return ics[3].channels[0]; }
+  Channel &pump2() { return ics[3].channels[1]; }
+  Channel &pump1() { return ics[3].channels[2]; }
+  Channel &fan1() { return ics[3].channels[3]; }
 };
 
 class Temperature {
@@ -528,7 +617,8 @@ int main(void) {
                                        {LED2_GPIO_Port, LED2_Pin},
                                        {LED3_GPIO_Port, LED3_Pin},
                                        {LED4_GPIO_Port, LED4_Pin}}};
-  Pdu pdu{leds, thresholds};
+
+  static Pdu pdu{leds, thresholds};
   Temperature inv_temperature{20, 100};
   Temperature motor_temperature{20, 130};
 
@@ -538,34 +628,33 @@ int main(void) {
   uint16_t adc_buffer[ADC_BUF_SIZE];
 
   pdu.init_ics();
-  HAL_Delay(100);
+  HAL_Delay(5);
 
   HAL_ADC_Start_DMA(&hadc1, (uint32_t *)adc_buffer, ADC_BUF_SIZE);
 
   pdu.start_ics();
-  HAL_Delay(100);
+  HAL_Delay(5);
 
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1) {
-
+    uint32_t tick_now{HAL_GetTick()};
     pdu.check_chain_errors();
 
     for (int i{}; i < Ic::CHANNEL_COUNT; i++) {
       pdu.set_channel_sense(i);
-      pdu.update_channel_currents(i, adc_buffer);
+      pdu.update_channel_currents(i, adc_buffer, tick_now);
     }
 
-    HAL_Delay(100);
+    HAL_Delay(5);
 
     if (after_first_loop)
-      pdu.handle_overcurrent();
+      pdu.handle_overcurrent(tick_now);
 
-    pdu.update_total_current();
-
-    // update_led_status(HAL_GetTick());
+    pdu.update_leds(tick_now);
+    pdu.update_system_status();
 
     after_first_loop = true;
 
