@@ -57,7 +57,7 @@ bool Channel::handle_overcurrent(uint32_t tick_now) {
 bool Ic::check_response(uint8_t rx_value) {
   if (rx_value >> 6) {
     WRNDIAG wrndiag{rx_value};
-    // DECODE
+    (void)wrndiag; // DECODE
     return false;
   } else {
     STDDIAG stddiag{rx_value};
@@ -79,8 +79,10 @@ bool Ic::check_err(uint8_t rx_value) {
     for (auto &channel : channels) {
       if (errdiag.reg.ERRn & (1 << channel_count))
         channel.status = Channel::Status::ERR;
+      channel_count++;
     }
+    return true;
   }
-  return true;
+  return false;
 }
 } // namespace BTS72220

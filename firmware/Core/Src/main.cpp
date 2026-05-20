@@ -16,12 +16,6 @@
  ******************************************************************************
  */
 
-//*
-// fuse4
-// fuse3
-// fuse2
-// fuse1
-
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
@@ -40,91 +34,6 @@
 #include <array>
 #include <span>
 
-//---------------------------------------------------------------
-//  SYSTEM OVERVIEW
-//---------------------------------------------------------------
-//
-//
-//  HARDWARE STRUCTURE:
-//
-//  - 4 × BTS72220 smart high-side switches (called fuse1–fuse4, top to bottom)
-//  - Each IC controls 4 output channels → total of 16 channels
-//  - Current is measured via 4 ADC channels (1 per IC)
-//
-//  CHANNEL INDEX MAPPING:
-//
-//  - IC index 0 = fuse1 (bottom), IC 1 = fuse2, IC 2 = fuse3, IC 3 = fuse4
-//  (top)
-//  - In `fuse_currents[IC][CH]`, the IC index reflects this order
-//  - In `tx_buffer` and `rx_buffer` (5 bytes):
-//      tx_buffer[0] = common command
-//      tx_buffer[1] = fuse4 (IC3)
-//      tx_buffer[2] = fuse3 (IC2)
-//      tx_buffer[3] = fuse2 (IC1)
-//      tx_buffer[4] = fuse1 (IC0)
-//    ⚠️ This means buffer index = 4 - IC index
-//
-//  ADC CHANNEL MAPPING:
-//
-//  - ADC buffer layout is reversed:
-//      adc_buffer[3] = IC0 (fuse1)
-//      adc_buffer[2] = IC1 (fuse2)
-//      adc_buffer[1] = IC2 (fuse3)
-//      adc_buffer[0] = IC3 (fuse4)
-//
-//  CHANNEL CONTROL:
-//
-//  - System enters READY mode on startup, then ACTIVE
-//  - If current exceeds threshold, the corresponding channel is disabled via
-//  SPI
-//  - After 5s, disabled channels are retried if current drops below threshold
-//
-//  LOGICAL OUTPUTS:
-//
-//  - Physical channels grouped into 10 logical outputs (e.g. pc, pump, fan,
-//  inverter)
-//  - Each logical group has a 2-bit status: ON = 0, OFF = 1, ERROR = 2
-//  - Status is aggregated → if any subchannel fails, the whole group = ERROR
-//
-//  CAN COMMUNICATION:
-//
-//  - Logical statuses sent via `PUTM_CAN::PduChannel` every 40 ms
-//  - Currents (summed per group) sent via `PUTM_CAN::PduData` every 200 ms
-
-/*
- * LED DEBUGGING SYSTEM FOR 4 BTS72220 CONTROLLERS (16 CHANNELS)
- *
- * NORMAL OPERATION:
- * - All LEDs blink at 1 Hz → System OK
- *
- * SINGLE CHANNEL FAILURE (1 ERROR ON A CONTROLLER):
- * - The LED of the faulty controller blinks in a specific pattern:
- *   - 1 blink → Channel 0 failure
- *   - 2 blinks → Channel 1 failure
- *   - 3 blinks → Channel 2 failure
- *   - 4 blinks → Channel 3 failure
- * - This pattern repeats continuously with a short pause.
- *
- * MULTIPLE CHANNEL FAILURES ON ONE CONTROLLER:
- * - The corresponding LED blinks rapidly at 5 Hz.
- *
- * MULTIPLE CONTROLLERS FAILING:
- * - Each affected controller's LED blinks rapidly at 5 Hz.
- *
- * CRITICAL FAILURE (ALL CONTROLLERS FAILING):
- * - All 4 LEDs stay solid ON.
- *
- * SYSTEM IN STANDBY/RESET:
- * - All LEDs stay OFF.
- *
- * HOW TO INTERPRET THE LEDS:
- * - Example: If LED2 blinks 3 times, pauses, then repeats → Controller 2,
- * Channel 2 failure.
- * - Example: If LED4 blinks fast (5 Hz) → Controller 4 has multiple channel
- * failures.
- * - Example: If all LEDs are ON → System critical failure.
- */
-
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -136,7 +45,6 @@
 /* USER CODE BEGIN PD */
 constexpr uint8_t ADC_BUF_SIZE{4};
 constexpr uint32_t __VREFANALOG_VOLTAGE__{3300};
-
 constexpr uint32_t MAX_RETRIES{5};
 
 /* USER CODE END PD */
@@ -150,7 +58,8 @@ constexpr uint32_t MAX_RETRIES{5};
 
 /* USER CODE BEGIN PV */
 
-// For individual channels 0 and 3 (returns 0.1A units as uint8_t)
+// For individual channels 0 and 3 (returns 0.1A units as uint8_t) - do
+// wyjebania
 uint32_t mv_to_hma(uint32_t mv) {
   if (mv < 123)
     return 0;
@@ -166,13 +75,18 @@ uint32_t mv_to_hma2(uint32_t mv) {
 
 using namespace BTS72220;
 
+/* Led blinking indicates each IC channels status:
+  OFF - all channels OK
+
+
+
+  ON - all channels ERROR
+*/
 class Led {
 public:
-  GPIO_TypeDef *port{nullptr};
-  const uint16_t pin{0};
-
   Led(GPIO_TypeDef *port, const uint16_t pin) : port{port}, pin{pin} {};
 
+  // Update single Led state based on failed channels count
   bool update(uint8_t channels_failed, uint32_t tick_now) {
     if (channels_failed > Ic::CHANNEL_COUNT) {
       return true;
@@ -183,7 +97,7 @@ public:
       HAL_GPIO_WritePin(port, pin, GPIO_PIN_RESET);
       return false;
     } else {
-      toggle_time = 1500 / channels_failed;
+      toggle_time = 3000 / channels_failed;
       if (tick_now - last_toggle >= toggle_time) {
         last_toggle = tick_now;
         HAL_GPIO_TogglePin(port, pin);
@@ -193,29 +107,26 @@ public:
   }
 
 private:
+  GPIO_TypeDef *port{nullptr};
+  const uint16_t pin{0};
+
   uint32_t toggle_time{};
   uint32_t last_toggle{};
 };
 
+// Base class that controls all ICs
 class Pdu {
 public:
   static constexpr uint8_t IC_COUNT{4};
 
   Pdu(std::array<Led, IC_COUNT> leds,
-      std::array<std::array<uint32_t, Ic::CHANNEL_COUNT>, Pdu::IC_COUNT>
+      std::array<std::array<uint16_t, Ic::CHANNEL_COUNT>, Pdu::IC_COUNT>
           thresholds)
-      : leds{leds} {
-    int ic_count{};
-    for (auto &ic : ics) {
-      int channel_count{0};
-      for (auto &channel : ic.channels) {
-        channel.set_threshold(thresholds[ic_count][channel_count]);
-        channel_count++;
-      }
-      ic_count++;
-    }
-  }
+      : leds{leds},
+        ics{thresholds[0], thresholds[1], thresholds[2], thresholds[3]} {}
 
+  // Count failed channels(with state other than ON) and update
+  // leds
   bool update_leds(uint32_t tick_now) {
     int ic_count{0};
     bool fail{false};
@@ -233,6 +144,7 @@ public:
     return fail;
   }
 
+  // Returns lower status of two channels
   Channel::Status reduce_status(const Channel::Status a,
                                 const Channel::Status b) {
     auto a_val{static_cast<uint8_t>(a)};
@@ -248,34 +160,36 @@ public:
     return static_cast<Channel::Status>(out_val);
   }
 
+  // Updates all data that is needed for CAN
   void update_system_status() {
-    system.fan_status = reduce_status(fan1().status, fan2().status);
-    system.pump_status = reduce_status(pump1().status, pump2().status);
-    system.pc_status = reduce_status(
+    system_data.fan_status = reduce_status(fan1().status, fan2().status);
+    system_data.pump_status = reduce_status(pump1().status, pump2().status);
+    system_data.pc_status = reduce_status(
         pc1().status,
         reduce_status(pc2().status, reduce_status(pc3().status, pc4().status)));
-    system.dash_status = dash().status;
-    system.sdc_status = sdc_asms().status;
-    system.brake_ir_air_status = brake_ir_air().status;
-    system.fbox_status = fbox().status;
-    system.inverter_status = reduce_status(inv1().status, inv2().status);
+    system_data.dash_status = dash().status;
+    system_data.sdc_status = sdc_asms().status;
+    system_data.brake_ir_air_status = brake_ir_air().status;
+    system_data.fbox_status = fbox().status;
+    system_data.inverter_status = reduce_status(inv1().status, inv2().status);
 
-    system.rbox_diag_brake_l_status = rbox_diag_brake_l().status;
-    system.tsal_hv_status = tsal_hv().status;
+    system_data.rbox_diag_brake_l_status = rbox_diag_brake_l().status;
+    system_data.tsal_hv_status = tsal_hv().status;
 
-    system.fan_current = fan1().get_current() + fan2().get_current();
-    system.pump_current = pump1().get_current() + pump2().get_current();
-    system.pc_current = pc1().get_current() + pc2().get_current() +
-                        pc3().get_current() + pc4().get_current();
-    system.sdc_current = sdc_asms().get_current();
-    system.fbox_current = fbox().get_current();
-    system.inverter_current = inv1().get_current() + inv2().get_current();
+    system_data.fan_current = fan1().get_current() + fan2().get_current();
+    system_data.pump_current = pump1().get_current() + pump2().get_current();
+    system_data.pc_current = pc1().get_current() + pc2().get_current() +
+                             pc3().get_current() + pc4().get_current();
+    system_data.sdc_current = sdc_asms().get_current();
+    system_data.fbox_current = fbox().get_current();
+    system_data.inverter_current = inv1().get_current() + inv2().get_current();
 
-    system.total_current = update_total_current();
+    system_data.total_current = update_total_current();
   }
 
-  std::array<uint8_t, IC_COUNT>
-  daisy_chain_send(std::array<uint8_t, IC_COUNT> tx) {
+  // Transmit and receive 8-byte data for all ICs in daisy chain, this function
+  // flips data in array so each IC receives correct data index
+  std::array<uint8_t, IC_COUNT> chain_send(std::array<uint8_t, IC_COUNT> tx) {
     uint8_t tx_buffer[IC_COUNT]{};
     int tx_count{tx.max_size() - 1};
     for (auto tx_val : tx) {
@@ -299,14 +213,15 @@ public:
   }
 
   bool check_chain_responses(std::array<uint8_t, IC_COUNT> rx) {
+    bool has_error = false;
     int ic_count{0};
     for (auto &ic : ics) {
       if (ic.check_response(rx.at(ic_count))) {
-        return true;
+        has_error = true;
       }
       ic_count++;
     }
-    return false;
+    return has_error;
   }
 
   bool check_chain_errors() {
@@ -316,19 +231,20 @@ public:
         ERRDIAG_CMD,
         ERRDIAG_CMD,
     };
-    auto rx{daisy_chain_send(tx)};
+    auto rx{chain_send(tx)};
 
+    bool has_error = false;
     int ic_count{0};
     for (auto &ic : ics) {
       if (ic.check_err(rx.at(ic_count))) {
-        return true;
+        has_error = true;
       }
       ic_count++;
     }
-    return false;
+    return has_error;
   }
 
-  bool init_ics() {
+  bool init_chain() {
     HAL_GPIO_WritePin(LHI_1_GPIO_Port, LHI_1_Pin, GPIO_PIN_RESET);
     HAL_GPIO_WritePin(LHI_2_GPIO_Port, LHI_2_Pin, GPIO_PIN_RESET);
     HAL_GPIO_WritePin(LHI_3_GPIO_Port, LHI_3_Pin, GPIO_PIN_RESET);
@@ -340,7 +256,7 @@ public:
         DCR_ACTIVE,
         DCR_ACTIVE,
     };
-    auto rx{daisy_chain_send(tx)};
+    auto rx{chain_send(tx)};
     if (check_chain_responses(rx))
       return true;
 
@@ -350,14 +266,14 @@ public:
     return true;
   }
 
-  bool start_ics() {
+  bool start_chain() {
     std::array<uint8_t, IC_COUNT> tx{
         OUT_READY,
         OUT_READY,
         OUT_READY,
         OUT_READY,
     };
-    auto rx{daisy_chain_send(tx)};
+    auto rx{chain_send(tx)};
     if (check_chain_responses(rx))
       return true;
 
@@ -398,7 +314,7 @@ public:
         dcr_channel,
     };
 
-    auto rx{daisy_chain_send(tx)};
+    auto rx{chain_send(tx)};
     return check_chain_responses(rx);
   }
 
@@ -407,10 +323,10 @@ public:
                                uint32_t tick_now) {
     int ic_count{0};
     for (auto &ic : ics) {
-      uint32_t mv = __HAL_ADC_CALC_DATA_TO_VOLTAGE(
+      uint16_t mv = __HAL_ADC_CALC_DATA_TO_VOLTAGE(
           __VREFANALOG_VOLTAGE__, adc_buffer[ic_count], ADC_RESOLUTION12b);
 
-      uint32_t current_val =
+      uint16_t current_val =
           (channel == 0 || channel == 3) ? mv_to_hma(mv) : mv_to_hma2(mv);
 
       ic.channels[channel].update_current(current_val, tick_now);
@@ -427,11 +343,11 @@ public:
                 .get_current(); // If channel is off, current is 0 → no effect
       }
     }
-    system.total_current = sum;
+    system_data.total_current = sum;
     return sum;
   }
 
-  bool handle_overcurrent(uint32_t tick_now) {
+  bool handle_overcurrent(uint16_t tick_now) {
     std::array<uint8_t, IC_COUNT> tx{
         OUT_CLOSE,
         OUT_CLOSE,
@@ -450,13 +366,13 @@ public:
       ic_count++;
     }
 
-    auto rx{daisy_chain_send(tx)};
+    auto rx{chain_send(tx)};
     return check_chain_responses(rx);
   }
 
 private:
   std::array<Led, IC_COUNT> leds;
-  std::array<Ic, IC_COUNT> ics{};
+  std::array<Ic, IC_COUNT> ics;
 
   struct {
     Channel::Status pc_status{};
@@ -470,28 +386,31 @@ private:
     Channel::Status rbox_diag_brake_l_status{};
     Channel::Status brake_ir_air_status{};
 
-    uint32_t pc_current{};
-    uint32_t pump_current{};
-    uint32_t fan_current{};
-    uint32_t inverter_current{};
-    uint32_t fbox_current{};
-    uint32_t sdc_current{};
+    uint16_t pc_current{};
+    uint16_t pump_current{};
+    uint16_t fan_current{};
+    uint16_t inverter_current{};
+    uint16_t fbox_current{};
+    uint16_t sdc_current{};
 
-    uint32_t total_current{};
-  } system;
+    uint16_t total_current{};
+  } system_data;
 
   Channel &inv2() { return ics[0].channels[0]; }
   Channel &inv1() { return ics[0].channels[1]; }
   Channel &rbox_diag_brake_l() { return ics[0].channels[2]; }
   Channel &tsal_hv() { return ics[0].channels[3]; }
+
   Channel &dash() { return ics[1].channels[0]; }
   Channel &sdc_asms() { return ics[1].channels[1]; }
   Channel &brake_ir_air() { return ics[1].channels[2]; }
   Channel &fbox() { return ics[1].channels[3]; }
+
   Channel &pc4() { return ics[2].channels[0]; }
   Channel &pc3() { return ics[2].channels[1]; }
   Channel &pc2() { return ics[2].channels[2]; }
   Channel &pc1() { return ics[2].channels[3]; }
+
   Channel &fan2() { return ics[3].channels[0]; }
   Channel &pump2() { return ics[3].channels[1]; }
   Channel &pump1() { return ics[3].channels[2]; }
@@ -584,28 +503,28 @@ int main(void) {
   /* USER CODE BEGIN 2 */
 
   static constexpr struct {
-    uint32_t INV2{50};
-    uint32_t INV1{30};
-    uint32_t RBOX_DIAG_BRAKE_L{50};
-    uint32_t TSAL_HV{20};
+    uint16_t INV2{50};
+    uint16_t INV1{30};
+    uint16_t RBOX_DIAG_BRAKE_L{50};
+    uint16_t TSAL_HV{20};
 
-    uint32_t DASH{30};
-    uint32_t SDC_ASMS{10};
-    uint32_t BRAKE_IR_AIR{50};
-    uint32_t FBOX{50};
+    uint16_t DASH{30};
+    uint16_t SDC_ASMS{10};
+    uint16_t BRAKE_IR_AIR{50};
+    uint16_t FBOX{50};
 
-    uint32_t PC4{40};
-    uint32_t PC3{50};
-    uint32_t PC2{50};
-    uint32_t PC1{40};
+    uint16_t PC4{40};
+    uint16_t PC3{50};
+    uint16_t PC2{50};
+    uint16_t PC1{40};
 
-    uint32_t FAN2{50};
-    uint32_t PUMP2{50};
-    uint32_t PUMP1{50};
-    uint32_t FAN1{50};
+    uint16_t FAN2{50};
+    uint16_t PUMP2{50};
+    uint16_t PUMP1{50};
+    uint16_t FAN1{50};
   } I_MAX; // Current thresholds
 
-  std::array<std::array<uint32_t, Ic::CHANNEL_COUNT>, Pdu::IC_COUNT> thresholds{
+  std::array<std::array<uint16_t, Ic::CHANNEL_COUNT>, Pdu::IC_COUNT> thresholds{
       {
           {I_MAX.INV2, I_MAX.INV1, I_MAX.RBOX_DIAG_BRAKE_L, I_MAX.TSAL_HV},
           {I_MAX.DASH, I_MAX.SDC_ASMS, I_MAX.BRAKE_IR_AIR, I_MAX.FBOX},
@@ -627,13 +546,13 @@ int main(void) {
   bool after_first_loop{false};
   uint16_t adc_buffer[ADC_BUF_SIZE];
 
-  pdu.init_ics();
-  HAL_Delay(5);
+  pdu.init_chain();
+  HAL_Delay(1);
 
   HAL_ADC_Start_DMA(&hadc1, (uint32_t *)adc_buffer, ADC_BUF_SIZE);
 
-  pdu.start_ics();
-  HAL_Delay(5);
+  pdu.start_chain();
+  HAL_Delay(1);
 
   /* USER CODE END 2 */
 
@@ -645,10 +564,9 @@ int main(void) {
 
     for (int i{}; i < Ic::CHANNEL_COUNT; i++) {
       pdu.set_channel_sense(i);
+      HAL_Delay(1);
       pdu.update_channel_currents(i, adc_buffer, tick_now);
     }
-
-    HAL_Delay(5);
 
     if (after_first_loop)
       pdu.handle_overcurrent(tick_now);
