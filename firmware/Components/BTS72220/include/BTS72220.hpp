@@ -70,12 +70,12 @@ union ERRDIAG {
 
 class Channel {
 public:
-  enum class Status {
+  enum class Status : uint8_t {
     OFF,
-    ON,
-    ERR,
-    TEMP_LOCK,
     PERM_LOCK,
+    TEMP_LOCK,
+    ERR,
+    ON,
   };
 
   static constexpr uint32_t MAX_RETRIES{5};
@@ -83,12 +83,11 @@ public:
   uint32_t retry_count{};
   uint32_t tick_last_attempt{};
 
-  Channel(uint16_t threshold) : threshold{threshold} {}
-
   uint32_t get_current() { return current; }
 
   void update_current(uint32_t current_value, uint32_t tick_now);
   bool handle_overcurrent(uint32_t tick_now);
+  void set_threshold(uint16_t threshold) { threshold = threshold; }
 
 private:
   uint16_t current{};
@@ -104,9 +103,6 @@ public:
     ACTIVE,
   };
   static constexpr uint8_t CHANNEL_COUNT{4};
-
-  Ic(std::array<uint16_t, CHANNEL_COUNT> thresholds)
-      : channels{thresholds[0], thresholds[1], thresholds[2], thresholds[3]} {}
 
   Status status{Status::SLEEP};
   std::array<Channel, CHANNEL_COUNT> channels;
