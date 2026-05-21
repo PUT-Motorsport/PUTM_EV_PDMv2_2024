@@ -4,7 +4,7 @@
 #include <cstdint>
 #include <utility>
 
-namespace BTS72220 {
+namespace BTS {
 
 constexpr uint8_t OUT_READY{0x8F};    // 1000 1111	switching to ready mode
 constexpr uint8_t OUT_READY1{0x9F};   // 1001 1111
@@ -35,32 +35,36 @@ constexpr uint8_t CLOSE_CHANNEL_1_CMD{0x8D}; // 1000 1101
 constexpr uint8_t CLOSE_CHANNEL_2_CMD{0x8B}; // 1000 1011
 constexpr uint8_t CLOSE_CHANNEL_3_CMD{0x87}; // 1000 0111
 
+constexpr uint8_t ERRDIAG_MASK{0x40};
+constexpr uint8_t WRNDIAG_MASK{0x40};
+constexpr uint8_t STDDIAG_MASK{0x00};
+
 union WRNDIAG {
   uint8_t value;
   struct {
-    uint8_t RES : 4;
     uint8_t WRNn : 4;
+    uint8_t RES : 4;
   } reg;
 };
 
 union STDDIAG {
   uint8_t value;
   struct {
-    uint8_t RES : 2;
-    uint8_t TER : 1;
-    uint8_t CSV : 1;
-    uint8_t LHI : 1;
-    uint8_t SLP : 1;
-    uint8_t SBM : 1;
     uint8_t VSMON : 1;
+    uint8_t SBM : 1;
+    uint8_t SLP : 1;
+    uint8_t LHI : 1;
+    uint8_t CSV : 1;
+    uint8_t TER : 1;
+    uint8_t RES : 2;
   } reg;
 };
 
 union ERRDIAG {
   uint8_t value;
   struct {
-    uint8_t RES : 4;
     uint8_t ERRn : 4;
+    uint8_t RES : 4;
   } reg;
 };
 
@@ -73,6 +77,7 @@ public:
     TEMP_LOCK,
     PERM_LOCK,
   };
+
   static constexpr uint32_t MAX_RETRIES{5};
   Status status{Status::ON};
   uint32_t retry_count{};
@@ -111,4 +116,4 @@ public:
 
 private:
 };
-} // namespace BTS72220
+} // namespace BTS

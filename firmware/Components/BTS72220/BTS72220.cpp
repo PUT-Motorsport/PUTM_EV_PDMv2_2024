@@ -1,6 +1,6 @@
 #include "BTS72220.hpp"
 
-namespace BTS72220 {
+namespace BTS {
 
 void Channel::update_current(uint32_t current_value, uint32_t tick_now) {
   current = current_value;
@@ -9,6 +9,8 @@ void Channel::update_current(uint32_t current_value, uint32_t tick_now) {
     if (current > threshold) {
       tick_last_attempt = tick_now;
       status = Status::ERR;
+    } else {
+      // Zero retry_count after delay
     }
     break;
   }
@@ -19,7 +21,7 @@ void Channel::update_current(uint32_t current_value, uint32_t tick_now) {
 }
 
 bool Channel::handle_overcurrent(uint32_t tick_now) {
-  const uint32_t time_per_attempt_ms{5000};
+  constexpr uint32_t time_per_attempt_ms{5000};
 
   switch (status) {
   case Status::ON: {
@@ -40,7 +42,7 @@ bool Channel::handle_overcurrent(uint32_t tick_now) {
 
   case Status::TEMP_LOCK: {
     uint32_t time_since = tick_now - tick_last_attempt;
-    if (time_since > ((retry_count + 1) * time_per_attempt_ms)) {
+    if (time_since > (retry_count * time_per_attempt_ms)) {
       status = Status::ON;
       return false;
     }
@@ -55,22 +57,23 @@ bool Channel::handle_overcurrent(uint32_t tick_now) {
 }
 
 bool Ic::check_response(uint8_t rx_value) {
-  if (rx_value >> 6) {
+  if (rx_value & WRNDIAG_MASK) {
     WRNDIAG wrndiag{rx_value};
     (void)wrndiag; // DECODE
     return false;
-  } else {
+  } else if (rx_value & STDDIAG_MASK) {
     STDDIAG stddiag{rx_value};
     if (stddiag.reg.TER) {
       status = Status::SLEEP;
       return true;
     }
     return false;
-  }
+  } else
+    return true;
 }
 
 bool Ic::check_err(uint8_t rx_value) {
-  if (rx_value >> 6) {
+  if (rx_value & ERRDIAG_MASK) {
     ERRDIAG errdiag{rx_value};
     if (errdiag.reg.ERRn == 0)
       return false;
@@ -85,4 +88,4 @@ bool Ic::check_err(uint8_t rx_value) {
   }
   return false;
 }
-} // namespace BTS72220
+} // namespace BTS
