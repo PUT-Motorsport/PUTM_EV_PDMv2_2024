@@ -57,12 +57,12 @@ bool Channel::handle_overcurrent(uint32_t tick_now) {
 }
 
 bool Ic::check_response(uint8_t rx_value) {
-  if (rx_value & WRNDIAG_MASK) {
-    WRNDIAG wrndiag{rx_value};
+  if ((rx_value & DIAG_MASK) == WRNDIAG_MASK) {
+    Wrndiag wrndiag{rx_value};
     (void)wrndiag; // DECODE
     return false;
-  } else if (rx_value & STDDIAG_MASK) {
-    STDDIAG stddiag{rx_value};
+  } else if ((rx_value & DIAG_MASK) == STDDIAG_MASK) {
+    Stddiag stddiag{rx_value};
     if (stddiag.reg.TER) {
       status = Status::SLEEP;
       return true;
@@ -73,16 +73,14 @@ bool Ic::check_response(uint8_t rx_value) {
 }
 
 bool Ic::check_err(uint8_t rx_value) {
-  if (rx_value & ERRDIAG_MASK) {
-    ERRDIAG errdiag{rx_value};
+  if ((rx_value & DIAG_MASK) == STDDIAG_MASK) {
+    Errdiag errdiag{rx_value};
     if (errdiag.reg.ERRn == 0)
       return false;
 
-    int channel_count{0};
-    for (auto &channel : channels) {
-      if (errdiag.reg.ERRn & (1 << channel_count))
-        channel.status = Channel::Status::ERR;
-      channel_count++;
+    for (std::size_t ch_idx{}; ch_idx < CHANNEL_COUNT; ch_idx++) {
+      if (errdiag.reg.ERRn & (1 << ch_idx))
+        channels.at(ch_idx).status = Channel::Status::ERR;
     }
     return true;
   }

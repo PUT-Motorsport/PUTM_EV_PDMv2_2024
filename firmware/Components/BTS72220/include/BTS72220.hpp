@@ -35,11 +35,12 @@ constexpr uint8_t CLOSE_CHANNEL_1_CMD{0x8D}; // 1000 1101
 constexpr uint8_t CLOSE_CHANNEL_2_CMD{0x8B}; // 1000 1011
 constexpr uint8_t CLOSE_CHANNEL_3_CMD{0x87}; // 1000 0111
 
+constexpr uint8_t DIAG_MASK{0xC0};
 constexpr uint8_t ERRDIAG_MASK{0x40};
 constexpr uint8_t WRNDIAG_MASK{0x40};
 constexpr uint8_t STDDIAG_MASK{0x00};
 
-union WRNDIAG {
+union Wrndiag {
   uint8_t value;
   struct {
     uint8_t WRNn : 4;
@@ -47,7 +48,7 @@ union WRNDIAG {
   } reg;
 };
 
-union STDDIAG {
+union Stddiag {
   uint8_t value;
   struct {
     uint8_t VSMON : 1;
@@ -60,7 +61,7 @@ union STDDIAG {
   } reg;
 };
 
-union ERRDIAG {
+union Errdiag {
   uint8_t value;
   struct {
     uint8_t ERRn : 4;
@@ -83,11 +84,11 @@ public:
   uint32_t retry_count{};
   uint32_t tick_last_attempt{};
 
-  uint32_t get_current() { return current; }
+  uint16_t get_current() const { return current; }
 
   void update_current(uint32_t current_value, uint32_t tick_now);
   bool handle_overcurrent(uint32_t tick_now);
-  void set_threshold(uint16_t threshold) { threshold = threshold; }
+  void set_threshold(uint16_t threshold) { this->threshold = threshold; }
 
 private:
   uint16_t current{};

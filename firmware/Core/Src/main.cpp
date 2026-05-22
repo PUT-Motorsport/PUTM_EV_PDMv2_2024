@@ -57,7 +57,7 @@ constexpr uint32_t __VREFANALOG_VOLTAGE__{3300};
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
-enum class System_names {
+enum class System_name {
   INV2,
   INV1,
   RBOX_DIAG_BRAKE_L,
@@ -82,8 +82,8 @@ enum class System_names {
 };
 
 struct System {
-  System_names name;
-  uint16_t i_max;
+  System_name name;
+  uint16_t threshold;
 };
 
 // For individual channels 0 and 3 (returns 0.1A units as uint8_t) - do
@@ -101,25 +101,9 @@ uint16_t mv_to_hma2(uint16_t mv) {
   return (((mv - 123) * 1000) / 482 + 50);
 }
 
-// Returns lower status of two channels
-BTS::Channel::Status reduce_status(const BTS::Channel::Status ch1,
-                                   const BTS::Channel::Status ch2) {
-  auto a_val{static_cast<uint8_t>(ch1)};
-  auto b_val{static_cast<uint8_t>(ch2)};
-  uint8_t out_val{};
-
-  if (a_val > b_val) {
-    out_val = b_val;
-  } else {
-    out_val = a_val;
-  }
-
-  return static_cast<BTS::Channel::Status>(out_val);
-}
-
 // Translate channel status to can frame data displayed on dash
-uint8_t ch_status_can(const BTS::Channel::Status ch) {
-  switch (ch) {
+uint8_t ch_status_can(const BTS::Channel ch) {
+  switch (ch.status) {
   case BTS::Channel::Status::OFF:
     return 0;
   case BTS::Channel::Status::ERR:
@@ -186,11 +170,7 @@ public:
   Temperature(const uint8_t min_temperature, const uint8_t max_temperature)
       : min{min_temperature}, max{max_temperature} {}
 
-  bool check(uint8_t value) {
-    if (value < min || value > max)
-      return true;
-    return false;
-  }
+  bool check(uint8_t value) { return (value < min || value > max); }
 
   bool update(Values new_values) {
     values.front_left = new_values.front_left;
@@ -220,39 +200,83 @@ public:
       Temperature inv_temperature, Temperature motor_temperature)
       : leds{leds[0], leds[1], leds[2], leds[3]},
         inv_temperature{inv_temperature}, motor_temperature{motor_temperature} {
-    for (size_t ic_idx{}; ic_idx < ics.size(); ++ic_idx) {
-      for (size_t ch_idx{}; ch_idx < ics.at(ic_idx).channels.size(); ++ch_idx) {
-        system_channels[static_cast<uint8_t>(systems_data.at(ic_idx).at(ch_idx).name)] =
-            ic_idx + ch_idx;
+
+    for (size_t ic_idx{}; ic_idx < IC_COUNT; ic_idx++) {
+      for (size_t ch_idx{}; ch_idx < BTS::Ic::CHANNEL_COUNT; ch_idx++) {
+        systems_channel_map[static_cast<uint8_t>(
+            systems_data.at(ic_idx).at(ch_idx).name)] = ic_idx + ch_idx;
+
         ics.at(ic_idx).channels.at(ch_idx).set_threshold(
-            systems_data.at(ic_idx).at(ch_idx).i_max);
+            systems_data.at(ic_idx).at(ch_idx).threshold);
       }
     }
   }
 
-  const BTS::Channel &get_channel(System_names name) {
-    size_t index = system_channels.at(static_cast<size_t>(name));
-    auto ic_index{index / 4};
-    auto channel_index{index % 4};
+  const BTS::Channel &get_channel(System_name name) {
+    size_t index = systems_channel_map.at(static_cast<size_t>(name));
+    auto ic_index{index / IC_COUNT};
+    auto channel_index{index % BTS::Ic::CHANNEL_COUNT};
     return ics.at(ic_index).channels.at(channel_index);
+  }
+
+  PUTM_CAN_M_pdu_channnel_t get_can_pdu_channel_t() {
+    return {
+        .pc_status{std::min({ch_status_can(get_channel(System_name::PC0)),
+                             ch_status_can(get_channel(System_name::PC1)),
+                             ch_status_can(get_channel(System_name::PC2)),
+                             ch_status_can(get_channel(System_name::PC3))})},
+        .fan_status{std::min({ch_status_can(get_channel(System_name::FAN1)),
+                              ch_status_can(get_channel(System_name::FAN2))})},
+        .pump_status{
+            std::min({ch_status_can(get_channel(System_name::PUMP1)),
+                      ch_status_can(get_channel(System_name::PUMP2))})},
+        .inverter_status{
+            std::min({ch_status_can(get_channel(System_name::INV1)),
+                      ch_status_can(get_channel(System_name::INV2))})},
+        .fbox_status{ch_status_can(get_channel(System_name::FBOX))},
+        .sdc_status{ch_status_can(get_channel(System_name::SDC_ASMS))},
+        .dash_status{ch_status_can(get_channel(System_name::DASH))},
+        .tsal_hv_status{ch_status_can(get_channel(System_name::TSAL_HV))},
+        .rbox_diagport_brake_l_status{
+            ch_status_can(get_channel(System_name::RBOX_DIAG_BRAKE_L))},
+        .brake_ir_air_status{
+            ch_status_can(get_channel(System_name::BRAKE_IR_AIR))},
+    };
+  }
+
+  PUTM_CAN_M_pdu_data_t get_can_pdu_data_t() {
+    return {
+        .pc_current{get_channel(System_name::PC0).get_current() +
+                    get_channel(System_name::PC1).get_current() +
+                    get_channel(System_name::PC2).get_current() +
+                    get_channel(System_name::PC3).get_current()},
+        .pump_current{get_channel(System_name::PUMP1).get_current() +
+                      get_channel(System_name::PUMP2).get_current()},
+        .fan_current{get_channel(System_name::FAN1).get_current() +
+                     get_channel(System_name::FAN2).get_current()},
+        .inverter_current{get_channel(System_name::INV1).get_current() +
+                          get_channel(System_name::INV2).get_current()},
+        .fbox_current{get_channel(System_name::FBOX).get_current()},
+        .sdc_current{get_channel(System_name::SDC_ASMS).get_current()},
+        .total_current{get_total_current()},
+    };
   }
 
   // Count failed channels(with state other than ON) and update
   // leds
   bool update_leds(uint32_t tick_now) {
-    int ic_count{0};
     bool fail{false};
-    for (auto &ic : ics) {
+    for (size_t ic_idx{}; ic_idx < IC_COUNT; ic_idx++) {
       int led_err_count{0};
-      for (auto &channel : ic.channels) {
-        if (channel.status != BTS::Channel::Status::ON) {
+      for (size_t ch_idx{}; ch_idx < BTS::Ic::CHANNEL_COUNT; ch_idx++) {
+        if (ics.at(ic_idx).channels.at(ch_idx).status !=
+            BTS::Channel::Status::ON) {
           led_err_count++;
         }
       }
-      if (leds.at(ic_count).update(led_err_count, tick_now)) {
+      if (leds.at(ic_idx).update(led_err_count, tick_now)) {
         fail = true;
       }
-      ic_count++;
     }
     return fail;
   }
@@ -263,15 +287,12 @@ public:
             motor_temperature.update(motor_values));
   }
 
-  // Transmit and receive 8-byte data for all ICs in daisy chain, this function
-  // flips data in array so each IC receives correct data index
+  // Transmit and receive 8-byte data for all ICs in daisy chain, this
+  // function flips data in array so each IC receives correct data index
   std::array<uint8_t, IC_COUNT> chain_send(std::array<uint8_t, IC_COUNT> tx) {
     uint8_t tx_buffer[IC_COUNT]{};
-    int tx_count{tx.max_size()};
-    for (auto tx_val : tx) {
-      tx_count--;
-      tx_buffer[tx_count] = tx_val;
-    }
+    std::reverse_copy(tx.begin(), tx.end(), tx_buffer);
+
     uint8_t rx_buffer[IC_COUNT]{};
 
     HAL_GPIO_WritePin(SPI1_NSS_GPIO_Port, SPI1_NSS_Pin, GPIO_PIN_RESET);
@@ -290,58 +311,40 @@ public:
     HAL_GPIO_WritePin(SPI1_NSS_GPIO_Port, SPI1_NSS_Pin, GPIO_PIN_SET);
 
     std::array<uint8_t, IC_COUNT> rx{};
-    int rx_count{tx.max_size()};
-    for (auto &rx_val : rx) {
-      rx_count--;
-      rx_val = rx_buffer[rx_count];
-    }
+    std::reverse_copy(&(rx_buffer[0]), &(rx_buffer[IC_COUNT - 1]), rx.begin());
+
     return rx;
   }
 
   bool check_chain_responses(std::array<uint8_t, IC_COUNT> rx) {
     bool has_error = false;
-    int ic_count{0};
-    for (auto &ic : ics) {
-      if (ic.check_response(rx.at(ic_count))) {
+    for (size_t ic_idx{}; ic_idx < IC_COUNT; ic_idx++) {
+      if (ics.at(ic_idx).check_response(rx.at(ic_idx))) {
         has_error = true;
       }
-      ic_count++;
     }
     return has_error;
   }
 
   bool check_chain_errors() {
-    std::array<uint8_t, IC_COUNT> tx{
-        BTS::ERRDIAG_CMD,
-        BTS::ERRDIAG_CMD,
-        BTS::ERRDIAG_CMD,
-        BTS::ERRDIAG_CMD,
-    };
+    std::array<uint8_t, IC_COUNT> tx{};
+    tx.fill(BTS::ERRDIAG_CMD);
+
     auto rx{chain_send(tx)};
 
     bool has_error = false;
-    int ic_count{0};
-    for (auto &ic : ics) {
-      if (ic.check_err(rx.at(ic_count))) {
+    for (size_t ic_idx{}; ic_idx < IC_COUNT; ic_idx++) {
+      if (ics.at(ic_idx).check_err(rx.at(ic_idx))) {
         has_error = true;
       }
-      ic_count++;
     }
     return has_error;
   }
 
   bool init_chain() {
-    HAL_GPIO_WritePin(LHI_1_GPIO_Port, LHI_1_Pin, GPIO_PIN_RESET);
-    HAL_GPIO_WritePin(LHI_2_GPIO_Port, LHI_2_Pin, GPIO_PIN_RESET);
-    HAL_GPIO_WritePin(LHI_3_GPIO_Port, LHI_3_Pin, GPIO_PIN_RESET);
-    HAL_GPIO_WritePin(LHI_4_GPIO_Port, LHI_4_Pin, GPIO_PIN_RESET);
+    std::array<uint8_t, IC_COUNT> tx{};
+    tx.fill(BTS::DCR_ACTIVE);
 
-    std::array<uint8_t, IC_COUNT> tx{
-        BTS::DCR_ACTIVE,
-        BTS::DCR_ACTIVE,
-        BTS::DCR_ACTIVE,
-        BTS::DCR_ACTIVE,
-    };
     auto rx{chain_send(tx)};
     if (check_chain_responses(rx))
       return true;
@@ -353,12 +356,9 @@ public:
   }
 
   bool start_chain() {
-    std::array<uint8_t, IC_COUNT> tx{
-        BTS::OUT_READY,
-        BTS::OUT_READY,
-        BTS::OUT_READY,
-        BTS::OUT_READY,
-    };
+    std::array<uint8_t, IC_COUNT> tx{};
+    tx.fill(BTS::OUT_READY);
+
     auto rx{chain_send(tx)};
     if (check_chain_responses(rx))
       return true;
@@ -393,12 +393,8 @@ public:
     }
     }
 
-    std::array<uint8_t, IC_COUNT> tx{
-        dcr_channel,
-        dcr_channel,
-        dcr_channel,
-        dcr_channel,
-    };
+    std::array<uint8_t, IC_COUNT> tx{};
+    tx.fill(dcr_channel);
 
     auto rx{chain_send(tx)};
     return check_chain_responses(rx);
@@ -407,32 +403,24 @@ public:
   void update_channel_currents(uint8_t channel,
                                std::span<uint16_t, ADC_BUF_SIZE> adc_buffer,
                                uint32_t tick_now) {
-    int ic_count{0};
-    for (auto &ic : ics) {
+    for (size_t ic_idx{}; ic_idx < IC_COUNT; ic_idx++) {
       uint16_t mv = __HAL_ADC_CALC_DATA_TO_VOLTAGE(
-          __VREFANALOG_VOLTAGE__, adc_buffer[ic_count], ADC_RESOLUTION12b);
-
+          __VREFANALOG_VOLTAGE__, adc_buffer[ic_idx], ADC_RESOLUTION12b);
       uint16_t current_val =
           (channel == 0 || channel == 3) ? mv_to_hma(mv) : mv_to_hma2(mv);
-
-      ic.channels[channel].update_current(current_val, tick_now);
-      ic_count++;
+      ics.at(ic_idx).channels.at(channel).update_current(current_val, tick_now);
     }
   }
 
-  // uint32_t update_total_current() {
-  //   uint32_t sum{};
-  //   for (auto &ic : ics) {
-  //     for (auto channel : ic.channels) {
-  //       sum +=
-  //           channel
-  //               .get_current(); // If channel is off, current is 0 → no
-  //               effect
-  //     }
-  //   }
-  //   system_data.total_current = sum;
-  //   return sum;
-  // }
+  uint16_t get_total_current() {
+    uint16_t sum{};
+    for (auto &ic : ics) {
+      for (auto channel : ic.channels) {
+        sum += channel.get_current(); // If channel is off, current is 0 → no
+      }
+    }
+    return sum;
+  }
 
   bool handle_overcurrent(uint32_t tick_now) {
     std::array<uint8_t, IC_COUNT> tx{
@@ -442,15 +430,12 @@ public:
         BTS::OUT_CLOSE,
     };
 
-    int ic_count{0};
-    for (auto &ic : ics) {
-      int channel_count{0};
-      for (auto &channel : ic.channels) {
-        if (channel.handle_overcurrent(tick_now) == false)
-          tx.at(ic_count) |= 1 << channel_count;
-        channel_count++;
+    for (size_t ic_idx{}; ic_idx < IC_COUNT; ic_idx++) {
+      for (size_t ch_idx{}; ch_idx < BTS::Ic::CHANNEL_COUNT; ch_idx++) {
+        if (ics.at(ic_idx).channels.at(ch_idx).handle_overcurrent(tick_now) ==
+            false)
+          tx.at(ic_idx) |= 1 << ch_idx;
       }
-      ic_count++;
     }
 
     auto rx{chain_send(tx)};
@@ -460,19 +445,22 @@ public:
 private:
   std::array<Led, IC_COUNT> leds;
   std::array<BTS::Ic, IC_COUNT> ics;
-  std::array<size_t, static_cast<size_t>(System_names::COUNT)> system_channels;
+  std::array<size_t, static_cast<size_t>(System_name::COUNT)>
+      systems_channel_map;
 
   Temperature inv_temperature;
   Temperature motor_temperature;
 };
 
 volatile bool rtd_status{};
+
 void can_pc_main_data_cb(const PUTM_CAN_M_pc_main_data_t &pc_main_data) {
   rtd_status = pc_main_data.rtd;
 }
 
 volatile Temperature::Values inv_temperature_values{};
 volatile Temperature::Values motor_temperature_values{};
+
 void can_pc_temperature_data_cb(
     const PUTM_CAN_M_pc_temperature_data_t &pc_temperature_data) {
   inv_temperature_values.front_left =
@@ -551,6 +539,12 @@ int main(void) {
   can_m.RegisterCallback<PUTM_CAN_M_pc_temperature_data_t>(
       PUTM_CAN_M_PC_TEMPERATURE_DATA_FRAME_ID, can_pc_temperature_data_cb);
 
+  constexpr uint32_t CAN_PDU_DATA_PERIOD{200};
+  constexpr uint32_t CAN_PDU_CHANNEL_PERIOD{40};
+
+  uint32_t can_pdu_data_tick{};
+  uint32_t can_pdu_channel_tick{};
+
   constexpr uint8_t INV_MIN_TEMP{30};
   constexpr uint8_t INV_MAX_TEMP{40};
   constexpr uint8_t MOTOR_MIN_TEMP{30};
@@ -558,25 +552,25 @@ int main(void) {
 
   constexpr std::array<std::array<System, BTS::Ic::CHANNEL_COUNT>,
                        Pdu::IC_COUNT>
-      THRESHOLDS{{{{{System_names::INV2, 5000},
-                    {System_names::INV1, 3000},
-                    {System_names::RBOX_DIAG_BRAKE_L, 5000},
-                    {System_names::TSAL_HV, 2000}}},
+      SYSTEM_DATA{{{{{System_name::INV2, 5000},
+                     {System_name::INV1, 3000},
+                     {System_name::RBOX_DIAG_BRAKE_L, 5000},
+                     {System_name::TSAL_HV, 2000}}},
 
-                  {{{System_names::DASH, 3000},
-                    {System_names::SDC_ASMS, 1000},
-                    {System_names::BRAKE_IR_AIR, 5000},
-                    {System_names::FBOX, 5000}}},
+                   {{{System_name::DASH, 3000},
+                     {System_name::SDC_ASMS, 1000},
+                     {System_name::BRAKE_IR_AIR, 5000},
+                     {System_name::FBOX, 5000}}},
 
-                  {{{System_names::PC3, 4000},
-                    {System_names::PC2, 5000},
-                    {System_names::PC1, 5000},
-                    {System_names::PC0, 4000}}},
+                   {{{System_name::PC3, 4000},
+                     {System_name::PC2, 5000},
+                     {System_name::PC1, 5000},
+                     {System_name::PC0, 4000}}},
 
-                  {{{System_names::FAN2, 5000},
-                    {System_names::PUMP2, 5000},
-                    {System_names::PUMP1, 5000},
-                    {System_names::FAN1, 5000}}}}};
+                   {{{System_name::FAN2, 5000},
+                     {System_name::PUMP2, 5000},
+                     {System_name::PUMP1, 5000},
+                     {System_name::FAN1, 5000}}}}};
 
   const std::array<Led, Pdu::IC_COUNT> LEDS{{{LED3_GPIO_Port, LED3_Pin},
                                              {LED0_GPIO_Port, LED0_Pin},
@@ -584,7 +578,7 @@ int main(void) {
                                              {LED2_GPIO_Port, LED2_Pin}}};
 
   static Pdu pdu{LEDS,
-                 THRESHOLDS,
+                 SYSTEM_DATA,
                  {INV_MIN_TEMP, INV_MAX_TEMP},
                  {MOTOR_MIN_TEMP, MOTOR_MAX_TEMP}};
 
@@ -593,7 +587,7 @@ int main(void) {
   pdu.init_chain();
   HAL_Delay(1);
 
-  uint16_t adc_buffer[ADC_BUF_SIZE];
+  static uint16_t adc_buffer[ADC_BUF_SIZE];
   HAL_ADC_Start_DMA(&hadc1, (uint32_t *)adc_buffer, ADC_BUF_SIZE);
 
   pdu.start_chain();
@@ -605,6 +599,7 @@ int main(void) {
   /* USER CODE BEGIN WHILE */
   while (1) {
     uint32_t tick_now{HAL_GetTick()};
+
     pdu.check_chain_errors();
 
     for (int i{}; i < BTS::Ic::CHANNEL_COUNT; i++) {
@@ -618,6 +613,14 @@ int main(void) {
 
     pdu.update_leds(tick_now);
 
+    if (tick_now - can_pdu_channel_tick > CAN_PDU_CHANNEL_PERIOD) {
+      can_m.Send(PUTM_CAN_M_PDU_CHANNNEL_FRAME_ID, pdu.get_can_pdu_channel_t());
+      can_pdu_channel_tick = tick_now;
+    }
+    if (tick_now - can_pdu_data_tick > CAN_PDU_DATA_PERIOD) {
+      can_m.Send(PUTM_CAN_M_PDU_DATA_FRAME_ID, pdu.get_can_pdu_data_t());
+      can_pdu_data_tick = tick_now;
+    }
     after_first_loop = true;
 
     /* USER CODE END WHILE */
