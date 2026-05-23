@@ -89,6 +89,8 @@ public:
   void update_current(uint32_t current_value, uint32_t tick_now);
   bool handle_overcurrent(uint32_t tick_now);
   void set_threshold(uint16_t threshold) { this->threshold = threshold; }
+  bool turn_on();
+  bool turn_off();
 
 private:
   uint16_t current{};

@@ -200,6 +200,8 @@ int main(void) {
                  {INV_MIN_TEMP, INV_MAX_TEMP},
                  {MOTOR_MIN_TEMP, MOTOR_MAX_TEMP}};
 
+  bool local_rtd;
+  Temperature::Values local_inv, local_motor;
   bool after_first_loop{false};
 
   pdu.init_chain();
@@ -218,7 +220,7 @@ int main(void) {
   while (1) {
     uint32_t tick_now{HAL_GetTick()};
 
-    pdu.check_chain_errors();
+    pdu.update_chain_errors();
 
     for (int i{}; i < BTS::Ic::CHANNEL_COUNT; i++) {
       pdu.set_channel_sense(i);
@@ -226,10 +228,21 @@ int main(void) {
       pdu.update_channel_currents(i, adc_to_mV<ADC_BUF_SIZE>(adc_buffer),
                                   tick_now);
     }
+    __disable_irq();
+    local_rtd = rtd_status;
+    local_inv.front_left = inv_temperature_values.front_left;
+    local_inv.front_right = inv_temperature_values.front_right;
+    local_inv.rear_left = inv_temperature_values.rear_left;
+    local_inv.rear_right = inv_temperature_values.rear_right;
+    local_motor.front_left = motor_temperature_values.front_left;
+    local_motor.front_right = motor_temperature_values.front_right;
+    local_motor.rear_left = motor_temperature_values.rear_left;
+    local_motor.rear_right = motor_temperature_values.rear_right;
+    __enable_irq();
+    pdu.update_fans(local_rtd, local_inv, local_motor);
 
     if (after_first_loop)
       pdu.handle_overcurrent(tick_now);
-
     pdu.update_leds(tick_now);
 
     if (tick_now - can_pdu_channel_tick > CAN_PDU_CHANNEL_PERIOD) {

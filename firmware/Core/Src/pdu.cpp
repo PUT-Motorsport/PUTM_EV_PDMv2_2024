@@ -5,21 +5,21 @@
 
 // For individual channels 0 and 3 (returns 0.1A units as uint8_t) - do
 // wyjebania
-uint16_t mv_to_hma(uint16_t mv) {
+static uint16_t mv_to_hma(uint16_t mv) {
   if (mv < 123)
     return 0;
   return (((mv - 123) * 1000) / 217 + 100);
 }
 
 // for channels 1 and 2
-uint16_t mv_to_hma2(uint16_t mv) {
+static uint16_t mv_to_hma2(uint16_t mv) {
   if (mv < 123)
     return 0;
   return (((mv - 123) * 1000) / 482 + 50);
 }
 
 // Translate channel status to can frame data displayed on dash
-uint8_t ch_status_can(const BTS::Channel ch) {
+static uint8_t ch_status_can(BTS::Channel ch) {
   switch (ch.status) {
   case BTS::Channel::Status::OFF:
     return 0;
@@ -34,26 +34,105 @@ uint8_t ch_status_can(const BTS::Channel ch) {
   return 0;
 }
 
+// Transmit and receive 8-byte data for all ICs in daisy chain, this
+// function flips data in array so each IC receives correct data index
+template <size_t CHAIN_ICS>
+std::array<uint8_t, CHAIN_ICS>
+daisy_chain_txrx(const std::array<uint8_t, CHAIN_ICS> &tx) {
+  uint8_t tx_buffer[CHAIN_ICS]{};
+  std::reverse_copy(tx.begin(), tx.end(), tx_buffer);
+
+  uint8_t rx_buffer[CHAIN_ICS]{};
+
+  HAL_GPIO_WritePin(SPI1_NSS_GPIO_Port, SPI1_NSS_Pin, GPIO_PIN_RESET);
+  HAL_SPI_TransmitReceive(&hspi1, tx_buffer, rx_buffer, sizeof(rx_buffer), 100);
+  HAL_GPIO_WritePin(SPI1_NSS_GPIO_Port, SPI1_NSS_Pin, GPIO_PIN_SET);
+
+  for (size_t i{}; i < CHAIN_ICS; i++) {
+    tx_buffer[i] = 0x00;
+  }
+  HAL_Delay(1);
+
+  HAL_GPIO_WritePin(SPI1_NSS_GPIO_Port, SPI1_NSS_Pin, GPIO_PIN_RESET);
+  HAL_SPI_TransmitReceive(&hspi1, tx_buffer, rx_buffer, sizeof(rx_buffer), 100);
+  HAL_GPIO_WritePin(SPI1_NSS_GPIO_Port, SPI1_NSS_Pin, GPIO_PIN_SET);
+
+  std::array<uint8_t, CHAIN_ICS> rx{};
+  std::reverse_copy(&(rx_buffer[0]), &(rx_buffer[CHAIN_ICS - 1]), rx.begin());
+
+  return rx;
+}
+
+bool Led::update(uint8_t channels_failed, uint32_t tick_now) {
+  if (channels_failed > BTS::Ic::CHANNEL_COUNT) {
+    return true;
+  } else if (channels_failed == BTS::Ic::CHANNEL_COUNT) {
+    HAL_GPIO_WritePin(port, pin, GPIO_PIN_RESET);
+    return false;
+  } else if (channels_failed == 0) {
+    HAL_GPIO_WritePin(port, pin, GPIO_PIN_SET);
+    return false;
+  } else {
+    toggle_time = 3000 / channels_failed;
+    if (tick_now - last_toggle >= toggle_time) {
+      last_toggle = tick_now;
+      HAL_GPIO_TogglePin(port, pin);
+    }
+    return false;
+  }
+}
+
+Temperature::Status Temperature::check(uint8_t value) const {
+  if (value > max)
+    return Status::TOO_HIGH;
+  else if (value < min)
+    return Status::TOO_LOW;
+  else
+    return Status::OK;
+}
+
+void Temperature::update(Values values) {
+  status.front_left = check(values.front_left);
+  status.front_right = check(values.front_right);
+  status.rear_left = check(values.rear_left);
+  status.rear_right = check(values.rear_right);
+}
+
+Temperature::Status Temperature::is_ok() const {
+  if (status.front_left == Status::TOO_HIGH ||
+      status.front_right == Status::TOO_HIGH ||
+      status.rear_left == Status::TOO_HIGH ||
+      status.rear_right == Status::TOO_HIGH) {
+    return Status::TOO_HIGH;
+  } else if (status.front_left == Status::TOO_LOW &&
+             status.front_right == Status::TOO_LOW &&
+             status.rear_left == Status::TOO_LOW &&
+             status.rear_right == Status::TOO_LOW) {
+    return Status::TOO_LOW;
+  } else
+    return Status::OK;
+}
+
 Pdu::Pdu(std::array<Led, IC_COUNT> leds,
          const std::array<std::array<System, BTS::Ic::CHANNEL_COUNT>,
                           Pdu::IC_COUNT> &systems_data,
          Temperature inv_temperature, Temperature motor_temperature)
-    : leds{leds[0], leds[1], leds[2], leds[3]},
-      inv_temperature{inv_temperature}, motor_temperature{motor_temperature} {
+    : leds{leds}, inv_temperature{inv_temperature},
+      motor_temperature{motor_temperature} {
 
   for (size_t ic_idx{}; ic_idx < IC_COUNT; ic_idx++) {
     for (size_t ch_idx{}; ch_idx < BTS::Ic::CHANNEL_COUNT; ch_idx++) {
-      systems_channel_map[static_cast<uint8_t>(
-          systems_data.at(ic_idx).at(ch_idx).name)] = ic_idx + ch_idx;
+      auto system_data{systems_data.at(ic_idx).at(ch_idx)};
 
-      ics.at(ic_idx).channels.at(ch_idx).set_threshold(
-          systems_data.at(ic_idx).at(ch_idx).threshold);
+      systems_channel_map[static_cast<uint8_t>(system_data.name)] =
+          ic_idx + ch_idx;
+      ics.at(ic_idx).channels.at(ch_idx).set_threshold(system_data.threshold);
     }
   }
 }
 
-const BTS::Channel &Pdu::get_channel(System_name name) const {
-  size_t index = systems_channel_map.at(static_cast<size_t>(name));
+BTS::Channel &Pdu::get_channel(System_name name) {
+  auto index{systems_channel_map.at(static_cast<size_t>(name))};
   auto ic_index{index / IC_COUNT};
   auto channel_index{index % BTS::Ic::CHANNEL_COUNT};
   return ics.at(ic_index).channels.at(channel_index);
@@ -69,18 +148,18 @@ uint16_t Pdu::get_total_current() const {
   return sum;
 }
 
-PUTM_CAN_M_pdu_channnel_t Pdu::get_can_pdu_channel_t() const {
+PUTM_CAN_M_pdu_channnel_t Pdu::get_can_pdu_channel_t() {
   return {
-      .pc_status{std::min({ch_status_can(get_channel(System_name::PC0)),
+      .pc_status{std::max({ch_status_can(get_channel(System_name::PC0)),
                            ch_status_can(get_channel(System_name::PC1)),
                            ch_status_can(get_channel(System_name::PC2)),
                            ch_status_can(get_channel(System_name::PC3))})},
-      .fan_status{std::min({ch_status_can(get_channel(System_name::FAN1)),
+      .fan_status{std::max({ch_status_can(get_channel(System_name::FAN1)),
                             ch_status_can(get_channel(System_name::FAN2))})},
-      .pump_status{std::min({ch_status_can(get_channel(System_name::PUMP1)),
+      .pump_status{std::max({ch_status_can(get_channel(System_name::PUMP1)),
                              ch_status_can(get_channel(System_name::PUMP2))})},
       .inverter_status{
-          std::min({ch_status_can(get_channel(System_name::INV1)),
+          std::max({ch_status_can(get_channel(System_name::INV1)),
                     ch_status_can(get_channel(System_name::INV2))})},
       .fbox_status{ch_status_can(get_channel(System_name::FBOX))},
       .sdc_status{ch_status_can(get_channel(System_name::SDC_ASMS))},
@@ -93,7 +172,7 @@ PUTM_CAN_M_pdu_channnel_t Pdu::get_can_pdu_channel_t() const {
   };
 }
 
-PUTM_CAN_M_pdu_data_t Pdu::get_can_pdu_data_t() const {
+PUTM_CAN_M_pdu_data_t Pdu::get_can_pdu_data_t() {
   return {
       .pc_current{get_channel(System_name::PC0).get_current() +
                   get_channel(System_name::PC1).get_current() +
@@ -130,41 +209,36 @@ bool Pdu::update_leds(uint32_t tick_now) {
   return fail;
 }
 
-bool Pdu::update_fans(bool rtd_status, Temperature::Values inv_values,
-                      Temperature::Values motor_values) {
-  return (rtd_status || inv_temperature.update(inv_values) ||
-          motor_temperature.update(motor_values));
-}
+void Pdu::update_fans(const bool &rtd_status,
+                      const Temperature::Values &inv_values,
+                      const Temperature::Values &motor_values) {
+  inv_temperature.update(inv_values);
+  motor_temperature.update(motor_values);
 
-// Transmit and receive 8-byte data for all ICs in daisy chain, this
-// function flips data in array so each IC receives correct data index
-std::array<uint8_t, Pdu::IC_COUNT>
-Pdu::chain_tx_rx(const std::array<uint8_t, IC_COUNT> &tx) {
-  uint8_t tx_buffer[IC_COUNT]{};
-  std::reverse_copy(tx.begin(), tx.end(), tx_buffer);
-
-  uint8_t rx_buffer[IC_COUNT]{};
-
-  HAL_GPIO_WritePin(SPI1_NSS_GPIO_Port, SPI1_NSS_Pin, GPIO_PIN_RESET);
-  HAL_SPI_TransmitReceive(&hspi1, tx_buffer, rx_buffer, sizeof(rx_buffer), 100);
-  HAL_GPIO_WritePin(SPI1_NSS_GPIO_Port, SPI1_NSS_Pin, GPIO_PIN_SET);
-
-  for (int i{}; i < IC_COUNT; i++) {
-    tx_buffer[i] = 0x00;
+  if (!fan_temp_triggered &&
+      (inv_temperature.is_ok() == Temperature::Status::TOO_HIGH ||
+       motor_temperature.is_ok() == Temperature::Status::TOO_HIGH)) {
+    fan_temp_triggered = true;
+  } else if (fan_temp_triggered &&
+             (inv_temperature.is_ok() == Temperature::Status::TOO_LOW &&
+              motor_temperature.is_ok() == Temperature::Status::TOO_LOW)) {
+    fan_temp_triggered = false;
   }
-  HAL_Delay(1);
 
-  HAL_GPIO_WritePin(SPI1_NSS_GPIO_Port, SPI1_NSS_Pin, GPIO_PIN_RESET);
-  HAL_SPI_TransmitReceive(&hspi1, tx_buffer, rx_buffer, sizeof(rx_buffer), 100);
-  HAL_GPIO_WritePin(SPI1_NSS_GPIO_Port, SPI1_NSS_Pin, GPIO_PIN_SET);
-
-  std::array<uint8_t, IC_COUNT> rx{};
-  std::reverse_copy(&(rx_buffer[0]), &(rx_buffer[IC_COUNT - 1]), rx.begin());
-
-  return rx;
+  if (rtd_status || fan_temp_triggered) {
+    get_channel(System_name::FAN1).turn_on();
+    get_channel(System_name::FAN2).turn_on();
+    get_channel(System_name::PUMP1).turn_on();
+    get_channel(System_name::PUMP2).turn_on();
+  } else {
+    get_channel(System_name::FAN1).turn_off();
+    get_channel(System_name::FAN2).turn_off();
+    get_channel(System_name::PUMP1).turn_off();
+    get_channel(System_name::PUMP2).turn_off();
+  }
 }
 
-bool Pdu::check_chain_responses(std::array<uint8_t, IC_COUNT> rx) {
+bool Pdu::update_chain_diag(std::array<uint8_t, IC_COUNT> rx) {
   bool has_error = false;
   for (size_t ic_idx{}; ic_idx < IC_COUNT; ic_idx++) {
     if (ics.at(ic_idx).check_response(rx.at(ic_idx))) {
@@ -174,11 +248,11 @@ bool Pdu::check_chain_responses(std::array<uint8_t, IC_COUNT> rx) {
   return has_error;
 }
 
-bool Pdu::check_chain_errors() {
+bool Pdu::update_chain_errors() {
   std::array<uint8_t, IC_COUNT> tx{};
   tx.fill(BTS::ERRDIAG_CMD);
 
-  auto rx{chain_tx_rx(tx)};
+  auto rx{daisy_chain_txrx<IC_COUNT>(tx)};
 
   bool has_error = false;
   for (size_t ic_idx{}; ic_idx < IC_COUNT; ic_idx++) {
@@ -193,8 +267,8 @@ bool Pdu::init_chain() {
   std::array<uint8_t, IC_COUNT> tx{};
   tx.fill(BTS::DCR_ACTIVE);
 
-  auto rx{chain_tx_rx(tx)};
-  if (check_chain_responses(rx))
+  auto rx{daisy_chain_txrx<IC_COUNT>(tx)};
+  if (update_chain_diag(rx))
     return true;
 
   for (auto &ic : ics) {
@@ -207,8 +281,8 @@ bool Pdu::start_chain() {
   std::array<uint8_t, IC_COUNT> tx{};
   tx.fill(BTS::OUT_READY);
 
-  auto rx{chain_tx_rx(tx)};
-  if (check_chain_responses(rx))
+  auto rx{daisy_chain_txrx<IC_COUNT>(tx)};
+  if (update_chain_diag(rx))
     return true;
 
   for (auto &ic : ics) {
@@ -244,8 +318,8 @@ bool Pdu::set_channel_sense(uint8_t channel) {
   std::array<uint8_t, IC_COUNT> tx{};
   tx.fill(dcr_channel);
 
-  auto rx{chain_tx_rx(tx)};
-  return check_chain_responses(rx);
+  auto rx{daisy_chain_txrx<IC_COUNT>(tx)};
+  return update_chain_diag(rx);
 }
 
 void Pdu::update_channel_currents(
@@ -270,6 +344,6 @@ bool Pdu::handle_overcurrent(uint32_t tick_now) {
     }
   }
 
-  auto rx{chain_tx_rx(tx)};
-  return check_chain_responses(rx);
+  auto rx{daisy_chain_txrx<IC_COUNT>(tx)};
+  return update_chain_diag(rx);
 }

@@ -49,28 +49,11 @@ public:
   Led(GPIO_TypeDef *port, uint16_t pin) : port{port}, pin{pin} {};
 
   // Update single Led state based on failed channels count
-  bool update(uint8_t channels_failed, uint32_t tick_now) {
-    if (channels_failed > BTS::Ic::CHANNEL_COUNT) {
-      return true;
-    } else if (channels_failed == BTS::Ic::CHANNEL_COUNT) {
-      HAL_GPIO_WritePin(port, pin, GPIO_PIN_RESET);
-      return false;
-    } else if (channels_failed == 0) {
-      HAL_GPIO_WritePin(port, pin, GPIO_PIN_SET);
-      return false;
-    } else {
-      toggle_time = 3000 / channels_failed;
-      if (tick_now - last_toggle >= toggle_time) {
-        last_toggle = tick_now;
-        HAL_GPIO_TogglePin(port, pin);
-      }
-      return false;
-    }
-  }
+  bool update(uint8_t channels_failed, uint32_t tick_now);
 
 private:
   GPIO_TypeDef *port;
-  uint16_t pin;
+  const uint16_t pin;
 
   uint32_t toggle_time{};
   uint32_t last_toggle{};
@@ -86,27 +69,28 @@ public:
     uint8_t rear_left{};
     uint8_t rear_right{};
   };
+  enum class Status : uint8_t {
+    OK,
+    TOO_LOW,
+    TOO_HIGH,
+  };
 
-  Temperature(const uint8_t min_temperature, const uint8_t max_temperature)
+  Temperature(uint8_t min_temperature, uint8_t max_temperature)
       : min{min_temperature}, max{max_temperature} {}
 
-  bool check(uint8_t value) { return (value < min || value > max); }
+  Status check(uint8_t value) const;
 
-  bool update(Values new_values) {
-    values.front_left = new_values.front_left;
-    values.front_right = new_values.front_right;
-    values.rear_left = new_values.rear_left;
-    values.rear_right = new_values.rear_right;
+  void update(Values new_values);
 
-    if (check(values.front_left) || check(values.front_right) ||
-        check(values.rear_left) || check(values.rear_right))
-      return true;
-
-    return false;
-  }
+  Status is_ok() const;
 
 private:
-  Values values{};
+  struct {
+    Status front_left;
+    Status front_right;
+    Status rear_left;
+    Status rear_right;
+  } status;
 };
 
 // Base class that controls all ICs
@@ -119,19 +103,17 @@ public:
                        Pdu::IC_COUNT> &systems_data,
       Temperature inv_temperature, Temperature motor_temperature);
 
-  const BTS::Channel &get_channel(System_name name) const;
   uint16_t get_total_current() const;
-  PUTM_CAN_M_pdu_channnel_t get_can_pdu_channel_t() const;
-  PUTM_CAN_M_pdu_data_t get_can_pdu_data_t() const;
+  PUTM_CAN_M_pdu_channnel_t get_can_pdu_channel_t();
+  PUTM_CAN_M_pdu_data_t get_can_pdu_data_t();
 
   bool update_leds(uint32_t tick_now);
-  bool update_fans(bool rtd_status, Temperature::Values inv_values,
-                   Temperature::Values motor_values);
-                   
-  std::array<uint8_t, IC_COUNT>
-  chain_tx_rx(const std::array<uint8_t, IC_COUNT> &tx);
-  bool check_chain_responses(std::array<uint8_t, IC_COUNT> rx);
-  bool check_chain_errors();
+  void update_fans(const bool &rtd_status,
+                   const Temperature::Values &inv_values,
+                   const Temperature::Values &motor_values);
+
+  bool update_chain_diag(std::array<uint8_t, IC_COUNT> rx);
+  bool update_chain_errors();
   bool init_chain();
   bool start_chain();
   bool set_channel_sense(uint8_t channel);
@@ -142,10 +124,13 @@ public:
 
 private:
   std::array<Led, IC_COUNT> leds;
-  std::array<BTS::Ic, IC_COUNT> ics;
+  std::array<BTS::Ic, IC_COUNT> ics{};
   std::array<size_t, static_cast<size_t>(System_name::COUNT)>
       systems_channel_map;
 
+  bool fan_temp_triggered{};
   Temperature inv_temperature;
   Temperature motor_temperature;
+
+  BTS::Channel &get_channel(System_name name);
 };

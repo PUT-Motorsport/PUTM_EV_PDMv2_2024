@@ -24,11 +24,12 @@ bool Channel::handle_overcurrent(uint32_t tick_now) {
   constexpr uint32_t time_per_attempt_ms{5000};
 
   switch (status) {
-  case Status::ON: {
+  case Status::ON:
     return false;
-  }
 
   case Status::OFF:
+    return true;
+
   case Status::ERR: {
     if (retry_count >= MAX_RETRIES) {
       status = Status::PERM_LOCK;
@@ -49,12 +50,24 @@ bool Channel::handle_overcurrent(uint32_t tick_now) {
     return true;
   }
 
-  case Status::PERM_LOCK: {
+  case Status::PERM_LOCK:
     return true;
   }
-  }
-  return true;
 }
+
+bool Channel::turn_on() {
+  switch (status) {
+  case Status::OFF:
+  case Status::ON: {
+    status = Status::ON;
+    return false;
+  }
+  default:
+    return true;
+  }
+}
+
+bool Channel::turn_off() { status = Status::OFF; }
 
 bool Ic::check_response(uint8_t rx_value) {
   if ((rx_value & DIAG_MASK) == WRNDIAG_MASK) {
