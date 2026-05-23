@@ -73,7 +73,7 @@ bool Ic::check_response(uint8_t rx_value) {
 }
 
 bool Ic::check_err(uint8_t rx_value) {
-  if ((rx_value & DIAG_MASK) == STDDIAG_MASK) {
+  if ((rx_value & DIAG_MASK) == ERRDIAG_MASK) {
     Errdiag errdiag{rx_value};
     if (errdiag.reg.ERRn == 0)
       return false;
