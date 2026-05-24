@@ -80,21 +80,23 @@ public:
   };
 
   static constexpr uint32_t MAX_RETRIES{5};
-  Status status{Status::ON};
-  uint32_t retry_count{};
-  uint32_t tick_last_attempt{};
 
   uint16_t get_current() const { return current; }
+  Status get_status() const { return status; }
 
   void update_current(uint32_t current_value, uint32_t tick_now);
+  bool update_status(Status new_status);
   bool handle_overcurrent(uint32_t tick_now);
   void set_threshold(uint16_t threshold) { this->threshold = threshold; }
   bool turn_on();
-  bool turn_off();
+  void turn_off();
 
 private:
+  Status status{Status::ON};
   uint16_t current{};
   uint16_t threshold;
+  uint32_t retry_count{};
+  uint32_t tick_last_attempt{};
 };
 
 class Ic {

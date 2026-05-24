@@ -18,6 +18,3 @@ target_include_directories(BTS72220
 
 )
 
-target_link_libraries(BTS72220
-        stm32cubemx
-)

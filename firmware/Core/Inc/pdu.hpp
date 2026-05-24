@@ -8,7 +8,7 @@
 #include <array>
 #include <span>
 
-enum class System_name {
+enum class Sys_name {
   INV2,
   INV1,
   RBOX_DIAG_BRAKE_L,
@@ -33,11 +33,11 @@ enum class System_name {
 };
 
 struct System {
-  System_name name;
+  Sys_name name;
   uint16_t threshold;
 };
 
-/* Led blinking indicates each IC channels status:
+/* Led blinking speed indicates each IC channels status:
   OFF - all channels OK
 
 
@@ -48,7 +48,6 @@ class Led {
 public:
   Led(GPIO_TypeDef *port, uint16_t pin) : port{port}, pin{pin} {};
 
-  // Update single Led state based on failed channels count
   bool update(uint8_t channels_failed, uint32_t tick_now);
 
 private:
@@ -114,23 +113,22 @@ public:
 
   bool update_chain_diag(std::array<uint8_t, IC_COUNT> rx);
   bool update_chain_errors();
-  bool init_chain();
-  bool start_chain();
+  void init_chain();
+  void start_chain();
   bool set_channel_sense(uint8_t channel);
-  void update_channel_currents(uint8_t channel,
+  bool update_channel_currents(uint8_t channel,
                                const std::array<uint16_t, IC_COUNT> &voltages,
                                uint32_t tick_now);
-  bool handle_overcurrent(uint32_t tick_now);
+  void handle_overcurrent(uint32_t tick_now);
 
 private:
   std::array<Led, IC_COUNT> leds;
   std::array<BTS::Ic, IC_COUNT> ics{};
-  std::array<size_t, static_cast<size_t>(System_name::COUNT)>
-      systems_channel_map;
+  std::array<size_t, static_cast<size_t>(Sys_name::COUNT)> systems_channel_map;
 
   bool fan_temp_triggered{};
   Temperature inv_temperature;
   Temperature motor_temperature;
 
-  BTS::Channel &get_channel(System_name name);
+  BTS::Channel &get_channel(Sys_name name);
 };

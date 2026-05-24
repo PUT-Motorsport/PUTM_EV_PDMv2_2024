@@ -170,25 +170,25 @@ int main(void) {
 
   constexpr std::array<std::array<System, BTS::Ic::CHANNEL_COUNT>,
                        Pdu::IC_COUNT>
-      SYSTEM_DATA{{{{{System_name::INV2, 5000},
-                     {System_name::INV1, 3000},
-                     {System_name::RBOX_DIAG_BRAKE_L, 5000},
-                     {System_name::TSAL_HV, 2000}}},
+      SYSTEM_DATA{{{{{Sys_name::INV2, 5000},
+                     {Sys_name::INV1, 3000},
+                     {Sys_name::RBOX_DIAG_BRAKE_L, 5000},
+                     {Sys_name::TSAL_HV, 2000}}},
 
-                   {{{System_name::DASH, 3000},
-                     {System_name::SDC_ASMS, 1000},
-                     {System_name::BRAKE_IR_AIR, 5000},
-                     {System_name::FBOX, 5000}}},
+                   {{{Sys_name::DASH, 3000},
+                     {Sys_name::SDC_ASMS, 1000},
+                     {Sys_name::BRAKE_IR_AIR, 5000},
+                     {Sys_name::FBOX, 5000}}},
 
-                   {{{System_name::PC3, 4000},
-                     {System_name::PC2, 5000},
-                     {System_name::PC1, 5000},
-                     {System_name::PC0, 4000}}},
+                   {{{Sys_name::PC3, 4000},
+                     {Sys_name::PC2, 5000},
+                     {Sys_name::PC1, 5000},
+                     {Sys_name::PC0, 4000}}},
 
-                   {{{System_name::FAN2, 5000},
-                     {System_name::PUMP2, 5000},
-                     {System_name::PUMP1, 5000},
-                     {System_name::FAN1, 5000}}}}};
+                   {{{Sys_name::FAN2, 5000},
+                     {Sys_name::PUMP2, 5000},
+                     {Sys_name::PUMP1, 5000},
+                     {Sys_name::FAN1, 5000}}}}};
 
   const std::array<Led, Pdu::IC_COUNT> LEDS{{{LED3_GPIO_Port, LED3_Pin},
                                              {LED0_GPIO_Port, LED0_Pin},
@@ -200,7 +200,7 @@ int main(void) {
                  {INV_MIN_TEMP, INV_MAX_TEMP},
                  {MOTOR_MIN_TEMP, MOTOR_MAX_TEMP}};
 
-  bool local_rtd;
+  bool local_rtd{};
   Temperature::Values local_inv, local_motor;
   bool after_first_loop{false};
 

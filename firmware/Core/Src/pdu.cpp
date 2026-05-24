@@ -18,9 +18,9 @@ static uint16_t mv_to_hma2(uint16_t mv) {
   return (((mv - 123) * 1000) / 482 + 50);
 }
 
-// Translate channel status to can frame data displayed on dash
+// Translate channel status to can frame channel data
 static uint8_t ch_status_can(BTS::Channel ch) {
-  switch (ch.status) {
+  switch (ch.get_status()) {
   case BTS::Channel::Status::OFF:
     return 0;
   case BTS::Channel::Status::ERR:
@@ -63,6 +63,8 @@ daisy_chain_txrx(const std::array<uint8_t, CHAIN_ICS> &tx) {
   return rx;
 }
 
+/* Update single Led state based on failed channels count
+ */
 bool Led::update(uint8_t channels_failed, uint32_t tick_now) {
   if (channels_failed > BTS::Ic::CHANNEL_COUNT) {
     return true;
@@ -113,6 +115,10 @@ Temperature::Status Temperature::is_ok() const {
     return Status::OK;
 }
 
+/*
+Sets current threshold for each ic channel and creates map for systems connected
+to pdu, so channels are accessible with system name
+*/
 Pdu::Pdu(std::array<Led, IC_COUNT> leds,
          const std::array<std::array<System, BTS::Ic::CHANNEL_COUNT>,
                           Pdu::IC_COUNT> &systems_data,
@@ -131,7 +137,10 @@ Pdu::Pdu(std::array<Led, IC_COUNT> leds,
   }
 }
 
-BTS::Channel &Pdu::get_channel(System_name name) {
+/*
+Provides access to channel with system name
+*/
+BTS::Channel &Pdu::get_channel(Sys_name name) {
   auto index{systems_channel_map.at(static_cast<size_t>(name))};
   auto ic_index{index / IC_COUNT};
   auto channel_index{index % BTS::Ic::CHANNEL_COUNT};
@@ -150,42 +159,40 @@ uint16_t Pdu::get_total_current() const {
 
 PUTM_CAN_M_pdu_channnel_t Pdu::get_can_pdu_channel_t() {
   return {
-      .pc_status{std::max({ch_status_can(get_channel(System_name::PC0)),
-                           ch_status_can(get_channel(System_name::PC1)),
-                           ch_status_can(get_channel(System_name::PC2)),
-                           ch_status_can(get_channel(System_name::PC3))})},
-      .fan_status{std::max({ch_status_can(get_channel(System_name::FAN1)),
-                            ch_status_can(get_channel(System_name::FAN2))})},
-      .pump_status{std::max({ch_status_can(get_channel(System_name::PUMP1)),
-                             ch_status_can(get_channel(System_name::PUMP2))})},
-      .inverter_status{
-          std::max({ch_status_can(get_channel(System_name::INV1)),
-                    ch_status_can(get_channel(System_name::INV2))})},
-      .fbox_status{ch_status_can(get_channel(System_name::FBOX))},
-      .sdc_status{ch_status_can(get_channel(System_name::SDC_ASMS))},
-      .dash_status{ch_status_can(get_channel(System_name::DASH))},
-      .tsal_hv_status{ch_status_can(get_channel(System_name::TSAL_HV))},
+      .pc_status{std::max({ch_status_can(get_channel(Sys_name::PC0)),
+                           ch_status_can(get_channel(Sys_name::PC1)),
+                           ch_status_can(get_channel(Sys_name::PC2)),
+                           ch_status_can(get_channel(Sys_name::PC3))})},
+      .fan_status{std::max({ch_status_can(get_channel(Sys_name::FAN1)),
+                            ch_status_can(get_channel(Sys_name::FAN2))})},
+      .pump_status{std::max({ch_status_can(get_channel(Sys_name::PUMP1)),
+                             ch_status_can(get_channel(Sys_name::PUMP2))})},
+      .inverter_status{std::max({ch_status_can(get_channel(Sys_name::INV1)),
+                                 ch_status_can(get_channel(Sys_name::INV2))})},
+      .fbox_status{ch_status_can(get_channel(Sys_name::FBOX))},
+      .sdc_status{ch_status_can(get_channel(Sys_name::SDC_ASMS))},
+      .dash_status{ch_status_can(get_channel(Sys_name::DASH))},
+      .tsal_hv_status{ch_status_can(get_channel(Sys_name::TSAL_HV))},
       .rbox_diagport_brake_l_status{
-          ch_status_can(get_channel(System_name::RBOX_DIAG_BRAKE_L))},
-      .brake_ir_air_status{
-          ch_status_can(get_channel(System_name::BRAKE_IR_AIR))},
+          ch_status_can(get_channel(Sys_name::RBOX_DIAG_BRAKE_L))},
+      .brake_ir_air_status{ch_status_can(get_channel(Sys_name::BRAKE_IR_AIR))},
   };
 }
 
 PUTM_CAN_M_pdu_data_t Pdu::get_can_pdu_data_t() {
   return {
-      .pc_current{get_channel(System_name::PC0).get_current() +
-                  get_channel(System_name::PC1).get_current() +
-                  get_channel(System_name::PC2).get_current() +
-                  get_channel(System_name::PC3).get_current()},
-      .pump_current{get_channel(System_name::PUMP1).get_current() +
-                    get_channel(System_name::PUMP2).get_current()},
-      .fan_current{get_channel(System_name::FAN1).get_current() +
-                   get_channel(System_name::FAN2).get_current()},
-      .inverter_current{get_channel(System_name::INV1).get_current() +
-                        get_channel(System_name::INV2).get_current()},
-      .fbox_current{get_channel(System_name::FBOX).get_current()},
-      .sdc_current{get_channel(System_name::SDC_ASMS).get_current()},
+      .pc_current{get_channel(Sys_name::PC0).get_current() +
+                  get_channel(Sys_name::PC1).get_current() +
+                  get_channel(Sys_name::PC2).get_current() +
+                  get_channel(Sys_name::PC3).get_current()},
+      .pump_current{get_channel(Sys_name::PUMP1).get_current() +
+                    get_channel(Sys_name::PUMP2).get_current()},
+      .fan_current{get_channel(Sys_name::FAN1).get_current() +
+                   get_channel(Sys_name::FAN2).get_current()},
+      .inverter_current{get_channel(Sys_name::INV1).get_current() +
+                        get_channel(Sys_name::INV2).get_current()},
+      .fbox_current{get_channel(Sys_name::FBOX).get_current()},
+      .sdc_current{get_channel(Sys_name::SDC_ASMS).get_current()},
       .total_current{get_total_current()},
   };
 }
@@ -197,7 +204,7 @@ bool Pdu::update_leds(uint32_t tick_now) {
   for (size_t ic_idx{}; ic_idx < IC_COUNT; ic_idx++) {
     int led_err_count{0};
     for (size_t ch_idx{}; ch_idx < BTS::Ic::CHANNEL_COUNT; ch_idx++) {
-      if (ics.at(ic_idx).channels.at(ch_idx).status !=
+      if (ics.at(ic_idx).channels.at(ch_idx).get_status() !=
           BTS::Channel::Status::ON) {
         led_err_count++;
       }
@@ -209,6 +216,10 @@ bool Pdu::update_leds(uint32_t tick_now) {
   return fail;
 }
 
+/*
+Manages fan and pump channels based on temperature and rtd status received by
+CAN.
+*/
 void Pdu::update_fans(const bool &rtd_status,
                       const Temperature::Values &inv_values,
                       const Temperature::Values &motor_values) {
@@ -226,18 +237,22 @@ void Pdu::update_fans(const bool &rtd_status,
   }
 
   if (rtd_status || fan_temp_triggered) {
-    get_channel(System_name::FAN1).turn_on();
-    get_channel(System_name::FAN2).turn_on();
-    get_channel(System_name::PUMP1).turn_on();
-    get_channel(System_name::PUMP2).turn_on();
+    get_channel(Sys_name::FAN1).turn_on();
+    get_channel(Sys_name::FAN2).turn_on();
+    get_channel(Sys_name::PUMP1).turn_on();
+    get_channel(Sys_name::PUMP2).turn_on();
   } else {
-    get_channel(System_name::FAN1).turn_off();
-    get_channel(System_name::FAN2).turn_off();
-    get_channel(System_name::PUMP1).turn_off();
-    get_channel(System_name::PUMP2).turn_off();
+    get_channel(Sys_name::FAN1).turn_off();
+    get_channel(Sys_name::FAN2).turn_off();
+    get_channel(Sys_name::PUMP1).turn_off();
+    get_channel(Sys_name::PUMP2).turn_off();
   }
 }
 
+/*
+- Checks BTS72220 STDDIAG and WRNDIAG frames received after sending commands
+- Returns true if received frame doesn't match diag frames
+*/
 bool Pdu::update_chain_diag(std::array<uint8_t, IC_COUNT> rx) {
   bool has_error = false;
   for (size_t ic_idx{}; ic_idx < IC_COUNT; ic_idx++) {
@@ -248,6 +263,11 @@ bool Pdu::update_chain_diag(std::array<uint8_t, IC_COUNT> rx) {
   return has_error;
 }
 
+/*
+- Sends ERRDIAG command and decodes received frame
+- Disables channel based on ERRn bits
+- Returns true if received frame doesn't match diag frames
+*/
 bool Pdu::update_chain_errors() {
   std::array<uint8_t, IC_COUNT> tx{};
   tx.fill(BTS::ERRDIAG_CMD);
@@ -263,34 +283,42 @@ bool Pdu::update_chain_errors() {
   return has_error;
 }
 
-bool Pdu::init_chain() {
+/*
+Sends DCR_ACTIVATE command to all ICs in daisy chain, transition from SLEEP to
+STAND_BY state
+*/
+void Pdu::init_chain() {
   std::array<uint8_t, IC_COUNT> tx{};
   tx.fill(BTS::DCR_ACTIVE);
 
   auto rx{daisy_chain_txrx<IC_COUNT>(tx)};
-  if (update_chain_diag(rx))
-    return true;
+  update_chain_diag(rx);
 
   for (auto &ic : ics) {
     ic.status = BTS::Ic::Status::STAND_BY;
   }
-  return true;
 }
 
-bool Pdu::start_chain() {
+/*
+Sends OUT_READY command to all ICs in daisy chain, transition from STAND_BY to
+ACTIVE state, activates all channels
+*/
+void Pdu::start_chain() {
   std::array<uint8_t, IC_COUNT> tx{};
   tx.fill(BTS::OUT_READY);
 
   auto rx{daisy_chain_txrx<IC_COUNT>(tx)};
-  if (update_chain_diag(rx))
-    return true;
+  update_chain_diag(rx);
 
   for (auto &ic : ics) {
     ic.status = BTS::Ic::Status::ACTIVE;
   }
-  return false;
 }
 
+/*
+Sets channel current measurement, delay needed to stabilize output, returns true
+for wrong channel id
+*/
 bool Pdu::set_channel_sense(uint8_t channel) {
   uint8_t dcr_channel{};
   switch (channel) {
@@ -319,20 +347,31 @@ bool Pdu::set_channel_sense(uint8_t channel) {
   tx.fill(dcr_channel);
 
   auto rx{daisy_chain_txrx<IC_COUNT>(tx)};
-  return update_chain_diag(rx);
+  update_chain_diag(rx);
+  return false;
 }
 
-void Pdu::update_channel_currents(
+/*
+Updates channel currents and status, returns true for wrong channel id
+*/
+bool Pdu::update_channel_currents(
     uint8_t ch, const std::array<uint16_t, IC_COUNT> &voltages,
     uint32_t tick_now) {
+  if (ch >= Ic::CHANNEL_COUNT)
+    return true;
+
   auto mV_to_mA{(ch == 0 || ch == 3) ? mv_to_hma : mv_to_hma2};
   for (size_t ic_idx{}; ic_idx < IC_COUNT; ic_idx++) {
     BTS::Channel &channel{ics.at(ic_idx).channels.at(ch)};
     channel.update_current(mV_to_mA(voltages.at(ic_idx)), tick_now);
   }
+  return false;
 }
 
-bool Pdu::handle_overcurrent(uint32_t tick_now) {
+/*
+Closes channels with status other than ON, manages locked channels retry logic
+*/
+void Pdu::handle_overcurrent(uint32_t tick_now) {
   std::array<uint8_t, IC_COUNT> tx{};
   tx.fill(BTS::OUT_CLOSE);
 
@@ -345,5 +384,5 @@ bool Pdu::handle_overcurrent(uint32_t tick_now) {
   }
 
   auto rx{daisy_chain_txrx<IC_COUNT>(tx)};
-  return update_chain_diag(rx);
+  update_chain_diag(rx);
 }
