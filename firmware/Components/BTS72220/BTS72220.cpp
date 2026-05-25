@@ -69,6 +69,7 @@ bool Channel::handle_overcurrent(uint32_t tick_now) {
   case Status::TEMP_LOCK: {
     uint32_t time_since = tick_now - tick_last_attempt;
     if (time_since > (retry_count * time_per_attempt_ms)) {
+      tick_last_attempt = tick_now;
       update_status(Status::ON);
       return false;
     }
