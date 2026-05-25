@@ -108,6 +108,8 @@ public:
     ACTIVE,
   };
   static constexpr uint8_t CHANNEL_COUNT{4};
+  static constexpr uint16_t K_ILIS_13_5{2500};
+  static constexpr uint16_t K_ILIS_5_5{1830};
 
   Status status{Status::SLEEP};
   std::array<Channel, CHANNEL_COUNT> channels;

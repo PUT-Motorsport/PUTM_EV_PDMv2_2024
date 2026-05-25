@@ -3,19 +3,13 @@
 #include "BTS72220.hpp"
 #include "spi.h"
 
-// For individual channels 0 and 3 (returns 0.1A units as uint8_t) - do
-// wyjebania
-static uint16_t mv_to_hma(uint16_t mv) {
-  if (mv < 123)
+// Converts adc voltage measured to calibrated current value
+static uint16_t mV_to_mA(uint16_t voltage, uint16_t k_ilis) {
+  const uint16_t VOLTAGE_OFFSET{123};
+  const uint16_t R_SENSE{1200};
+  if (voltage < VOLTAGE_OFFSET)
     return 0;
-  return (((mv - 123) * 1000) / 217 + 100);
-}
-
-// for channels 1 and 2
-static uint16_t mv_to_hma2(uint16_t mv) {
-  if (mv < 123)
-    return 0;
-  return (((mv - 123) * 1000) / 482 + 50);
+  return ((voltage - VOLTAGE_OFFSET) * k_ilis / R_SENSE);
 }
 
 // Translate channel status to can frame channel data
@@ -58,7 +52,7 @@ daisy_chain_txrx(const std::array<uint8_t, CHAIN_ICS> &tx) {
   HAL_GPIO_WritePin(SPI1_NSS_GPIO_Port, SPI1_NSS_Pin, GPIO_PIN_SET);
 
   std::array<uint8_t, CHAIN_ICS> rx{};
-  std::reverse_copy(&(rx_buffer[0]), &(rx_buffer[CHAIN_ICS - 1]), rx.begin());
+  std::reverse_copy(&(rx_buffer[0]), &(rx_buffer[CHAIN_ICS]), rx.begin());
 
   return rx;
 }
@@ -131,7 +125,7 @@ Pdu::Pdu(std::array<Led, IC_COUNT> leds,
       auto system_data{systems_data.at(ic_idx).at(ch_idx)};
 
       systems_channel_map[static_cast<uint8_t>(system_data.name)] =
-          ic_idx + ch_idx;
+          ic_idx * BTS::Ic::CHANNEL_COUNT + ch_idx;
       ics.at(ic_idx).channels.at(ch_idx).set_threshold(system_data.threshold);
     }
   }
@@ -142,7 +136,7 @@ Provides access to channel with system name
 */
 BTS::Channel &Pdu::get_channel(Sys_name name) {
   auto index{systems_channel_map.at(static_cast<size_t>(name))};
-  auto ic_index{index / IC_COUNT};
+  auto ic_index{index / BTS::Ic::CHANNEL_COUNT};
   auto channel_index{index % BTS::Ic::CHANNEL_COUNT};
   return ics.at(ic_index).channels.at(channel_index);
 }
@@ -357,13 +351,15 @@ Updates channel currents and status, returns true for wrong channel id
 bool Pdu::update_channel_currents(
     uint8_t ch, const std::array<uint16_t, IC_COUNT> &voltages,
     uint32_t tick_now) {
-  if (ch >= Ic::CHANNEL_COUNT)
+  if (ch >= BTS::Ic::CHANNEL_COUNT)
     return true;
 
-  auto mV_to_mA{(ch == 0 || ch == 3) ? mv_to_hma : mv_to_hma2};
+  uint16_t k_ilis{(ch == 0 || ch == 3) ? BTS::Ic::K_ILIS_5_5
+                                       : BTS::Ic::K_ILIS_13_5};
   for (size_t ic_idx{}; ic_idx < IC_COUNT; ic_idx++) {
     BTS::Channel &channel{ics.at(ic_idx).channels.at(ch)};
-    channel.update_current(mV_to_mA(voltages.at(ic_idx)), tick_now);
+    uint16_t current{mV_to_mA(voltages.at(ic_idx), k_ilis)};
+    channel.update_current(current, tick_now);
   }
   return false;
 }

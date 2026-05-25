@@ -61,7 +61,7 @@ constexpr uint32_t __VREFANALOG_VOLTAGE__{3300};
 
 template <size_t BUF_SIZE>
 std::array<uint16_t, BUF_SIZE>
-adc_to_mV(std::span<uint16_t, BUF_SIZE> adc_buffer) {
+adc_to_mV(std::span<volatile uint16_t, BUF_SIZE> adc_buffer) {
   std::array<uint16_t, BUF_SIZE> voltages_mV{};
   for (size_t ch{}; ch < BUF_SIZE; ch++) {
     voltages_mV.at(ch) = __HAL_ADC_CALC_DATA_TO_VOLTAGE(
@@ -207,7 +207,7 @@ int main(void) {
   pdu.init_chain();
   HAL_Delay(1);
 
-  static uint16_t adc_buffer[ADC_BUF_SIZE];
+  static volatile uint16_t adc_buffer[ADC_BUF_SIZE];
   HAL_ADC_Start_DMA(&hadc1, (uint32_t *)adc_buffer, ADC_BUF_SIZE);
 
   pdu.start_chain();
