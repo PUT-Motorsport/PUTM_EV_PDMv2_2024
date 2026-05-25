@@ -3,13 +3,13 @@
 #include "BTS72220.hpp"
 #include "spi.h"
 
-// Converts adc voltage measured to calibrated current value
-static uint16_t mV_to_mA(uint16_t voltage, uint16_t k_ilis) {
+// Converts adc voltage measured (in mV) to calibrated current value (in mA)
+static uint16_t mV_to_mA(uint16_t u_mV, uint16_t k_ilis) {
   const uint16_t VOLTAGE_OFFSET{123};
   const uint16_t R_SENSE{1200};
-  if (voltage < VOLTAGE_OFFSET)
+  if (u_mV < VOLTAGE_OFFSET)
     return 0;
-  return ((voltage - VOLTAGE_OFFSET) * k_ilis / R_SENSE);
+  return ((u_mV - VOLTAGE_OFFSET) * k_ilis / R_SENSE);
 }
 
 // Translate channel status to can frame channel data
@@ -79,7 +79,7 @@ bool Led::update(uint8_t channels_failed, uint32_t tick_now) {
 }
 
 Temperature::Status Temperature::check(uint8_t value) const {
-  if (value > max)
+  if (value >= max)
     return Status::TOO_HIGH;
   else if (value < min)
     return Status::TOO_LOW;
@@ -126,7 +126,8 @@ Pdu::Pdu(std::array<Led, IC_COUNT> leds,
 
       systems_channel_map[static_cast<uint8_t>(system_data.name)] =
           ic_idx * BTS::Ic::CHANNEL_COUNT + ch_idx;
-      ics.at(ic_idx).channels.at(ch_idx).set_threshold(system_data.threshold);
+      ics.at(ic_idx).channels.at(ch_idx).set_threshold(
+          system_data.i_threshold_mA);
     }
   }
 }
@@ -173,21 +174,26 @@ PUTM_CAN_M_pdu_channnel_t Pdu::get_can_pdu_channel_t() {
   };
 }
 
-PUTM_CAN_M_pdu_data_t Pdu::get_can_pdu_data_t() {
+PUTM_CAN_M_pdu_data_1_t Pdu::get_can_pdu_data_1() {
   return {
-      .pc_current{get_channel(Sys_name::PC0).get_current() +
-                  get_channel(Sys_name::PC1).get_current() +
-                  get_channel(Sys_name::PC2).get_current() +
-                  get_channel(Sys_name::PC3).get_current()},
-      .pump_current{get_channel(Sys_name::PUMP1).get_current() +
-                    get_channel(Sys_name::PUMP2).get_current()},
-      .fan_current{get_channel(Sys_name::FAN1).get_current() +
-                   get_channel(Sys_name::FAN2).get_current()},
-      .inverter_current{get_channel(Sys_name::INV1).get_current() +
-                        get_channel(Sys_name::INV2).get_current()},
-      .fbox_current{get_channel(Sys_name::FBOX).get_current()},
-      .sdc_current{get_channel(Sys_name::SDC_ASMS).get_current()},
-      .total_current{get_total_current()},
+      .pc_current{get_channel(Sys_name::PC0).get_current() / 10 +
+                  get_channel(Sys_name::PC1).get_current() / 10 +
+                  get_channel(Sys_name::PC2).get_current() / 10 +
+                  get_channel(Sys_name::PC3).get_current() / 10},
+      .pump_current{get_channel(Sys_name::PUMP1).get_current() / 10 +
+                    get_channel(Sys_name::PUMP2).get_current() / 10},
+      .fan_current{get_channel(Sys_name::FAN1).get_current() / 10 +
+                   get_channel(Sys_name::FAN2).get_current() / 10},
+      .inverter_current{get_channel(Sys_name::INV1).get_current() / 10 +
+                        get_channel(Sys_name::INV2).get_current() / 10},
+  };
+}
+
+PUTM_CAN_M_pdu_data_2_t Pdu::get_can_pdu_data_2() {
+  return {
+      .fbox_current{get_channel(Sys_name::FBOX).get_current() / 10},
+      .sdc_current{get_channel(Sys_name::SDC_ASMS).get_current() / 10},
+      .total_current{get_total_current() / 10},
   };
 }
 
@@ -217,6 +223,7 @@ CAN.
 void Pdu::update_fans(const bool &rtd_status,
                       const Temperature::Values &inv_values,
                       const Temperature::Values &motor_values) {
+
   inv_temperature.update(inv_values);
   motor_temperature.update(motor_values);
 
@@ -358,8 +365,8 @@ bool Pdu::update_channel_currents(
                                        : BTS::Ic::K_ILIS_13_5};
   for (size_t ic_idx{}; ic_idx < IC_COUNT; ic_idx++) {
     BTS::Channel &channel{ics.at(ic_idx).channels.at(ch)};
-    uint16_t current{mV_to_mA(voltages.at(ic_idx), k_ilis)};
-    channel.update_current(current, tick_now);
+    uint16_t i_mA{mV_to_mA(voltages.at(ic_idx), k_ilis)};
+    channel.update_current(i_mA, tick_now);
   }
   return false;
 }

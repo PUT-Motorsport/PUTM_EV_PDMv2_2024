@@ -5,11 +5,11 @@ namespace BTS {
 /*
 Update current for ON channels, transition to ERR if current > threshold
 */
-void Channel::update_current(uint32_t current_value, uint32_t tick_now) {
-  current = current_value;
+void Channel::update_current(uint32_t i_val_mA, uint32_t tick_now) {
+  i_mA = i_val_mA;
   switch (status) {
   case Status::ON: {
-    if (current > threshold) {
+    if (i_mA > i_threshold_mA) {
       tick_last_attempt = tick_now;
       update_status(Status::ERR);
       break;

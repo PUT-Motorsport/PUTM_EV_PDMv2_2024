@@ -59,15 +59,14 @@ constexpr uint32_t __VREFANALOG_VOLTAGE__{3300};
 
 /* USER CODE BEGIN PV */
 
-template <size_t BUF_SIZE>
-std::array<uint16_t, BUF_SIZE>
-adc_to_mV(std::span<volatile uint16_t, BUF_SIZE> adc_buffer) {
-  std::array<uint16_t, BUF_SIZE> voltages_mV{};
-  for (size_t ch{}; ch < BUF_SIZE; ch++) {
-    voltages_mV.at(ch) = __HAL_ADC_CALC_DATA_TO_VOLTAGE(
-        __VREFANALOG_VOLTAGE__, adc_buffer[ch], ADC_RESOLUTION12b);
+std::array<uint16_t, ADC_BUF_SIZE>
+adc_to_mV(std::span<volatile uint16_t, ADC_BUF_SIZE> adc_buffer) {
+  std::array<uint16_t, ADC_BUF_SIZE> U_mV{};
+  for (size_t ic{}; ic < ADC_BUF_SIZE; ic++) {
+    U_mV.at(ic) = __HAL_ADC_CALC_DATA_TO_VOLTAGE(
+        __VREFANALOG_VOLTAGE__, adc_buffer[ic], ADC_RESOLUTION12b);
   }
-  return voltages_mV;
+  return U_mV;
 }
 
 volatile bool rtd_status{};
@@ -222,12 +221,13 @@ int main(void) {
 
     pdu.update_chain_errors();
 
-    for (int i{}; i < BTS::Ic::CHANNEL_COUNT; i++) {
-      pdu.set_channel_sense(i);
+    for (int ch{}; ch < BTS::Ic::CHANNEL_COUNT; ch++) {
+      pdu.set_channel_sense(ch);
       HAL_Delay(1);
-      pdu.update_channel_currents(i, adc_to_mV<ADC_BUF_SIZE>(adc_buffer),
-                                  tick_now);
+      pdu.update_channel_currents(ch, adc_to_mV(adc_buffer), tick_now);
     }
+
+    // Copy data received from CAN
     __disable_irq();
     local_rtd = rtd_status;
     local_inv.front_left = inv_temperature_values.front_left;
@@ -246,13 +246,18 @@ int main(void) {
     pdu.update_leds(tick_now);
 
     if (tick_now - can_pdu_channel_tick > CAN_PDU_CHANNEL_PERIOD) {
-      can_m.Send(PUTM_CAN_M_PDU_CHANNNEL_FRAME_ID, pdu.get_can_pdu_channel_t());
+      PUTM_CAN_M_pdu_channnel_t can_pdu_channel{pdu.get_can_pdu_channel_t()};
+      can_m.Send(PUTM_CAN_M_PDU_CHANNNEL_FRAME_ID, can_pdu_channel);
       can_pdu_channel_tick = tick_now;
     }
     if (tick_now - can_pdu_data_tick > CAN_PDU_DATA_PERIOD) {
-      can_m.Send(PUTM_CAN_M_PDU_DATA_FRAME_ID, pdu.get_can_pdu_data_t());
+      PUTM_CAN_M_pdu_data_1_t can_pdu_data_1{pdu.get_can_pdu_data_1()};
+      PUTM_CAN_M_pdu_data_2_t can_pdu_data_2{pdu.get_can_pdu_data_2()};
+      can_m.Send(PUTM_CAN_M_PDU_DATA_1_FRAME_ID, can_pdu_data_1);
+      can_m.Send(PUTM_CAN_M_PDU_DATA_2_FRAME_ID, can_pdu_data_2);
       can_pdu_data_tick = tick_now;
     }
+
     after_first_loop = true;
 
     /* USER CODE END WHILE */

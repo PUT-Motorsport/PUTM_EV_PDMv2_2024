@@ -34,7 +34,7 @@ enum class Sys_name {
 
 struct System {
   Sys_name name;
-  uint16_t threshold;
+  uint16_t i_threshold_mA;
 };
 
 /* Led blinking speed indicates each IC channels status:
@@ -104,7 +104,8 @@ public:
 
   uint16_t get_total_current() const;
   PUTM_CAN_M_pdu_channnel_t get_can_pdu_channel_t();
-  PUTM_CAN_M_pdu_data_t get_can_pdu_data_t();
+  PUTM_CAN_M_pdu_data_1_t get_can_pdu_data_1();
+  PUTM_CAN_M_pdu_data_2_t get_can_pdu_data_2();
 
   bool update_leds(uint32_t tick_now);
   void update_fans(const bool &rtd_status,

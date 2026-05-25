@@ -81,20 +81,22 @@ public:
 
   static constexpr uint32_t MAX_RETRIES{5};
 
-  uint16_t get_current() const { return current; }
+  uint16_t get_current() const { return i_mA; }
   Status get_status() const { return status; }
 
-  void update_current(uint32_t current_value, uint32_t tick_now);
+  void update_current(uint32_t i_val_mA, uint32_t tick_now);
   bool update_status(Status new_status);
   bool handle_overcurrent(uint32_t tick_now);
-  void set_threshold(uint16_t threshold) { this->threshold = threshold; }
+  void set_threshold(uint16_t i_threshold_mA) {
+    this->i_threshold_mA = i_threshold_mA;
+  }
   bool turn_on();
   void turn_off();
 
 private:
   Status status{Status::ON};
-  uint16_t current{};
-  uint16_t threshold;
+  uint16_t i_mA{};
+  uint16_t i_threshold_mA;
   uint32_t retry_count{};
   uint32_t tick_last_attempt{};
 };
@@ -108,8 +110,10 @@ public:
     ACTIVE,
   };
   static constexpr uint8_t CHANNEL_COUNT{4};
-  static constexpr uint16_t K_ILIS_13_5{2500};
-  static constexpr uint16_t K_ILIS_5_5{1830};
+  // Calibration values for channels 1 and 2, Is = 3A
+  static constexpr uint16_t K_ILIS_13_5{2540};
+  // Calibration values for channels 0 and 3, Is = 5A
+  static constexpr uint16_t K_ILIS_5_5{5660};
 
   Status status{Status::SLEEP};
   std::array<Channel, CHANNEL_COUNT> channels;
