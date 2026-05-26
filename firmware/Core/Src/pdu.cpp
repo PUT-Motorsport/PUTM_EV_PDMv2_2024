@@ -2,6 +2,7 @@
 
 #include "BTS72220.hpp"
 #include "spi.h"
+#include <numeric>
 
 // Converts adc voltage measured (in mV) to calibrated current value (in mA)
 static uint16_t mV_to_mA(uint16_t u_mV, uint16_t k_ilis) {
@@ -12,9 +13,20 @@ static uint16_t mV_to_mA(uint16_t u_mV, uint16_t k_ilis) {
   return ((u_mV - VOLTAGE_OFFSET) * k_ilis / R_SENSE);
 }
 
+template <size_t N>
+static BTS::Channel::Status
+reduce_status(const std::array<BTS::Channel::Status, N> &channels) {
+  std::array<uint32_t, N> channels_uint{};
+  std::transform(
+      channels.begin(), channels.end(), channels_uint.begin(),
+      [](BTS::Channel::Status ch) { return static_cast<uint32_t>(ch); });
+  return static_cast<BTS::Channel::Status>(
+      *std::min_element(channels_uint.begin(), channels_uint.end()));
+}
+
 // Translate channel status to can frame channel data
-static uint8_t ch_status_can(BTS::Channel ch) {
-  switch (ch.get_status()) {
+static uint8_t ch_status_can(BTS::Channel::Status status) {
+  switch (status) {
   case BTS::Channel::Status::OFF:
     return 0;
   case BTS::Channel::Status::ERR:
@@ -154,23 +166,29 @@ uint16_t Pdu::get_total_current() const {
 
 PUTM_CAN_M_pdu_channnel_t Pdu::get_can_pdu_channel_t() {
   return {
-      .pc_status{std::max({ch_status_can(get_channel(Sys_name::PC0)),
-                           ch_status_can(get_channel(Sys_name::PC1)),
-                           ch_status_can(get_channel(Sys_name::PC2)),
-                           ch_status_can(get_channel(Sys_name::PC3))})},
-      .fan_status{std::max({ch_status_can(get_channel(Sys_name::FAN1)),
-                            ch_status_can(get_channel(Sys_name::FAN2))})},
-      .pump_status{std::max({ch_status_can(get_channel(Sys_name::PUMP1)),
-                             ch_status_can(get_channel(Sys_name::PUMP2))})},
-      .inverter_status{std::max({ch_status_can(get_channel(Sys_name::INV1)),
-                                 ch_status_can(get_channel(Sys_name::INV2))})},
-      .fbox_status{ch_status_can(get_channel(Sys_name::FBOX))},
-      .sdc_status{ch_status_can(get_channel(Sys_name::SDC_ASMS))},
-      .dash_status{ch_status_can(get_channel(Sys_name::DASH))},
-      .tsal_hv_status{ch_status_can(get_channel(Sys_name::TSAL_HV))},
+      .pc_status{ch_status_can(
+          reduce_status<4>({get_channel(Sys_name::PC0).get_status(),
+                            get_channel(Sys_name::PC1).get_status(),
+                            get_channel(Sys_name::PC2).get_status(),
+                            get_channel(Sys_name::PC3).get_status()}))},
+      .fan_status{ch_status_can(
+          reduce_status<2>({get_channel(Sys_name::FAN1).get_status(),
+                            get_channel(Sys_name::FAN2).get_status()}))},
+      .pump_status{ch_status_can(
+          reduce_status<2>({get_channel(Sys_name::PUMP1).get_status(),
+                            get_channel(Sys_name::PUMP2).get_status()}))},
+      .inverter_status{ch_status_can(
+          reduce_status<2>({get_channel(Sys_name::INV1).get_status(),
+                            get_channel(Sys_name::INV2).get_status()}))},
+      .fbox_status{ch_status_can(get_channel(Sys_name::FBOX).get_status())},
+      .sdc_status{ch_status_can(get_channel(Sys_name::SDC_ASMS).get_status())},
+      .dash_status{ch_status_can(get_channel(Sys_name::DASH).get_status())},
+      .tsal_hv_status{
+          ch_status_can(get_channel(Sys_name::TSAL_HV).get_status())},
       .rbox_diagport_brake_l_status{
-          ch_status_can(get_channel(Sys_name::RBOX_DIAG_BRAKE_L))},
-      .brake_ir_air_status{ch_status_can(get_channel(Sys_name::BRAKE_IR_AIR))},
+          ch_status_can(get_channel(Sys_name::RBOX_DIAG_BRAKE_L).get_status())},
+      .brake_ir_air_status{
+          ch_status_can(get_channel(Sys_name::BRAKE_IR_AIR).get_status())},
   };
 }
 
@@ -317,8 +335,8 @@ void Pdu::start_chain() {
 }
 
 /*
-Sets channel current measurement, delay needed to stabilize output, returns true
-for wrong channel id
+Sets channel current measurement, delay needed to stabilize output, returns
+true for wrong channel id
 */
 bool Pdu::set_channel_sense(uint8_t channel) {
   uint8_t dcr_channel{};
