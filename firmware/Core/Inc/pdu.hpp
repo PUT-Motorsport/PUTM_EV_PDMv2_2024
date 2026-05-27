@@ -33,8 +33,9 @@ enum class Sys_name {
 };
 
 struct System {
-  Sys_name name;
-  uint16_t i_threshold_mA;
+  const Sys_name name;
+  const uint16_t i_threshold_mA;
+  const uint16_t k_ilis;
 };
 
 /* Led blinking speed indicates each IC channels status:
@@ -103,9 +104,9 @@ public:
       Temperature inv_temperature, Temperature motor_temperature);
 
   uint16_t get_total_current() const;
-  PUTM_CAN_M_pdu_channnel_t get_can_pdu_channel_t();
-  PUTM_CAN_M_pdu_data_1_t get_can_pdu_data_1();
-  PUTM_CAN_M_pdu_data_2_t get_can_pdu_data_2();
+  PUTM_CAN_M_pdu_channnel_t get_can_pdu_channel_t() const;
+  PUTM_CAN_M_pdu_data_1_t get_can_pdu_data_1() const;
+  PUTM_CAN_M_pdu_data_2_t get_can_pdu_data_2() const;
 
   bool update_leds(uint32_t tick_now);
   void update_fans(const bool &rtd_status,
@@ -132,4 +133,5 @@ private:
   Temperature motor_temperature;
 
   BTS::Channel &get_channel(Sys_name name);
+  const BTS::Channel &get_channel(Sys_name name) const;
 };

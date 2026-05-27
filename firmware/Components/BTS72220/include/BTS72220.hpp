@@ -6,15 +6,17 @@
 
 namespace BTS {
 
-constexpr uint8_t OUT_READY{0x8F};    // 1000 1111	switching to ready mode
-constexpr uint8_t OUT_READY1{0x9F};   // 1001 1111
-constexpr uint8_t OUT_CLOSE{0x80};    // 1000 0000
-constexpr uint8_t DCR_ACTIVE{0xF5};   // 1111 0101	switching to active mode
-constexpr uint8_t DCR_SLEEP{0xFF};    // 1111 1111
-constexpr uint8_t DCR_CHANNEL0{0xF8}; // 1111 1000
-constexpr uint8_t DCR_CHANNEL1{0xF9}; // 1111 1001
-constexpr uint8_t DCR_CHANNEL2{0xFA}; // 1111 1010
-constexpr uint8_t DCR_CHANNEL3{0xFB}; // 1111 1011
+constexpr uint8_t OUT_READY{0x8F};     // 1000 1111	switching to ready mode
+constexpr uint8_t OUT_READY1{0x9F};    // 1001 1111
+constexpr uint8_t OUT_CLOSE{0x80};     // 1000 0000
+constexpr uint8_t DCR_ACTIVE{0xF5};    // 1111 0101	switching to active mode
+constexpr uint8_t DCR_SLEEP{0xFF};     // 1111 1111
+constexpr uint8_t DCR_CHANNEL0{0xF8};  // 1111 1000
+constexpr uint8_t DCR_CHANNEL1{0xF9};  // 1111 1001
+constexpr uint8_t DCR_CHANNEL2{0xFA};  // 1111 1010
+constexpr uint8_t DCR_CHANNEL3{0xFB};  // 1111 1011
+constexpr uint8_t KRC_LOWRANGE{0xDF};  // 1101 1111
+constexpr uint8_t KRC_HIGHRANGE{0xD0}; // 1101 0000
 // Diagnosis Registers - Read Commands
 constexpr uint8_t WRNDIAG_CMD{0x01}; // 0000 0001
 constexpr uint8_t STDDIAG_CMD{0x02}; // 0000 0010
@@ -83,6 +85,7 @@ public:
 
   uint16_t get_current() const { return i_mA; }
   Status get_status() const { return status; }
+  uint16_t get_k_ilis() const { return k_ilis; }
 
   void update_current(uint32_t i_val_mA, uint32_t tick_now);
   bool update_status(Status new_status);
@@ -90,12 +93,14 @@ public:
   void set_threshold(uint16_t i_threshold_mA) {
     this->i_threshold_mA = i_threshold_mA;
   }
+  void set_k_ilis(uint16_t k_ilis) { this->k_ilis = k_ilis; }
   bool turn_on();
   void turn_off();
 
 private:
   Status status{Status::ON};
   uint16_t i_mA{};
+  uint16_t k_ilis;
   uint16_t i_threshold_mA;
   uint32_t retry_count{};
   uint32_t tick_last_attempt{};
@@ -110,11 +115,6 @@ public:
     ACTIVE,
   };
   static constexpr uint8_t CHANNEL_COUNT{4};
-  // Calibration values for channels 1 and 2, Is = 3A
-  static constexpr uint16_t K_ILIS_13_5{2540};
-  // Calibration values for channels 0 and 3, Is = 5A
-  static constexpr uint16_t K_ILIS_5_5{5660};
-
   Status status{Status::SLEEP};
   std::array<Channel, CHANNEL_COUNT> channels;
 

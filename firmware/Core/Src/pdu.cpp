@@ -16,16 +16,11 @@ static uint16_t mV_to_mA(uint16_t u_mV, uint16_t k_ilis) {
 template <size_t N>
 static BTS::Channel::Status
 reduce_status(const std::array<BTS::Channel::Status, N> &channels) {
-  std::array<uint32_t, N> channels_uint{};
-  std::transform(
-      channels.begin(), channels.end(), channels_uint.begin(),
-      [](BTS::Channel::Status ch) { return static_cast<uint32_t>(ch); });
-  return static_cast<BTS::Channel::Status>(
-      *std::min_element(channels_uint.begin(), channels_uint.end()));
+  return *std::min_element(channels.begin(), channels.end());
 }
 
 // Translate channel status to can frame channel data
-static uint8_t ch_status_can(BTS::Channel::Status status) {
+static uint8_t status_to_can(BTS::Channel::Status status) {
   switch (status) {
   case BTS::Channel::Status::OFF:
     return 0;
@@ -140,6 +135,7 @@ Pdu::Pdu(std::array<Led, IC_COUNT> leds,
           ic_idx * BTS::Ic::CHANNEL_COUNT + ch_idx;
       ics.at(ic_idx).channels.at(ch_idx).set_threshold(
           system_data.i_threshold_mA);
+      ics.at(ic_idx).channels.at(ch_idx).set_k_ilis(system_data.k_ilis);
     }
   }
 }
@@ -148,6 +144,12 @@ Pdu::Pdu(std::array<Led, IC_COUNT> leds,
 Provides access to channel with system name
 */
 BTS::Channel &Pdu::get_channel(Sys_name name) {
+  auto index{systems_channel_map.at(static_cast<size_t>(name))};
+  auto ic_index{index / BTS::Ic::CHANNEL_COUNT};
+  auto channel_index{index % BTS::Ic::CHANNEL_COUNT};
+  return ics.at(ic_index).channels.at(channel_index);
+}
+const BTS::Channel &Pdu::get_channel(Sys_name name) const {
   auto index{systems_channel_map.at(static_cast<size_t>(name))};
   auto ic_index{index / BTS::Ic::CHANNEL_COUNT};
   auto channel_index{index % BTS::Ic::CHANNEL_COUNT};
@@ -164,40 +166,41 @@ uint16_t Pdu::get_total_current() const {
   return sum;
 }
 
-PUTM_CAN_M_pdu_channnel_t Pdu::get_can_pdu_channel_t() {
+PUTM_CAN_M_pdu_channnel_t Pdu::get_can_pdu_channel_t() const {
   return {
-      .pc_status{ch_status_can(
+      .pc_status{status_to_can(
           reduce_status<4>({get_channel(Sys_name::PC0).get_status(),
                             get_channel(Sys_name::PC1).get_status(),
                             get_channel(Sys_name::PC2).get_status(),
                             get_channel(Sys_name::PC3).get_status()}))},
-      .fan_status{ch_status_can(
+      .fan_status{status_to_can(
           reduce_status<2>({get_channel(Sys_name::FAN1).get_status(),
                             get_channel(Sys_name::FAN2).get_status()}))},
-      .pump_status{ch_status_can(
+      .pump_status{status_to_can(
           reduce_status<2>({get_channel(Sys_name::PUMP1).get_status(),
                             get_channel(Sys_name::PUMP2).get_status()}))},
-      .inverter_status{ch_status_can(
+      .inverter_status{status_to_can(
           reduce_status<2>({get_channel(Sys_name::INV1).get_status(),
                             get_channel(Sys_name::INV2).get_status()}))},
-      .fbox_status{ch_status_can(get_channel(Sys_name::FBOX).get_status())},
-      .sdc_status{ch_status_can(get_channel(Sys_name::SDC_ASMS).get_status())},
-      .dash_status{ch_status_can(get_channel(Sys_name::DASH).get_status())},
+      .fbox_status{status_to_can(get_channel(Sys_name::FBOX).get_status())},
+      .sdc_status{status_to_can(get_channel(Sys_name::SDC_ASMS).get_status())},
+      .dash_status{status_to_can(get_channel(Sys_name::DASH).get_status())},
       .tsal_hv_status{
-          ch_status_can(get_channel(Sys_name::TSAL_HV).get_status())},
+          status_to_can(get_channel(Sys_name::TSAL_HV).get_status())},
       .rbox_diagport_brake_l_status{
-          ch_status_can(get_channel(Sys_name::RBOX_DIAG_BRAKE_L).get_status())},
+          status_to_can(get_channel(Sys_name::RBOX_DIAG_BRAKE_L).get_status())},
       .brake_ir_air_status{
-          ch_status_can(get_channel(Sys_name::BRAKE_IR_AIR).get_status())},
+          status_to_can(get_channel(Sys_name::BRAKE_IR_AIR).get_status())},
   };
 }
 
-PUTM_CAN_M_pdu_data_1_t Pdu::get_can_pdu_data_1() {
+PUTM_CAN_M_pdu_data_1_t Pdu::get_can_pdu_data_1() const {
   return {
-      .pc_current{get_channel(Sys_name::PC0).get_current() / 10 +
-                  get_channel(Sys_name::PC1).get_current() / 10 +
-                  get_channel(Sys_name::PC2).get_current() / 10 +
-                  get_channel(Sys_name::PC3).get_current() / 10},
+      .pc_current{(get_channel(Sys_name::PC0).get_current() +
+                   get_channel(Sys_name::PC1).get_current() +
+                   get_channel(Sys_name::PC2).get_current() +
+                   get_channel(Sys_name::PC3).get_current()) /
+                  10},
       .pump_current{get_channel(Sys_name::PUMP1).get_current() / 10 +
                     get_channel(Sys_name::PUMP2).get_current() / 10},
       .fan_current{get_channel(Sys_name::FAN1).get_current() / 10 +
@@ -207,7 +210,7 @@ PUTM_CAN_M_pdu_data_1_t Pdu::get_can_pdu_data_1() {
   };
 }
 
-PUTM_CAN_M_pdu_data_2_t Pdu::get_can_pdu_data_2() {
+PUTM_CAN_M_pdu_data_2_t Pdu::get_can_pdu_data_2() const {
   return {
       .fbox_current{get_channel(Sys_name::FBOX).get_current() / 10},
       .sdc_current{get_channel(Sys_name::SDC_ASMS).get_current() / 10},
@@ -313,6 +316,12 @@ void Pdu::init_chain() {
   auto rx{daisy_chain_txrx<IC_COUNT>(tx)};
   update_chain_diag(rx);
 
+  constexpr uint16_t KRC_CONFIG{0xD9};
+
+  tx.fill(KRC_CONFIG);
+  rx = daisy_chain_txrx<IC_COUNT>(tx);
+  update_chain_diag(rx);
+
   for (auto &ic : ics) {
     ic.status = BTS::Ic::Status::STAND_BY;
   }
@@ -378,12 +387,9 @@ bool Pdu::update_channel_currents(
     uint32_t tick_now) {
   if (ch >= BTS::Ic::CHANNEL_COUNT)
     return true;
-
-  uint16_t k_ilis{(ch == 0 || ch == 3) ? BTS::Ic::K_ILIS_5_5
-                                       : BTS::Ic::K_ILIS_13_5};
-  for (size_t ic_idx{}; ic_idx < IC_COUNT; ic_idx++) {
+  for (size_t ic_idx{}; ic_idx < voltages.size(); ic_idx++) {
     BTS::Channel &channel{ics.at(ic_idx).channels.at(ch)};
-    uint16_t i_mA{mV_to_mA(voltages.at(ic_idx), k_ilis)};
+    uint16_t i_mA{mV_to_mA(voltages.at(ic_idx), channel.get_k_ilis())};
     channel.update_current(i_mA, tick_now);
   }
   return false;
@@ -396,7 +402,7 @@ void Pdu::handle_overcurrent(uint32_t tick_now) {
   std::array<uint8_t, IC_COUNT> tx{};
   tx.fill(BTS::OUT_CLOSE);
 
-  for (size_t ic_idx{}; ic_idx < IC_COUNT; ic_idx++) {
+  for (size_t ic_idx{}; ic_idx < ics.size(); ic_idx++) {
     for (size_t ch_idx{}; ch_idx < BTS::Ic::CHANNEL_COUNT; ch_idx++) {
       if (ics.at(ic_idx).channels.at(ch_idx).handle_overcurrent(tick_now) ==
           false)
