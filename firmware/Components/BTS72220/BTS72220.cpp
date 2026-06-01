@@ -107,12 +107,12 @@ pattern
 */
 bool Ic::check_response(uint8_t rx_value) {
   if ((rx_value & DIAG_MASK) == WRNDIAG_MASK) {
-    Wrndiag wrndiag{rx_value};
-    (void)wrndiag; // DECODE
+    uint8_t wrndiag{rx_value};
+    // DECODE
     return false;
   } else if ((rx_value & DIAG_MASK) == STDDIAG_MASK) {
-    Stddiag stddiag{rx_value};
-    if (stddiag.reg.TER) {
+    uint8_t stddiag{rx_value};
+    if (stddiag & STDDIAG_TER_MASK) {
       status = Status::SLEEP;
     }
     return false;
@@ -126,9 +126,9 @@ returns true if frame doesn't match pattern
 */
 bool Ic::check_err(uint8_t rx_value) {
   if ((rx_value & DIAG_MASK) == ERRDIAG_MASK) {
-    Errdiag errdiag{rx_value};
+    uint8_t errdiag{rx_value};
     for (std::size_t ch_idx{}; ch_idx < CHANNEL_COUNT; ch_idx++) {
-      if (errdiag.reg.ERRn & (1 << ch_idx))
+      if (errdiag & (1 << ch_idx))
         channels.at(ch_idx).update_status(Channel::Status::ERR);
     }
     return false;

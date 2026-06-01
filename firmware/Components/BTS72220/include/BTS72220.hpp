@@ -42,34 +42,16 @@ constexpr uint8_t ERRDIAG_MASK{0x40};
 constexpr uint8_t WRNDIAG_MASK{0x40};
 constexpr uint8_t STDDIAG_MASK{0x00};
 
-union Wrndiag {
-  uint8_t value;
-  struct {
-    uint8_t WRNn : 4;
-    uint8_t RES : 4;
-  } reg;
-};
+constexpr uint8_t WRNDIAG_WRNn_MASK{0x0F};
 
-union Stddiag {
-  uint8_t value;
-  struct {
-    uint8_t VSMON : 1;
-    uint8_t SBM : 1;
-    uint8_t SLP : 1;
-    uint8_t LHI : 1;
-    uint8_t CSV : 1;
-    uint8_t TER : 1;
-    uint8_t RES : 2;
-  } reg;
-};
+constexpr uint8_t STDDIAG_VSMON_MASK{0x01};
+constexpr uint8_t STDDIAG_SBM_MASK{0x02};
+constexpr uint8_t STDDIAG_SLP_MASK{0x04};
+constexpr uint8_t STDDIAG_LHI_MASK{0x08};
+constexpr uint8_t STDDIAG_CSV_MASK{0x10};
+constexpr uint8_t STDDIAG_TER_MASK{0x20};
 
-union Errdiag {
-  uint8_t value;
-  struct {
-    uint8_t ERRn : 4;
-    uint8_t RES : 4;
-  } reg;
-};
+constexpr uint8_t ERRDIAG_ERRn_MASK{0x0F};
 
 class Channel {
 public:
