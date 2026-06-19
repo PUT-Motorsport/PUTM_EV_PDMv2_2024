@@ -30,7 +30,7 @@ project(${CMAKE_PROJECT_NAME})
 message("Build type: " ${CMAKE_BUILD_TYPE})
 
 # Enable CMake support for ASM and C languages
-enable_language(C ASM)
+enable_language(C CXX ASM)
 
 # Create an executable object type
 add_executable(${CMAKE_PROJECT_NAME})
@@ -39,6 +39,9 @@ add_executable(${CMAKE_PROJECT_NAME})
 add_subdirectory(${PROJECT_SOURCE_DIR}/cmake/stm32cubemx)
 add_subdirectory(${PROJECT_SOURCE_DIR}/Components/BTS72220)
 add_subdirectory(${PROJECT_SOURCE_DIR}/Components/PUTM_EV_CAN_LIBRARY)
+
+target_compile_options(${CMAKE_PROJECT_NAME} PRIVATE -Wall -fno-rtti -fno-exceptions)
+
 
 # Link directories setup
 target_link_directories(${CMAKE_PROJECT_NAME} PRIVATE

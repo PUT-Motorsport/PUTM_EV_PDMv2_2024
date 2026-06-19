@@ -71,33 +71,8 @@ adc_to_mV(std::span<volatile uint16_t, ADC_BUF_SIZE> adc_buffer) {
 
 volatile bool rtd_status{};
 
-void can_pc_main_data_cb(const PUTM_CAN_M_pc_main_data_t &pc_main_data) {
-  rtd_status = pc_main_data.rtd;
-}
-
 volatile Temperature::Values inv_temperature_values{};
 volatile Temperature::Values motor_temperature_values{};
-
-void can_pc_temperature_data_cb(
-    const PUTM_CAN_M_pc_temperature_data_t &pc_temperature_data) {
-  inv_temperature_values.front_left =
-      pc_temperature_data.front_left_inverter_temperature;
-  inv_temperature_values.front_right =
-      pc_temperature_data.front_right_inverter_temperature;
-  inv_temperature_values.rear_left =
-      pc_temperature_data.rear_left_inverter_temperature;
-  inv_temperature_values.rear_right =
-      pc_temperature_data.rear_right_inverter_temperature;
-
-  motor_temperature_values.front_left =
-      pc_temperature_data.front_left_motor_temperature;
-  motor_temperature_values.front_right =
-      pc_temperature_data.front_right_motor_temperature;
-  motor_temperature_values.rear_left =
-      pc_temperature_data.rear_left_motor_temperature;
-  motor_temperature_values.rear_right =
-      pc_temperature_data.rear_right_motor_temperature;
-}
 
 /* USER CODE END PV */
 
@@ -152,9 +127,32 @@ int main(void) {
 
   putm_ev_can::CanDriver can_m;
   can_m.RegisterCallback<PUTM_CAN_M_pc_main_data_t>(
-      PUTM_CAN_M_PC_MAIN_DATA_FRAME_ID, can_pc_main_data_cb);
+      PUTM_CAN_M_PC_MAIN_DATA_FRAME_ID,
+      [](const PUTM_CAN_M_pc_main_data_t &pc_main_data) {
+        rtd_status = pc_main_data.rtd;
+      });
+
   can_m.RegisterCallback<PUTM_CAN_M_pc_temperature_data_t>(
-      PUTM_CAN_M_PC_TEMPERATURE_DATA_FRAME_ID, can_pc_temperature_data_cb);
+      PUTM_CAN_M_PC_TEMPERATURE_DATA_FRAME_ID,
+      [](const PUTM_CAN_M_pc_temperature_data_t &pc_temperature_data) {
+        inv_temperature_values.front_left =
+            pc_temperature_data.front_left_inverter_temperature;
+        inv_temperature_values.front_right =
+            pc_temperature_data.front_right_inverter_temperature;
+        inv_temperature_values.rear_left =
+            pc_temperature_data.rear_left_inverter_temperature;
+        inv_temperature_values.rear_right =
+            pc_temperature_data.rear_right_inverter_temperature;
+
+        motor_temperature_values.front_left =
+            pc_temperature_data.front_left_motor_temperature;
+        motor_temperature_values.front_right =
+            pc_temperature_data.front_right_motor_temperature;
+        motor_temperature_values.rear_left =
+            pc_temperature_data.rear_left_motor_temperature;
+        motor_temperature_values.rear_right =
+            pc_temperature_data.rear_right_motor_temperature;
+      });
 
   constexpr uint32_t CAN_PDU_DATA_PERIOD{200};
   constexpr uint32_t CAN_PDU_CHANNEL_PERIOD{40};
@@ -224,7 +222,7 @@ int main(void) {
 
     pdu.update_chain_errors();
 
-    for (int ch{}; ch < BTS::Ic::CHANNEL_COUNT; ch++) {
+    for (int ch{0}; ch < BTS::Ic::CHANNEL_COUNT; ch++) {
       pdu.set_channel_sense(ch);
       HAL_Delay(1);
       pdu.update_channel_currents(ch, adc_to_mV(adc_buffer), tick_now);
@@ -249,15 +247,12 @@ int main(void) {
     pdu.update_leds(tick_now);
 
     if (tick_now - can_pdu_channel_tick > CAN_PDU_CHANNEL_PERIOD) {
-      PUTM_CAN_M_pdu_channnel_t can_pdu_channel{pdu.get_can_pdu_channel_t()};
-      can_m.Send(PUTM_CAN_M_PDU_CHANNNEL_FRAME_ID, can_pdu_channel);
+      can_m.Send(PUTM_CAN_M_PDU_CHANNNEL_FRAME_ID, pdu.get_can_pdu_channel_t());
       can_pdu_channel_tick = tick_now;
     }
     if (tick_now - can_pdu_data_tick > CAN_PDU_DATA_PERIOD) {
-      PUTM_CAN_M_pdu_data_1_t can_pdu_data_1{pdu.get_can_pdu_data_1()};
-      PUTM_CAN_M_pdu_data_2_t can_pdu_data_2{pdu.get_can_pdu_data_2()};
-      can_m.Send(PUTM_CAN_M_PDU_DATA_1_FRAME_ID, can_pdu_data_1);
-      can_m.Send(PUTM_CAN_M_PDU_DATA_2_FRAME_ID, can_pdu_data_2);
+      can_m.Send(PUTM_CAN_M_PDU_DATA_1_FRAME_ID, pdu.get_can_pdu_data_1());
+      can_m.Send(PUTM_CAN_M_PDU_DATA_2_FRAME_ID, pdu.get_can_pdu_data_2());
       can_pdu_data_tick = tick_now;
     }
 
