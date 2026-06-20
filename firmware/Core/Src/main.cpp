@@ -211,6 +211,7 @@ int main(void) {
   HAL_ADC_Start_DMA(&hadc1, (uint32_t *)adc_buffer, ADC_BUF_SIZE);
 
   pdu.start_chain();
+  can_m.Init(&hfdcan1);
   HAL_Delay(1);
 
   /* USER CODE END 2 */
