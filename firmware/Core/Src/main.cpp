@@ -126,15 +126,8 @@ int main(void) {
   /* USER CODE BEGIN 2 */
 
   putm_ev_can::CanDriver can_m;
-  FDCAN_FilterTypeDef filter_config;
-  filter_config.IdType = FDCAN_STANDARD_ID;
-  filter_config.FilterIndex = 0;
-  filter_config.FilterType = FDCAN_FILTER_MASK;
-  filter_config.FilterConfig = FDCAN_FILTER_TO_RXFIFO0;
-  filter_config.FilterID1 = 0;
-  filter_config.FilterID2 = 0;
 
-  if (HAL_FDCAN_ConfigFilter(&hfdcan1, &filter_config) != HAL_OK) {
+  if (!can_m.Init(&hfdcan1)) {
     Error_Handler();
   }
 
@@ -223,8 +216,6 @@ int main(void) {
   HAL_ADC_Start_DMA(&hadc1, (uint32_t *)adc_buffer, ADC_BUF_SIZE);
 
   pdu.start_chain();
-  can_m.Init(&hfdcan1);
-  HAL_Delay(1);
 
   /* USER CODE END 2 */
 

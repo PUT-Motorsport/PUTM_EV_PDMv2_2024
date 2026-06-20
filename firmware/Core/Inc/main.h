@@ -57,6 +57,8 @@ void Error_Handler(void);
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
+#define CAN_STBY_Pin GPIO_PIN_14
+#define CAN_STBY_GPIO_Port GPIOC
 #define IC0_Pin GPIO_PIN_0
 #define IC0_GPIO_Port GPIOA
 #define IC1_Pin GPIO_PIN_1
