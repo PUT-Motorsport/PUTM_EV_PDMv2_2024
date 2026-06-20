@@ -126,6 +126,18 @@ int main(void) {
   /* USER CODE BEGIN 2 */
 
   putm_ev_can::CanDriver can_m;
+  FDCAN_FilterTypeDef filter_config;
+  filter_config.IdType = FDCAN_STANDARD_ID;
+  filter_config.FilterIndex = 0;
+  filter_config.FilterType = FDCAN_FILTER_MASK;
+  filter_config.FilterConfig = FDCAN_FILTER_TO_RXFIFO0;
+  filter_config.FilterID1 = 0;
+  filter_config.FilterID2 = 0;
+
+  if (HAL_FDCAN_ConfigFilter(&hfdcan1, &filter_config) != HAL_OK) {
+    Error_Handler();
+  }
+
   can_m.RegisterCallback<PUTM_CAN_M_pc_main_data_t>(
       PUTM_CAN_M_PC_MAIN_DATA_FRAME_ID,
       [](const PUTM_CAN_M_pc_main_data_t &pc_main_data) {
