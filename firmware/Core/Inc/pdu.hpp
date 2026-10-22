@@ -3,6 +3,7 @@
 #include "BTS72220.hpp"
 #include "PUTM_CAN_M.h"
 #include "main.h"
+#include "spi_daisy_chain.hpp"
 
 #include <algorithm>
 #include <array>
@@ -99,6 +100,7 @@ public:
   static constexpr uint8_t IC_COUNT{4};
 
   Pdu(std::array<Led, IC_COUNT> leds,
+      Spi_daisy_chain<IC_COUNT> &new_spi_daisy_chain,
       const std::array<std::array<System, BTS::Ic::CHANNEL_COUNT>,
                        Pdu::IC_COUNT> &systems_data,
       Temperature inv_temperature, Temperature motor_temperature);
@@ -127,6 +129,7 @@ private:
   std::array<Led, IC_COUNT> leds;
   std::array<BTS::Ic, IC_COUNT> ics{};
   std::array<size_t, static_cast<size_t>(Sys_name::COUNT)> systems_channel_map;
+  Spi_daisy_chain<IC_COUNT> &spi_daisy_chain;
 
   bool fan_temp_triggered{};
   Temperature inv_temperature;

@@ -31,6 +31,7 @@
 #include "PUTM_CAN_M.h"
 #include "can_driver.hpp"
 #include "pdu.hpp"
+#include "spi_daisy_chain.hpp"
 
 #include <algorithm>
 #include <array>
@@ -199,8 +200,10 @@ int main(void) {
                                              {LED0_GPIO_Port, LED0_Pin},
                                              {LED1_GPIO_Port, LED1_Pin},
                                              {LED2_GPIO_Port, LED2_Pin}}};
-
+  static Spi_daisy_chain<Pdu::IC_COUNT> spi_daisy_chain{
+      &hspi1, SPI1_NSS_GPIO_Port, SPI1_NSS_Pin};
   static Pdu pdu{LEDS,
+                 spi_daisy_chain,
                  SYSTEM_DATA,
                  {INV_MIN_TEMP, INV_MAX_TEMP},
                  {MOTOR_MIN_TEMP, MOTOR_MAX_TEMP}};
