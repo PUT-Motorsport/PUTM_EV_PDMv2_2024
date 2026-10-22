@@ -5,14 +5,14 @@ on:
     paths:
       - "firmware/**"
       - ".gitmodules"
-      - ".github/workflows/firmware-build.yml"
+      - ".github/workflows/**"
     tags:
       - "v*"
   pull_request:
     paths:
       - "firmware/**"
       - ".gitmodules"
-      - ".github/workflows/firmware-build.yml"
+      - ".github/workflows/**"
   workflow_dispatch:
 
 env:
