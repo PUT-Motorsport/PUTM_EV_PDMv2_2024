@@ -18,13 +18,23 @@ enable_testing()
 
 add_subdirectory(../Components/BTS72220 bts72220_build)
 
-add_executable(test_bts72220
+add_executable(test_pdu
   test_bts72220.cpp
+  test_pdu.cpp
+
+  ../Core/Src/pdu.cpp
 )
-target_link_libraries(test_bts72220
+target_link_libraries(test_pdu
   GTest::gtest_main
+  GTest::gmock
   BTS72220
 )
 
+target_include_directories(test_pdu PRIVATE
+  mocks
+  ../Core/Inc/
+  ../Components/PUTM_EV_CAN_LIBRARY/database/generated/
+)
+
 include(GoogleTest)
-gtest_discover_tests(test_bts72220)
+gtest_discover_tests(test_pdu)

@@ -56,6 +56,7 @@ target_sources(${CMAKE_PROJECT_NAME} PRIVATE
 # Add include paths
 target_include_directories(${CMAKE_PROJECT_NAME} PRIVATE
     "${PROJECT_SOURCE_DIR}/Components"
+    "${PROJECT_SOURCE_DIR}/Core/Inc/wrappers"
     # Add user defined include paths
 )
 

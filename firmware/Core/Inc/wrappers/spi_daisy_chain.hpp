@@ -1,7 +1,6 @@
 #pragma once
 
 #include "main.h"
-#include "spi.h"
 #include <algorithm>
 #include <array>
 

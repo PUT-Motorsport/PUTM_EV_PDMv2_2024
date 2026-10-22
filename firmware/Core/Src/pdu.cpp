@@ -1,6 +1,7 @@
 #include "pdu.hpp"
 
 #include "BTS72220.hpp"
+#include "led.hpp"
 #include "spi_daisy_chain.hpp"
 #include <numeric>
 
@@ -33,27 +34,6 @@ static uint8_t status_to_can(BTS::Channel::Status status) {
     return 3;
   }
   return 0;
-}
-
-/* Update single Led state based on failed channels count
- */
-bool Led::update(uint8_t channels_failed, uint32_t tick_now) {
-  if (channels_failed > BTS::Ic::CHANNEL_COUNT) {
-    return true;
-  } else if (channels_failed == BTS::Ic::CHANNEL_COUNT) {
-    HAL_GPIO_WritePin(port, pin, GPIO_PIN_RESET);
-    return false;
-  } else if (channels_failed == 0) {
-    HAL_GPIO_WritePin(port, pin, GPIO_PIN_SET);
-    return false;
-  } else {
-    toggle_time = 3000 / channels_failed;
-    if (tick_now - last_toggle >= toggle_time) {
-      last_toggle = tick_now;
-      HAL_GPIO_TogglePin(port, pin);
-    }
-    return false;
-  }
 }
 
 Temperature::Status Temperature::check(uint8_t value) const {
@@ -91,12 +71,12 @@ Temperature::Status Temperature::is_ok() const {
 Sets current threshold for each ic channel and creates map for systems connected
 to pdu, so channels are accessible with system name
 */
-Pdu::Pdu(std::array<Led, IC_COUNT> leds,
+Pdu::Pdu(std::array<Led, IC_COUNT> &new_leds,
          Spi_daisy_chain<IC_COUNT> &new_spi_daisy_chain,
          const std::array<std::array<System, BTS::Ic::CHANNEL_COUNT>,
                           Pdu::IC_COUNT> &systems_data,
          Temperature inv_temperature, Temperature motor_temperature)
-    : leds{leds}, spi_daisy_chain{new_spi_daisy_chain},
+    : leds{new_leds}, spi_daisy_chain{new_spi_daisy_chain},
       inv_temperature{inv_temperature}, motor_temperature{motor_temperature} {
 
   for (size_t ic_idx{}; ic_idx < IC_COUNT; ic_idx++) {

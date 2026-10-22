@@ -30,6 +30,7 @@
 #include "BTS72220.hpp"
 #include "PUTM_CAN_M.h"
 #include "can_driver.hpp"
+#include "led.hpp"
 #include "pdu.hpp"
 #include "spi_daisy_chain.hpp"
 
@@ -196,7 +197,7 @@ int main(void) {
                      {Sys_name::PUMP1, 5000, K_ILIS_13_5},
                      {Sys_name::FAN1, 5000, K_ILIS_5_5}}}}};
 
-  const std::array<Led, Pdu::IC_COUNT> LEDS{{{LED3_GPIO_Port, LED3_Pin},
+  static std::array<Led, Pdu::IC_COUNT> LEDS{{{LED3_GPIO_Port, LED3_Pin},
                                              {LED0_GPIO_Port, LED0_Pin},
                                              {LED1_GPIO_Port, LED1_Pin},
                                              {LED2_GPIO_Port, LED2_Pin}}};
