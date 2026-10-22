@@ -2,6 +2,8 @@ name: Firmware build
 
 on:
   push:
+    branches:
+      - "**"
     paths:
       - "firmware/**"
       - ".gitmodules"
