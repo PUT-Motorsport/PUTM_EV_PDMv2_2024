@@ -2,7 +2,8 @@
 
 #include "BTS72220.hpp"
 #include "PUTM_CAN_M.h"
-#include "main.h"
+#include "led.hpp"
+#include "spi_daisy_chain.hpp"
 
 #include <algorithm>
 #include <array>
@@ -36,27 +37,6 @@ struct System {
   const Sys_name name;
   const uint16_t i_threshold_mA;
   const uint16_t k_ilis;
-};
-
-/* Led blinking speed indicates each IC channels status:
-  OFF - all channels OK
-
-
-
-  ON - all channels ERROR
-*/
-class Led {
-public:
-  Led(GPIO_TypeDef *port, uint16_t pin) : port{port}, pin{pin} {};
-
-  bool update(uint8_t channels_failed, uint32_t tick_now);
-
-private:
-  GPIO_TypeDef *port;
-  const uint16_t pin;
-
-  uint32_t toggle_time{};
-  uint32_t last_toggle{};
 };
 
 class Temperature {
@@ -98,7 +78,8 @@ class Pdu {
 public:
   static constexpr uint8_t IC_COUNT{4};
 
-  Pdu(std::array<Led, IC_COUNT> leds,
+  Pdu(std::array<Led, IC_COUNT> &new_leds,
+      Spi_daisy_chain<IC_COUNT> &new_spi_daisy_chain,
       const std::array<std::array<System, BTS::Ic::CHANNEL_COUNT>,
                        Pdu::IC_COUNT> &systems_data,
       Temperature inv_temperature, Temperature motor_temperature);
@@ -124,14 +105,15 @@ public:
   void handle_overcurrent(uint32_t tick_now);
 
 private:
-  std::array<Led, IC_COUNT> leds;
+  std::array<Led, IC_COUNT> &leds;
   std::array<BTS::Ic, IC_COUNT> ics{};
   std::array<size_t, static_cast<size_t>(Sys_name::COUNT)> systems_channel_map;
+  Spi_daisy_chain<IC_COUNT> &spi_daisy_chain;
 
   bool fan_temp_triggered{};
   Temperature inv_temperature;
   Temperature motor_temperature;
 
-  BTS::Channel &get_channel(Sys_name name);
   const BTS::Channel &get_channel(Sys_name name) const;
+  BTS::Channel &get_channel(Sys_name name);
 };

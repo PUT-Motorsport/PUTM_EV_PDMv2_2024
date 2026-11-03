@@ -9,8 +9,7 @@
 /firmware/*.launch
 /firmware/.settings/*
 /firmware/.vscode
-/firmware/build
-/firmware/tests
+**/build/
 
 # KiCad
 /hardware/*-backups/

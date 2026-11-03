@@ -1,7 +1,8 @@
 #include "pdu.hpp"
 
 #include "BTS72220.hpp"
-#include "spi.h"
+#include "led.hpp"
+#include "spi_daisy_chain.hpp"
 #include <numeric>
 
 // Converts adc voltage measured (in mV) to calibrated current value (in mA)
@@ -33,56 +34,6 @@ static uint8_t status_to_can(BTS::Channel::Status status) {
     return 3;
   }
   return 0;
-}
-
-// Transmit and receive 8-byte data for all ICs in daisy chain, this
-// function flips data in array so each IC receives correct data index
-template <size_t CHAIN_ICS>
-std::array<uint8_t, CHAIN_ICS>
-daisy_chain_txrx(const std::array<uint8_t, CHAIN_ICS> &tx) {
-  uint8_t tx_buffer[CHAIN_ICS]{};
-  std::reverse_copy(tx.begin(), tx.end(), tx_buffer);
-
-  uint8_t rx_buffer[CHAIN_ICS]{};
-
-  HAL_GPIO_WritePin(SPI1_NSS_GPIO_Port, SPI1_NSS_Pin, GPIO_PIN_RESET);
-  HAL_SPI_TransmitReceive(&hspi1, tx_buffer, rx_buffer, sizeof(rx_buffer), 100);
-  HAL_GPIO_WritePin(SPI1_NSS_GPIO_Port, SPI1_NSS_Pin, GPIO_PIN_SET);
-
-  for (size_t i{}; i < CHAIN_ICS; i++) {
-    tx_buffer[i] = 0x00;
-  }
-  HAL_Delay(1);
-
-  HAL_GPIO_WritePin(SPI1_NSS_GPIO_Port, SPI1_NSS_Pin, GPIO_PIN_RESET);
-  HAL_SPI_TransmitReceive(&hspi1, tx_buffer, rx_buffer, sizeof(rx_buffer), 100);
-  HAL_GPIO_WritePin(SPI1_NSS_GPIO_Port, SPI1_NSS_Pin, GPIO_PIN_SET);
-
-  std::array<uint8_t, CHAIN_ICS> rx{};
-  std::reverse_copy(&(rx_buffer[0]), &(rx_buffer[CHAIN_ICS]), rx.begin());
-
-  return rx;
-}
-
-/* Update single Led state based on failed channels count
- */
-bool Led::update(uint8_t channels_failed, uint32_t tick_now) {
-  if (channels_failed > BTS::Ic::CHANNEL_COUNT) {
-    return true;
-  } else if (channels_failed == BTS::Ic::CHANNEL_COUNT) {
-    HAL_GPIO_WritePin(port, pin, GPIO_PIN_RESET);
-    return false;
-  } else if (channels_failed == 0) {
-    HAL_GPIO_WritePin(port, pin, GPIO_PIN_SET);
-    return false;
-  } else {
-    toggle_time = 3000 / channels_failed;
-    if (tick_now - last_toggle >= toggle_time) {
-      last_toggle = tick_now;
-      HAL_GPIO_TogglePin(port, pin);
-    }
-    return false;
-  }
 }
 
 Temperature::Status Temperature::check(uint8_t value) const {
@@ -120,12 +71,13 @@ Temperature::Status Temperature::is_ok() const {
 Sets current threshold for each ic channel and creates map for systems connected
 to pdu, so channels are accessible with system name
 */
-Pdu::Pdu(std::array<Led, IC_COUNT> leds,
+Pdu::Pdu(std::array<Led, IC_COUNT> &new_leds,
+         Spi_daisy_chain<IC_COUNT> &new_spi_daisy_chain,
          const std::array<std::array<System, BTS::Ic::CHANNEL_COUNT>,
                           Pdu::IC_COUNT> &systems_data,
          Temperature inv_temperature, Temperature motor_temperature)
-    : leds{leds}, inv_temperature{inv_temperature},
-      motor_temperature{motor_temperature} {
+    : leds{new_leds}, spi_daisy_chain{new_spi_daisy_chain},
+      inv_temperature{inv_temperature}, motor_temperature{motor_temperature} {
 
   for (size_t ic_idx{}; ic_idx < IC_COUNT; ic_idx++) {
     for (size_t ch_idx{}; ch_idx < BTS::Ic::CHANNEL_COUNT; ch_idx++) {
@@ -294,7 +246,7 @@ bool Pdu::update_chain_errors() {
   std::array<uint8_t, IC_COUNT> tx{};
   tx.fill(BTS::ERRDIAG_CMD);
 
-  auto rx{daisy_chain_txrx<IC_COUNT>(tx)};
+  auto rx{spi_daisy_chain.transfer(tx)};
 
   bool has_error = false;
   for (size_t ic_idx{}; ic_idx < IC_COUNT; ic_idx++) {
@@ -313,13 +265,13 @@ void Pdu::init_chain() {
   std::array<uint8_t, IC_COUNT> tx{};
   tx.fill(BTS::DCR_ACTIVE);
 
-  auto rx{daisy_chain_txrx<IC_COUNT>(tx)};
+  auto rx{spi_daisy_chain.transfer(tx)};
   update_chain_diag(rx);
 
   constexpr uint16_t KRC_CONFIG{0xD9};
 
   tx.fill(KRC_CONFIG);
-  rx = daisy_chain_txrx<IC_COUNT>(tx);
+  rx = spi_daisy_chain.transfer(tx);
   update_chain_diag(rx);
 
   for (auto &ic : ics) {
@@ -335,7 +287,7 @@ void Pdu::start_chain() {
   std::array<uint8_t, IC_COUNT> tx{};
   tx.fill(BTS::OUT_READY);
 
-  auto rx{daisy_chain_txrx<IC_COUNT>(tx)};
+  auto rx{spi_daisy_chain.transfer(tx)};
   update_chain_diag(rx);
 
   for (auto &ic : ics) {
@@ -374,7 +326,7 @@ bool Pdu::set_channel_sense(uint8_t channel) {
   std::array<uint8_t, IC_COUNT> tx{};
   tx.fill(dcr_channel);
 
-  auto rx{daisy_chain_txrx<IC_COUNT>(tx)};
+  auto rx{spi_daisy_chain.transfer(tx)};
   update_chain_diag(rx);
   return false;
 }
@@ -410,6 +362,6 @@ void Pdu::handle_overcurrent(uint32_t tick_now) {
     }
   }
 
-  auto rx{daisy_chain_txrx<IC_COUNT>(tx)};
+  auto rx{spi_daisy_chain.transfer(tx)};
   update_chain_diag(rx);
 }
