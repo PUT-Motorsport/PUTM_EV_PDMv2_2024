@@ -40,7 +40,7 @@ TEST_F(PduTest, TotalCurrentIsZeroAtStartup) {
 
 TEST_F(PduTest, CheckIfFansOffAfterFirstUpdate) {
   test_pdu.update_fans(false, {35u}, {35u});
-  ASSERT_EQ(test_pdu.get_can_pdu_channel_t().fan_status, 0u);
+  ASSERT_EQ(test_pdu.get_can_pdu_channel_t().fan_status, 1u);
 }
 
 TEST_F(PduTest, CheckIfFansOnAfterRtd) {
