@@ -221,7 +221,6 @@ int main(void) {
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
-  while (1) {
     uint32_t tick_now{HAL_GetTick()};
 
     pdu.update_chain_errors();
