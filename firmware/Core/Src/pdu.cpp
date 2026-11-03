@@ -148,25 +148,31 @@ PUTM_CAN_M_pdu_channnel_t Pdu::get_can_pdu_channel_t() const {
 
 PUTM_CAN_M_pdu_data_1_t Pdu::get_can_pdu_data_1() const {
   return {
-      .pc_current{(get_channel(Sys_name::PC0).get_current() +
-                   get_channel(Sys_name::PC1).get_current() +
-                   get_channel(Sys_name::PC2).get_current() +
-                   get_channel(Sys_name::PC3).get_current()) /
-                  10},
-      .pump_current{get_channel(Sys_name::PUMP1).get_current() / 10 +
-                    get_channel(Sys_name::PUMP2).get_current() / 10},
-      .fan_current{get_channel(Sys_name::FAN1).get_current() / 10 +
-                   get_channel(Sys_name::FAN2).get_current() / 10},
-      .inverter_current{get_channel(Sys_name::INV1).get_current() / 10 +
-                        get_channel(Sys_name::INV2).get_current() / 10},
+      .pc_current{static_cast<uint16_t>(
+          (get_channel(Sys_name::PC0).get_current() +
+           get_channel(Sys_name::PC1).get_current() +
+           get_channel(Sys_name::PC2).get_current() +
+           get_channel(Sys_name::PC3).get_current()) /
+          10)},
+      .pump_current{static_cast<uint16_t>(
+          get_channel(Sys_name::PUMP1).get_current() / 10 +
+          get_channel(Sys_name::PUMP2).get_current() / 10)},
+      .fan_current{static_cast<uint16_t>(
+          get_channel(Sys_name::FAN1).get_current() / 10 +
+          get_channel(Sys_name::FAN2).get_current() / 10)},
+      .inverter_current{static_cast<uint16_t>(
+          get_channel(Sys_name::INV1).get_current() / 10 +
+          get_channel(Sys_name::INV2).get_current() / 10)},
   };
 }
 
 PUTM_CAN_M_pdu_data_2_t Pdu::get_can_pdu_data_2() const {
   return {
-      .fbox_current{get_channel(Sys_name::FBOX).get_current() / 10},
-      .sdc_current{get_channel(Sys_name::SDC_ASMS).get_current() / 10},
-      .total_current{get_total_current() / 10},
+      .fbox_current{
+          static_cast<uint16_t>(get_channel(Sys_name::FBOX).get_current() / 10)},
+      .sdc_current{static_cast<uint16_t>(
+          get_channel(Sys_name::SDC_ASMS).get_current() / 10)},
+      .total_current{static_cast<uint16_t>(get_total_current() / 10)},
   };
 }
 
