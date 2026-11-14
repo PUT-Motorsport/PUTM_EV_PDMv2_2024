@@ -32,6 +32,7 @@
 #include "can_driver.hpp"
 #include "led.hpp"
 #include "pdu.hpp"
+#include "pdu_config.hpp"
 #include "spi_daisy_chain.hpp"
 
 #include <algorithm>
@@ -167,36 +168,6 @@ int main(void) {
   uint32_t can_pdu_data_tick{};
   uint32_t can_pdu_channel_tick{};
 
-  constexpr uint8_t INV_MIN_TEMP{30};
-  constexpr uint8_t INV_MAX_TEMP{40};
-  constexpr uint8_t MOTOR_MIN_TEMP{30};
-  constexpr uint8_t MOTOR_MAX_TEMP{40};
-
-  constexpr uint16_t K_ILIS_13_5{2520};
-  constexpr uint16_t K_ILIS_5_5{1900};
-
-  constexpr std::array<std::array<System, BTS::Ic::CHANNEL_COUNT>,
-                       Pdu::IC_COUNT>
-      SYSTEM_DATA{{{{{Sys_name::INV2, 5000, K_ILIS_5_5},
-                     {Sys_name::INV1, 3000, K_ILIS_13_5},
-                     {Sys_name::RBOX_DIAG_BRAKE_L, 5000, K_ILIS_13_5},
-                     {Sys_name::TSAL_HV, 2000, K_ILIS_5_5}}},
-
-                   {{{Sys_name::DASH, 3000, K_ILIS_5_5},
-                     {Sys_name::SDC_ASMS, 1000, K_ILIS_13_5},
-                     {Sys_name::BRAKE_IR_AIR, 5000, K_ILIS_13_5},
-                     {Sys_name::FBOX, 5000, K_ILIS_5_5}}},
-
-                   {{{Sys_name::PC3, 4000, K_ILIS_5_5},
-                     {Sys_name::PC2, 5000, K_ILIS_13_5},
-                     {Sys_name::PC1, 5000, K_ILIS_13_5},
-                     {Sys_name::PC0, 4000, K_ILIS_5_5}}},
-
-                   {{{Sys_name::FAN2, 5000, K_ILIS_5_5},
-                     {Sys_name::PUMP2, 5000, K_ILIS_13_5},
-                     {Sys_name::PUMP1, 5000, K_ILIS_13_5},
-                     {Sys_name::FAN1, 5000, K_ILIS_5_5}}}}};
-
   static std::array<Led, Pdu::IC_COUNT> LEDS{{{LED3_GPIO_Port, LED3_Pin},
                                              {LED0_GPIO_Port, LED0_Pin},
                                              {LED1_GPIO_Port, LED1_Pin},
@@ -205,9 +176,9 @@ int main(void) {
       &hspi1, SPI1_NSS_GPIO_Port, SPI1_NSS_Pin};
   static Pdu pdu{LEDS,
                  spi_daisy_chain,
-                 SYSTEM_DATA,
-                 {INV_MIN_TEMP, INV_MAX_TEMP},
-                 {MOTOR_MIN_TEMP, MOTOR_MAX_TEMP}};
+                 CONFIG::SYSTEM_DATA,
+                 {CONFIG::INV_MIN_TEMP, CONFIG::INV_MAX_TEMP},
+                 {CONFIG::MOTOR_MIN_TEMP, CONFIG::MOTOR_MAX_TEMP}};
 
   bool local_rtd{};
   Temperature::Values local_inv, local_motor;
