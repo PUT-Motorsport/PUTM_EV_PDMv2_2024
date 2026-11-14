@@ -1,5 +1,4 @@
 #include "BTS72220.hpp"
-#include "pdu_config.hpp"
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
 
