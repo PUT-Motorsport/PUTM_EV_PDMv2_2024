@@ -104,6 +104,9 @@ public:
                                uint32_t tick_now);
   void handle_overcurrent(uint32_t tick_now);
 
+  const BTS::Channel &get_channel(Sys_name name) const;
+  BTS::Channel &get_channel(Sys_name name);
+
 private:
   std::array<Led, IC_COUNT> &leds;
   std::array<BTS::Ic, IC_COUNT> ics{};
@@ -113,7 +116,4 @@ private:
   bool fan_temp_triggered{};
   Temperature inv_temperature;
   Temperature motor_temperature;
-
-  const BTS::Channel &get_channel(Sys_name name) const;
-  BTS::Channel &get_channel(Sys_name name);
 };

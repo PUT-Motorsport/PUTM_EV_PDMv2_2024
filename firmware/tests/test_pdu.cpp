@@ -1,49 +1,112 @@
 #include "BTS72220.hpp"
 #include "spi_daisy_chain.hpp"
+#include <gmock/gmock.h>
 #include <gtest/gtest.h>
 #include <pdu.hpp>
+#include <pdu_config.hpp>
 
 class PduTest : public ::testing::Test {
 protected:
-  static constexpr uint16_t K_ILIS_13_5{2520};
-  static constexpr uint16_t K_ILIS_5_5{1900};
-
-  static constexpr std::array<std::array<System, BTS::Ic::CHANNEL_COUNT>,
-                              Pdu::IC_COUNT>
-      SYSTEM_DATA{{
-          {{{Sys_name::INV2, 5000, K_ILIS_5_5},
-            {Sys_name::INV1, 3000, K_ILIS_13_5},
-            {Sys_name::RBOX_DIAG_BRAKE_L, 5000, K_ILIS_13_5},
-            {Sys_name::TSAL_HV, 2000, K_ILIS_5_5}}},
-          {{{Sys_name::DASH, 3000, K_ILIS_5_5},
-            {Sys_name::SDC_ASMS, 1000, K_ILIS_13_5},
-            {Sys_name::BRAKE_IR_AIR, 5000, K_ILIS_13_5},
-            {Sys_name::FBOX, 5000, K_ILIS_5_5}}},
-          {{{Sys_name::PC3, 4000, K_ILIS_5_5},
-            {Sys_name::PC2, 5000, K_ILIS_13_5},
-            {Sys_name::PC1, 5000, K_ILIS_13_5},
-            {Sys_name::PC0, 4000, K_ILIS_5_5}}},
-          {{{Sys_name::FAN2, 5000, K_ILIS_5_5},
-            {Sys_name::PUMP2, 5000, K_ILIS_13_5},
-            {Sys_name::PUMP1, 5000, K_ILIS_13_5},
-            {Sys_name::FAN1, 5000, K_ILIS_5_5}}},
-      }};
-
   std::array<Led, Pdu::IC_COUNT> leds{};
   Spi_daisy_chain<Pdu::IC_COUNT> test_daisy_chain{};
-  Pdu test_pdu{leds, test_daisy_chain, SYSTEM_DATA, {30, 40}, {30, 40}};
+  Pdu test_pdu{leds,
+               test_daisy_chain,
+               CONFIG::SYSTEM_DATA,
+               {CONFIG::INV_MIN_TEMP, CONFIG::INV_MAX_TEMP},
+               {CONFIG::MOTOR_MIN_TEMP, CONFIG::MOTOR_MAX_TEMP}};
 };
 
-TEST_F(PduTest, TotalCurrentIsZeroAtStartup) {
-  ASSERT_EQ(test_pdu.get_total_current(), 0u);
+/* --- Fans and pumps logic tests --- */
+
+constexpr uint8_t INV_TEMP_TO_STOP_FANS = 25;
+constexpr uint8_t MOTOR_TEMP_TO_STOP_FANS = 25;
+
+constexpr uint8_t INV_TEMP_TO_START_FANS = 45;
+constexpr uint8_t MOTOR_TEMP_TO_START_FANS = 45;
+
+constexpr uint8_t INV_TEMP_NEUTRAL = 35;
+constexpr uint8_t MOTOR_TEMP_NEUTRAL = 35;
+
+TEST_F(PduTest, CheckIfFansOnAfterRtdOn) {
+  // Entering RTD should turn on fans and pumps regardless of temperatures
+  test_pdu.update_fans(true, {INV_TEMP_TO_STOP_FANS},
+                       {MOTOR_TEMP_TO_STOP_FANS});
+
+  EXPECT_EQ(test_pdu.get_channel(Sys_name::FAN1).get_status(),
+            BTS::Channel::Status::ON);
+  EXPECT_EQ(test_pdu.get_channel(Sys_name::FAN2).get_status(),
+            BTS::Channel::Status::ON);
+  EXPECT_EQ(test_pdu.get_channel(Sys_name::PUMP1).get_status(),
+            BTS::Channel::Status::ON);
+  EXPECT_EQ(test_pdu.get_channel(Sys_name::PUMP2).get_status(),
+            BTS::Channel::Status::ON);
 }
 
-TEST_F(PduTest, CheckIfFansOffAfterFirstUpdate) {
-  test_pdu.update_fans(false, {35u}, {35u});
-  ASSERT_EQ(test_pdu.get_can_pdu_channel_t().fan_status, 0u);
+TEST_F(PduTest, CheckIfFansOffAfterRtdOff) {
+  // Initial condition: RTD on, fans on, temperature under limit
+  test_pdu.update_fans(true, {INV_TEMP_TO_STOP_FANS},
+                       {MOTOR_TEMP_TO_STOP_FANS});
+
+  // Fans should turn off if RTD off and all temperatures below high temperature
+  // limit
+  test_pdu.update_fans(false, {INV_TEMP_NEUTRAL}, {MOTOR_TEMP_NEUTRAL});
+
+  EXPECT_EQ(test_pdu.get_channel(Sys_name::FAN1).get_status(),
+            BTS::Channel::Status::OFF);
+  EXPECT_EQ(test_pdu.get_channel(Sys_name::FAN2).get_status(),
+            BTS::Channel::Status::OFF);
+  EXPECT_EQ(test_pdu.get_channel(Sys_name::PUMP1).get_status(),
+            BTS::Channel::Status::OFF);
+  EXPECT_EQ(test_pdu.get_channel(Sys_name::PUMP2).get_status(),
+            BTS::Channel::Status::OFF);
 }
 
-TEST_F(PduTest, CheckIfFansOnAfterRtd) {
-  test_pdu.update_fans(true, {35u}, {35u});
-  ASSERT_EQ(test_pdu.get_can_pdu_channel_t().fan_status, 1u);
+TEST_F(PduTest, CheckIfFansOnAfterAnyTemperatureHigh) {
+  // If any temperature raises over limit, fans should turn on
+  test_pdu.update_fans(false, {INV_TEMP_NEUTRAL}, {MOTOR_TEMP_TO_START_FANS});
+
+  EXPECT_EQ(test_pdu.get_channel(Sys_name::FAN1).get_status(),
+            BTS::Channel::Status::ON);
+  EXPECT_EQ(test_pdu.get_channel(Sys_name::FAN2).get_status(),
+            BTS::Channel::Status::ON);
+  EXPECT_EQ(test_pdu.get_channel(Sys_name::PUMP1).get_status(),
+            BTS::Channel::Status::ON);
+  EXPECT_EQ(test_pdu.get_channel(Sys_name::PUMP2).get_status(),
+            BTS::Channel::Status::ON);
+}
+
+TEST_F(PduTest, CheckIfFansStillOnAfterAllTemperaturesNeutral) {
+  // Initial condition: RTD off, fans on, temperature over limit
+  test_pdu.update_fans(false, {INV_TEMP_NEUTRAL}, {MOTOR_TEMP_TO_START_FANS});
+
+  // Even if all temperatures fall under high temperature limit, fans should
+  // still be on
+  test_pdu.update_fans(false, {INV_TEMP_NEUTRAL}, {MOTOR_TEMP_NEUTRAL});
+
+  EXPECT_EQ(test_pdu.get_channel(Sys_name::FAN1).get_status(),
+            BTS::Channel::Status::ON);
+  EXPECT_EQ(test_pdu.get_channel(Sys_name::FAN2).get_status(),
+            BTS::Channel::Status::ON);
+  EXPECT_EQ(test_pdu.get_channel(Sys_name::PUMP1).get_status(),
+            BTS::Channel::Status::ON);
+  EXPECT_EQ(test_pdu.get_channel(Sys_name::PUMP2).get_status(),
+            BTS::Channel::Status::ON);
+}
+
+TEST_F(PduTest, CheckIfFansOffAfterAllTemperaturesLow) {
+  // Initial condition: RTD off, fans on, temperature over limit
+  test_pdu.update_fans(false, {INV_TEMP_NEUTRAL}, {MOTOR_TEMP_TO_START_FANS});
+
+  // If all temperatures fall below low temperature limit, fans should turn off
+  test_pdu.update_fans(false, {INV_TEMP_TO_STOP_FANS},
+                       {MOTOR_TEMP_TO_STOP_FANS});
+
+  EXPECT_EQ(test_pdu.get_channel(Sys_name::FAN1).get_status(),
+            BTS::Channel::Status::OFF);
+  EXPECT_EQ(test_pdu.get_channel(Sys_name::FAN2).get_status(),
+            BTS::Channel::Status::OFF);
+  EXPECT_EQ(test_pdu.get_channel(Sys_name::PUMP1).get_status(),
+            BTS::Channel::Status::OFF);
+  EXPECT_EQ(test_pdu.get_channel(Sys_name::PUMP2).get_status(),
+            BTS::Channel::Status::OFF);
 }

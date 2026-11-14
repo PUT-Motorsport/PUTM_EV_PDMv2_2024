@@ -64,6 +64,7 @@ public:
   };
 
   static constexpr uint32_t MAX_RETRIES{5};
+  static constexpr uint32_t TIME_PER_ATTEMPT_MS{5000};
 
   uint16_t get_current() const { return i_mA; }
   Status get_status() const { return status; }

@@ -40,13 +40,12 @@ If channel status:
 Returns if state other than ON
 */
 bool Channel::handle_overcurrent(uint32_t tick_now) {
-  constexpr uint32_t time_per_attempt_ms{5000};
 
   switch (status) {
   case Status::ON: {
     // Reset retry count after delay
     uint32_t time_since = tick_now - tick_last_attempt;
-    if (time_since > (retry_count * time_per_attempt_ms)) {
+    if (time_since > (retry_count * TIME_PER_ATTEMPT_MS)) {
       retry_count = 0;
     }
     return false;
@@ -68,7 +67,7 @@ bool Channel::handle_overcurrent(uint32_t tick_now) {
 
   case Status::TEMP_LOCK: {
     uint32_t time_since = tick_now - tick_last_attempt;
-    if (time_since > (retry_count * time_per_attempt_ms)) {
+    if (time_since > (retry_count * TIME_PER_ATTEMPT_MS)) {
       tick_last_attempt = tick_now;
       update_status(Status::ON);
       return false;
