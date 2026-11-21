@@ -38,3 +38,40 @@ target_include_directories(test_pdu PRIVATE
 
 include(GoogleTest)
 gtest_discover_tests(test_pdu)
+
+# --- Fuzz tests (clang only: libFuzzer + sanitizers) ---
+if(CMAKE_CXX_COMPILER_ID MATCHES "Clang")
+  option(PDM_BUILD_FUZZERS "Build libFuzzer targets" ON)
+else()
+  set(PDM_BUILD_FUZZERS OFF)
+  message(STATUS "Fuzz targets skipped: they require clang++")
+endif()
+
+if(PDM_BUILD_FUZZERS)
+  set(FUZZ_COMPILE_FLAGS
+    -O1 -g -fno-omit-frame-pointer
+    -fsanitize=fuzzer-no-link,address,undefined,implicit-conversion
+    -fno-sanitize-recover=undefined,implicit-conversion
+  )
+  set(FUZZ_LINK_FLAGS
+    -fsanitize=fuzzer,address,undefined,implicit-conversion
+  )
+
+  # Same production source as the unit tests, instrumented for fuzzing
+  add_library(bts72220_fuzz STATIC ../Components/BTS72220/BTS72220.cpp)
+  target_include_directories(bts72220_fuzz PUBLIC
+    ../Components/BTS72220/include
+  )
+  target_compile_options(bts72220_fuzz PRIVATE ${FUZZ_COMPILE_FLAGS})
+
+  add_executable(fuzz_bts_channel fuzz/bts_channel/fuzz_bts_channel.cpp)
+  target_link_libraries(fuzz_bts_channel PRIVATE bts72220_fuzz)
+  target_compile_options(fuzz_bts_channel PRIVATE ${FUZZ_COMPILE_FLAGS})
+  target_link_options(fuzz_bts_channel PRIVATE ${FUZZ_LINK_FLAGS})
+
+  # Replay the seed corpus as a regular test (no mutation)
+  add_test(NAME fuzz_bts_channel_corpus
+    COMMAND fuzz_bts_channel -runs=0
+            ${CMAKE_CURRENT_SOURCE_DIR}/fuzz/bts_channel/corpus
+  )
+endif()
