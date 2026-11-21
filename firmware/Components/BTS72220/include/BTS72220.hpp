@@ -70,7 +70,7 @@ public:
   Status get_status() const { return status; }
   uint16_t get_k_ilis() const { return k_ilis; }
 
-  void update_current(uint32_t i_val_mA, uint32_t tick_now);
+  void update_current(uint16_t i_mA, uint32_t tick_now);
   bool update_status(Status new_status);
   bool handle_overcurrent(uint32_t tick_now);
   void set_threshold(uint16_t i_threshold_mA) {

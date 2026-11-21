@@ -123,8 +123,8 @@ extern "C" int LLVMFuzzerTestOneInput(const uint8_t *data, size_t size) {
 
     switch (static_cast<Op>(opcode % OP_COUNT)) {
     case UPDATE_CURRENT: {
-      uint32_t current_mA{};
-      if (!in.read_u32(current_mA))
+      uint16_t current_mA{};
+      if (!in.read_u16(current_mA))
         return 0;
       channel.update_current(current_mA, tick_now);
       const Status after{channel.get_status()};
