@@ -11,7 +11,7 @@ Input layout (little-endian, no alignment or packing assumptions):
   [0..1]  uint16 current threshold in mA
   then a sequence of operations, each starting with one opcode byte
   (opcode % OP_COUNT):
-    UPDATE_CURRENT      + uint32 current in mA (uses current tick)
+    UPDATE_CURRENT      + uint16 current in mA (uses current tick)
     ADVANCE_AND_HANDLE  + uint16 time delta in ms, then handle_overcurrent()
     TURN_ON
     TURN_OFF
@@ -52,17 +52,6 @@ public:
     out = static_cast<uint16_t>(static_cast<uint16_t>(data[pos]) |
                                 (static_cast<uint16_t>(data[pos + 1]) << 8));
     pos += 2;
-    return true;
-  }
-
-  bool read_u32(uint32_t &out) {
-    if (pos + 4 > size)
-      return false;
-    out = static_cast<uint32_t>(data[pos]) |
-          (static_cast<uint32_t>(data[pos + 1]) << 8) |
-          (static_cast<uint32_t>(data[pos + 2]) << 16) |
-          (static_cast<uint32_t>(data[pos + 3]) << 24);
-    pos += 4;
     return true;
   }
 
@@ -128,6 +117,9 @@ extern "C" int LLVMFuzzerTestOneInput(const uint8_t *data, size_t size) {
         return 0;
       channel.update_current(current_mA, tick_now);
       const Status after{channel.get_status()};
+
+      if (channel.get_current() != current_mA)
+        fail("update_current must store measured current", before, after);
 
       if (before == Status::ON) {
         if (current_mA > threshold_mA)

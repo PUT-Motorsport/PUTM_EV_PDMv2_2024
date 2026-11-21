@@ -151,3 +151,80 @@ jobs:
       - name: Build and run tests
         working-directory: firmware/tests
         run: bash ./build_and_run_tests.sh
+
+  # 9. Fuzz tests (libFuzzer, clang host build), short smoke run per fuzzer
+  fuzz:
+    runs-on: ubuntu-24.04
+    env:
+      FUZZ_SECONDS: 60
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          submodules: false
+
+      - name: Init CAN library submodule
+        run: git submodule update --init --depth 1 firmware/Components/PUTM_EV_CAN_LIBRARY
+
+      - name: Checkout CAN DBC files
+        uses: actions/checkout@v4
+        with:
+          repository: PUT-Motorsport/PUTM_EV_CAN_DBC
+          ref: ${{ env.DBC_REF }}
+          path: _dbc
+
+      - name: Copy DBC files into CAN library
+        run: cp -v _dbc/PUTM_CAN_M.dbc _dbc/PUTM_CAN_PT.dbc firmware/Components/PUTM_EV_CAN_LIBRARY/database/dbc/
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install cantools
+        run: pip install cantools==40.7.1
+
+      - name: Generate CAN code
+        working-directory: firmware/Components/PUTM_EV_CAN_LIBRARY/database
+        run: python setup.py
+
+      # libFuzzer runtime ships in libclang-rt-18-dev
+      - name: Install clang
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends clang-18 libclang-rt-18-dev
+          clang++-18 --version
+
+      # Corpus grows between runs: restore the newest one for this branch
+      # (falls back to any branch)
+      - name: Restore fuzz corpus
+        uses: actions/cache/restore@v4
+        with:
+          path: firmware/tests/fuzz/build/corpus
+          key: fuzz-corpus-${{ github.ref_name }}-${{ github.run_id }}
+          restore-keys: |
+            fuzz-corpus-${{ github.ref_name }}-
+            fuzz-corpus-
+
+      - name: Build and run fuzzers
+        working-directory: firmware/tests
+        env:
+          CC: clang-18
+          CXX: clang++-18
+        run: bash ./build_and_run_fuzz.sh all ${FUZZ_SECONDS}
+
+      - name: Save fuzz corpus
+        if: always()
+        uses: actions/cache/save@v4
+        with:
+          path: firmware/tests/fuzz/build/corpus
+          key: fuzz-corpus-${{ github.ref_name }}-${{ github.run_id }}
+
+      # Reproduce locally: firmware/tests/fuzz/build/fuzz_<target> <crash file>
+      - name: Upload crash artifacts
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: fuzz-crashes-${{ github.sha }}
+          path: firmware/tests/fuzz/build/artifacts
+          if-no-files-found: ignore
