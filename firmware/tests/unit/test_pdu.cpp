@@ -1,4 +1,5 @@
 #include "BTS72220.hpp"
+#include "bts_printers.hpp"
 #include "spi_daisy_chain.hpp"
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>

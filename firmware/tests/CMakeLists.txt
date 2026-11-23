@@ -1,77 +1,36 @@
-cmake_minimum_required(VERSION 3.14)
+cmake_minimum_required(VERSION 3.22)
 project(pdu_tests)
 
-# GoogleTest requires at least C++17
-set(CMAKE_CXX_STANDARD 20)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
+# Shared test infrastructure (GoogleTest, libFuzzer), git submodule
+if(NOT EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/PUTM_EV_TEST_LIBRARY/CMakeLists.txt)
+  message(FATAL_ERROR
+    "PUTM_EV_TEST_LIBRARY submodule is missing, run:\n"
+    "  git submodule update --init firmware/tests/PUTM_EV_TEST_LIBRARY")
+endif()
+add_subdirectory(PUTM_EV_TEST_LIBRARY)
+putm_test_setup()
 
-include(FetchContent)
-FetchContent_Declare(
-  googletest
-  URL https://github.com/google/googletest/archive/03597a01ee50ed33e9dfd640b249b4be3799d395.zip
-)
-# For Windows: Prevent overriding the parent project's compiler/linker settings
-set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
-FetchContent_MakeAvailable(googletest)
-
-enable_testing()
-
+# --- Unit tests (GoogleTest) ---
 add_subdirectory(../Components/BTS72220 bts72220_build)
 
-add_executable(test_pdu
-  test_bts72220.cpp
-  test_pdu.cpp
-
-  ../Core/Src/pdu.cpp
+# pdu.cpp is compiled with mocks/ in include path, so it uses mock Led and
+# Spi_daisy_chain instead of Core/Inc/wrappers
+putm_add_unit_test(test_pdu
+  SOURCES
+    unit/test_bts72220.cpp
+    unit/test_pdu.cpp
+    ../Core/Src/pdu.cpp
+  LIBS BTS72220
+  INCLUDES mocks helpers ../Core/Inc/
 )
-target_link_libraries(test_pdu
-  GTest::gtest_main
-  GTest::gmock
-  BTS72220
+putm_test_link_can(test_pdu)
+
+# --- Fuzz tests (clang only, skipped with other compilers) ---
+# Same production source as the unit tests, instrumented for fuzzing
+putm_add_fuzz_library(bts72220_fuzz
+  SOURCES ../Components/BTS72220/BTS72220.cpp
+  INCLUDES ../Components/BTS72220/include
 )
 
-target_include_directories(test_pdu PRIVATE
-  mocks
-  ../Core/Inc/
-  ../Components/PUTM_EV_CAN_LIBRARY/database/generated/
-)
-
-include(GoogleTest)
-gtest_discover_tests(test_pdu)
-
-# --- Fuzz tests (clang only: libFuzzer + sanitizers) ---
-if(CMAKE_CXX_COMPILER_ID MATCHES "Clang")
-  option(PDM_BUILD_FUZZERS "Build libFuzzer targets" ON)
-else()
-  set(PDM_BUILD_FUZZERS OFF)
-  message(STATUS "Fuzz targets skipped: they require clang++")
-endif()
-
-if(PDM_BUILD_FUZZERS)
-  set(FUZZ_COMPILE_FLAGS
-    -O1 -g -fno-omit-frame-pointer
-    -fsanitize=fuzzer-no-link,address,undefined,implicit-conversion
-    -fno-sanitize-recover=undefined,implicit-conversion
-  )
-  set(FUZZ_LINK_FLAGS
-    -fsanitize=fuzzer,address,undefined,implicit-conversion
-  )
-
-  # Same production source as the unit tests, instrumented for fuzzing
-  add_library(bts72220_fuzz STATIC ../Components/BTS72220/BTS72220.cpp)
-  target_include_directories(bts72220_fuzz PUBLIC
-    ../Components/BTS72220/include
-  )
-  target_compile_options(bts72220_fuzz PRIVATE ${FUZZ_COMPILE_FLAGS})
-
-  add_executable(fuzz_bts_channel fuzz/bts_channel/fuzz_bts_channel.cpp)
-  target_link_libraries(fuzz_bts_channel PRIVATE bts72220_fuzz)
-  target_compile_options(fuzz_bts_channel PRIVATE ${FUZZ_COMPILE_FLAGS})
-  target_link_options(fuzz_bts_channel PRIVATE ${FUZZ_LINK_FLAGS})
-
-  # Replay the seed corpus as a regular test (no mutation)
-  add_test(NAME fuzz_bts_channel_corpus
-    COMMAND fuzz_bts_channel -runs=0
-            ${CMAKE_CURRENT_SOURCE_DIR}/fuzz/bts_channel/corpus
-  )
-endif()
+# fuzz/<name>/fuzz_<name>.cpp + fuzz/<name>/corpus
+putm_add_fuzzer(bts_channel LIBS bts72220_fuzz)

@@ -1,8 +1,9 @@
 #include "BTS72220.hpp"
 
+#include <putm_test/fuzz_helpers.hpp>
+
 #include <cstddef>
 #include <cstdint>
-#include <cstdio>
 
 /*
 Stateful fuzzer for BTS::Channel overcurrent state machine.
@@ -35,32 +36,6 @@ enum Op : uint8_t {
   OP_COUNT,
 };
 
-class Reader {
-public:
-  Reader(const uint8_t *data, size_t size) : data{data}, size{size} {}
-
-  bool read_u8(uint8_t &out) {
-    if (pos + 1 > size)
-      return false;
-    out = data[pos++];
-    return true;
-  }
-
-  bool read_u16(uint16_t &out) {
-    if (pos + 2 > size)
-      return false;
-    out = static_cast<uint16_t>(static_cast<uint16_t>(data[pos]) |
-                                (static_cast<uint16_t>(data[pos + 1]) << 8));
-    pos += 2;
-    return true;
-  }
-
-private:
-  const uint8_t *data;
-  size_t size;
-  size_t pos{};
-};
-
 const char *to_str(Status status) {
   switch (status) {
   case Status::OFF:
@@ -77,22 +52,15 @@ const char *to_str(Status status) {
   return "?";
 }
 
-[[noreturn]] void fail(const char *what, Status before, Status after) {
-  std::fprintf(stderr, "Invariant violated: %s (status %s -> %s)\n", what,
-               to_str(before), to_str(after));
-  __builtin_trap();
-}
-
+// Invariant check reporting channel status transition
 #define CHECK(cond, what)                                                      \
-  do {                                                                         \
-    if (!(cond))                                                               \
-      fail(what, before, after);                                               \
-  } while (0)
+  PUTM_FUZZ_CHECK(cond, "%s (status %s -> %s)", what, to_str(before),          \
+                  to_str(after))
 
 } // namespace
 
 extern "C" int LLVMFuzzerTestOneInput(const uint8_t *data, size_t size) {
-  Reader in{data, size};
+  putm_test::ByteReader in{data, size};
 
   uint16_t threshold_mA{};
   if (!in.read_u16(threshold_mA))
@@ -118,8 +86,8 @@ extern "C" int LLVMFuzzerTestOneInput(const uint8_t *data, size_t size) {
       channel.update_current(current_mA, tick_now);
       const Status after{channel.get_status()};
 
-      if (channel.get_current() != current_mA)
-        fail("update_current must store measured current", before, after);
+      CHECK(channel.get_current() == current_mA,
+            "update_current must store measured current");
 
       if (before == Status::ON) {
         if (current_mA > threshold_mA)

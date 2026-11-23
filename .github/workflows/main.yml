@@ -126,6 +126,9 @@ jobs:
       - name: Init CAN library submodule
         run: git submodule update --init --depth 1 firmware/Components/PUTM_EV_CAN_LIBRARY
 
+      - name: Init test library submodule
+        run: git submodule update --init --depth 1 firmware/tests/PUTM_EV_TEST_LIBRARY
+
       - name: Checkout CAN DBC files
         uses: actions/checkout@v4
         with:
@@ -150,7 +153,7 @@ jobs:
 
       - name: Build and run tests
         working-directory: firmware/tests
-        run: bash ./build_and_run_tests.sh
+        run: bash ./PUTM_EV_TEST_LIBRARY/scripts/build_and_run_tests.sh
 
   # 9. Fuzz tests (libFuzzer, clang host build), short smoke run per fuzzer
   fuzz:
@@ -165,6 +168,9 @@ jobs:
 
       - name: Init CAN library submodule
         run: git submodule update --init --depth 1 firmware/Components/PUTM_EV_CAN_LIBRARY
+
+      - name: Init test library submodule
+        run: git submodule update --init --depth 1 firmware/tests/PUTM_EV_TEST_LIBRARY
 
       - name: Checkout CAN DBC files
         uses: actions/checkout@v4
@@ -211,7 +217,7 @@ jobs:
         env:
           CC: clang-18
           CXX: clang++-18
-        run: bash ./build_and_run_fuzz.sh all ${FUZZ_SECONDS}
+        run: bash ./PUTM_EV_TEST_LIBRARY/scripts/build_and_run_fuzz.sh all ${FUZZ_SECONDS}
 
       - name: Save fuzz corpus
         if: always()
