@@ -4,11 +4,11 @@
 Tests are built using [GoogleTest](https://github.com/google/googletest) (documentation: [GoogleTest User's Guide](https://google.github.io/googletest/)). The library is fetched automatically via CMake `FetchContent` during the initial configuration step.
 
 Shared test infrastructure (CMake functions, run scripts, fuzz helpers) lives in the
-`PUTM_EV_TEST_LIBRARY` git submodule. Initialize it after cloning:
+`PUTM_EV_TESTING_LIBRARY` git submodule. Initialize it after cloning:
 ```bash
-git submodule update --init firmware/tests/PUTM_EV_TEST_LIBRARY
+git submodule update --init firmware/tests/PUTM_EV_TESTING_LIBRARY
 ```
-See `PUTM_EV_TEST_LIBRARY/README.md` for the available CMake functions and helpers.
+See `PUTM_EV_TESTING_LIBRARY/README.md` for the available CMake functions and helpers.
 
 ## Structure
 ```
@@ -18,7 +18,7 @@ firmware/tests/
   mocks/                  # gmock replacements of hardware wrappers (Core/Inc/wrappers)
   helpers/                # shared test helpers, e.g. GoogleTest printers (bts_printers.hpp)
   fuzz/<name>/            # fuzz_<name>.cpp harness + corpus/ seed inputs
-  PUTM_EV_TEST_LIBRARY/   # shared test infrastructure (git submodule)
+  PUTM_EV_TESTING_LIBRARY/   # shared test infrastructure (git submodule)
 ```
 New unit test file: add it to `unit/` and to `SOURCES` of `putm_add_unit_test()` in
 `CMakeLists.txt`. Headers in `mocks/` and `helpers/` are on the include path.
@@ -31,12 +31,12 @@ New unit test file: add it to `unit/` and to `SOURCES` of `putm_add_unit_test()`
 
 Run the helper script from any directory:
 ```bash
-./firmware/tests/PUTM_EV_TEST_LIBRARY/scripts/build_and_run_tests.sh
+./firmware/tests/PUTM_EV_TESTING_LIBRARY/scripts/build_and_run_tests.sh
 ```
 
 Additional `ctest` arguments can be passed directly to the script (e.g., filtering tests by name):
 ```bash
-./firmware/tests/PUTM_EV_TEST_LIBRARY/scripts/build_and_run_tests.sh -R TurnOff
+./firmware/tests/PUTM_EV_TESTING_LIBRARY/scripts/build_and_run_tests.sh -R TurnOff
 ```
 
 Manual build and execution from the `firmware/tests` directory:
@@ -64,9 +64,9 @@ Production code under test is compiled with fuzz instrumentation by
 
 Run all fuzzers with the helper script (builds only fuzz targets with clang into `fuzz/build`, fuzzes each target for 60 s, exits with 1 and prints reproduce commands on crash):
 ```bash
-./firmware/tests/PUTM_EV_TEST_LIBRARY/scripts/build_and_run_fuzz.sh                    # all targets, 60 s each
-./firmware/tests/PUTM_EV_TEST_LIBRARY/scripts/build_and_run_fuzz.sh bts_channel 300    # one target, 5 min
-./firmware/tests/PUTM_EV_TEST_LIBRARY/scripts/build_and_run_fuzz.sh all 60 -- -max_len=256  # extra libFuzzer args
+./firmware/tests/PUTM_EV_TESTING_LIBRARY/scripts/build_and_run_fuzz.sh                    # all targets, 60 s each
+./firmware/tests/PUTM_EV_TESTING_LIBRARY/scripts/build_and_run_fuzz.sh bts_channel 300    # one target, 5 min
+./firmware/tests/PUTM_EV_TESTING_LIBRARY/scripts/build_and_run_fuzz.sh all 60 -- -max_len=256  # extra libFuzzer args
 ```
 The working corpus in `fuzz/build/corpus/` grows between runs; crashes are saved in `fuzz/build/artifacts/`.
 

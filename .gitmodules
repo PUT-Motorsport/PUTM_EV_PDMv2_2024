@@ -1,3 +1,6 @@
 [submodule "firmware/Components/PUTM_EV_CAN_LIBRARY"]
 	path = firmware/Components/PUTM_EV_CAN_LIBRARY
 	url = https://github.com/PUT-Motorsport/PUTM_EV_CAN_LIBRARY.git
+[submodule "firmware/tests/PUTM_EV_TESTING_LIBRARY"]
+	path = firmware/tests/PUTM_EV_TESTING_LIBRARY
+	url = git@github.com:PUT-Motorsport/PUTM_EV_TESTING_LIBRARY.git

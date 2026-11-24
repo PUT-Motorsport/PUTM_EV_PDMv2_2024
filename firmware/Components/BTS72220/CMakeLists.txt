@@ -8,7 +8,7 @@ set(CMAKE_C_EXTENSIONS ON)
 add_library(BTS72220)
 
 target_sources(BTS72220
-    PUBLIC
+    PRIVATE
         BTS72220.cpp
 )
 
